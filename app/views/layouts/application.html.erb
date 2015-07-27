@@ -10,11 +10,16 @@
     <%= analytics_init if Rails.env.production? or Rails.env.development? %>
 </head>
 <body>
+<!-- Render the navbar -->
 <%= render partial: "elements/navbar" %>
 <%= bootstrap_flash %>
 
-
+<!-- Renders everything in the page file -->
 <%= yield %>
+
+<!-- Renders the footer -->
+<%= render partial: "elements/footer" %>
+<%= bootstrap_flash %>
 
 </body>
 </html>
