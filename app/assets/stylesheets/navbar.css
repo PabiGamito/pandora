@@ -10,17 +10,8 @@
   padding-top: 70px;
 }
 
-.navbar-inverse {
-  background-color: #1abc9c;
-  border-color: #16a085;
-}
-
 .navbar-inverse .navbar-nav > li > a {
   color: white;
-}
-
-.navbar-inverse .navbar-nav > li > a:hover {
-  color: #222222;
 }
 
 .navbar-brand {
@@ -29,18 +20,15 @@
   letter-spacing: 2px;
 }
 
-.navbar-inverse .navbar-brand {
-  color: white;
-}
-
 .navbar-inverse .navbar-toggle {
   border-color: transparent;
 }
 
-
 .navbar-trans {
     background-color:#279ddd;
     color:#fff;
+    border-bottom-width: 1px;
+    border-color: #fff;
 }
 
 .navbar-trans li>a:hover,.navbar-trans li>a:focus,.navbar-trans li.active {

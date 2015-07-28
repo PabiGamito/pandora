@@ -2,7 +2,9 @@
 <html>
 <head>
   <title>Pandora</title>
+  <!-- Adds all existing css files -->
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -13,9 +15,15 @@
 <!-- Render the navbar -->
 <%= render partial: "elements/navbar" %>
 <%= bootstrap_flash %>
+<main>
+  <!-- Renders everything in the page file -->
+  <%= yield %>
+</main>
 
-<!-- Renders everything in the page file -->
-<%= yield %>
+<footer>
+  <h1>Hi, I'm a Fixed-Footer!</h1>
+</footer>
+
 
 <!-- Renders the footer -->
 <%= render partial: "elements/footer" %>
