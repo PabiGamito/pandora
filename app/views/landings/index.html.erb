@@ -1,3 +1,87 @@
-<h1>Landings#index</h1>
-<p>Welcome to my Website</p>
-<p>Find me in app/views/landings/index.html.erb</p>
+<div class="row mtbox">
+
+  <% if defined?(Devise) %>
+  <%if user_signed_in? %>
+    <div class="col-md-2 col-sm-2 box0"></div>
+    <div class="col-md-2 col-sm-2 box0"></div>
+
+    <div class="col-md-2 col-sm-2 box0">
+      <a href = '/events'>
+        <div class="box1">
+          <i class="fa fa-calendar-o fa-4x"></i>
+          <h3>Events</h3>
+        </div>
+          <p>You are part of event(s).</p>
+      </a>
+    </div>
+
+    <div class="col-md-2 col-sm-2 box0">
+      <a href = '/users'>
+        <div class="box1">
+          <i class="fa fa-users fa-4x"></i>
+          <h3>Users</h3>
+        </div>
+          <p>Find new friends close to you.</p>
+      </a>
+    </div>                
+              
+   <%else%>
+    <h3 class="center">To Access all Features Please</h3>
+    <a href="/login"><span class="button">Log in</span></a>
+    <h5 class="center">OR</h5>
+    <a href="/signup"><span class="button">Sign up</span></a>
+
+  <%end%>
+  <%end%>
+            
+</div><!-- /row mt -->  
+          
+<!-- PANELS -->
+  <div class="row mt">
+    <!-- Weather Panel -->
+      <div class="col-md-4 col-sm-4 mb">
+        <div class="white-panel pn donut-chart">
+          <div class="white-header">
+            <h5>WEATHER</h5>
+          </div>
+            <div class="row">
+              <div class="col-sm-6 col-xs-6 goleft">
+                <p>75F</p>
+              </div>
+            </div>
+         <canvas id="serverstatus01" height="120" width="120"></canvas>
+
+        </div> <!--/grey-panel-->
+      </div> <!-- /col-md-4-->
+
+    <!-- Top Event Panel -->
+      <div class="col-md-4 col-sm-4 mb">
+        <div class="white-panel pn donut-chart">
+          <div class="white-header">
+            <h5>TOP EVENT</h5>
+          </div>
+            <p>EVENT NAME</p>
+              IMAGE
+            <p class="bottom-right">LIKES</p>
+         <canvas id="serverstatus01" height="120" width="120"></canvas>
+
+        </div> <!--/grey-panel-->
+      </div> <!-- /col-md-4-->
+
+
+    <!-- Top Event Panel -->
+      <div class="col-md-4 col-sm-4 mb">
+        <div class="white-panel pn donut-chart">
+          <div class="white-header">
+            <h5>TOP EVENT</h5>
+          </div>
+            <p>EVENT NAME</p>
+              IMAGE
+            <p class="bottom-right">LIKES</p>
+         <canvas id="serverstatus01" height="120" width="120"></canvas>
+
+        </div> <!--/grey-panel-->
+      </div> <!-- /col-md-4-->     
+
+  </div><!-- /row -->
+        

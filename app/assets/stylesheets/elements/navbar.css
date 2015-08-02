@@ -1,3 +1,9 @@
+/* Move body down */
+body{
+	position: relative;
+	top: 50px;
+}
+
 /*TODO Check what makes the hover items dark blue*/
 
 .navbar {
@@ -27,8 +33,6 @@
 .navbar-trans {
     background-color:#279ddd;
     color:#fff;
-    border-bottom-width: 1px;
-    border-color: #fff;
 }
 
 .navbar-trans li>a:hover,.navbar-trans li>a:focus,.navbar-trans li.active {

@@ -71,4 +71,13 @@ Rails.application.routes.draw do
     get    "account" => "users/registrations#edit",   as: :edit_user_registration
   end
 
+  # Get pages accessible to all
+  get "events" => "landings#events"
+  get "users" => "landings#users"
+  get "event/:id" => "landings#eventpage"
+
+  # Gets user specific pages
+  get "my_events" => "userpages#userevents"
+  get 'user/:id' => 'userpages#userpage'
+
 end

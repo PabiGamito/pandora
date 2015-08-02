@@ -4,3 +4,14 @@
   margin-right: auto;
   text-align: center;
 }
+
+.main-move-up{
+  position: relative;
+  top: -80px;
+}
+
+.bottom-right{
+  text-align: right;
+  position: relative;
+  top: 50%;
+}

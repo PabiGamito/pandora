@@ -1,0 +1,25 @@
+<h1 class="center"> Users near You </h1><br>
+
+<form action="/filter-user" method="post" accept-charset="utf-8">
+	Search: <input type="text" name="search">
+</form>
+<div class="row">
+<!-- User Panel -->
+	<%@users.each do |user|%>
+		<div class="col-md-4 col-sm-4 mb">
+			<a href="/user/<%=user.id%>">
+			<div class="white-panel pn">
+				<div class="white-header">
+					<h5><b><%=user.username%></b></h5>
+				</div>
+					<div class="row">
+						<p class="center"> <b>IMAGE</b></p>
+						<p class="center"> <b>Bio:</b> I love this website! So so so so cool!</p>
+					</div>
+					<canvas id="serverstatus01" height="120" width="120"></canvas>
+			</div><!--/white-panel-->
+			</a>
+		</div> <!-- /col-md-4-->
+	<%end%>
+</div>
+ 

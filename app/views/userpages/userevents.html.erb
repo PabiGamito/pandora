@@ -1,0 +1,27 @@
+<!-- Displays UserEvents -->
+            <%if @my_events==[]%>
+              <h1> You have no events </h1>
+            <%else%>
+              <h1> Your events: </h1>
+          <%end%>
+            
+      <div class="notification-box">
+        <div class="list">
+<!--          TODO: Sort by soonest to latest & location -->
+          <%@my_events.each do |event|%>
+           <hr>
+            <div class="content">
+            <% #if event.public==1 %>
+              <div class="event">
+              <%@host=User.find(event.host_id)%><br>
+                <%=event.name%><br>
+                <div class="event-location"> <%=event.latitude%>, <%=event.longitude%><div>
+                  <br>
+                <%=event.event_date%><br>
+                Hosted by <%=@host.username%><br>  
+            <%#end%>
+          <%end%>
+          </div>
+      </div>
+    </div>
+  </div><!-- /row mt -->

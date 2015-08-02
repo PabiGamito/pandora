@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150726144601) do
+ActiveRecord::Schema.define(version: 20150802142849) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -61,6 +61,16 @@ ActiveRecord::Schema.define(version: 20150726144601) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
+
+  create_table "events", force: true do |t|
+    t.string   "name"
+    t.datetime "event_date"
+    t.integer  "host_id"
+    t.integer  "public"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "activity_id"
+  end
 
   create_table "posts", force: true do |t|
     t.integer  "user_id"

@@ -14,15 +14,39 @@
 <body>
 <!-- Render the navbar -->
 <%= render partial: "elements/navbar" %>
-<%= bootstrap_flash %>
+<!-- Render the sidebar -->
+<%= render partial: "elements/sidebar" %>
+  <!-- Moves main content to the side to leave place for sidebar -->
+  <div class=""></div>
+  <!-- MAIN CONTENT Start -->
+      <!--main content start-->
+      <section id="main-content">
+        <section class="wrapper">
+          <div class="row">
+            <div class="col-lg-9 main-chart">
+            <!-- Renderes the popup notifications -->
+             <%= bootstrap_flash %> <br>
+              <!-- Renders everything in the page file -->
+              <div class="main-move-up">
+                <%= yield %>
+              </div>
+          </div><!-- /col-lg-9 END SECTION MIDDLE -->
 
-  <!-- Renders everything in the page file -->
-  <%= yield %>
-
+          <div class="col-lg-3 ds">
+            <%= render partial: "elements/notificationbar" %>
+          </div><!--/col-lg-3 ds -->
+        </section>
+      </section>
+      <!--main content end-->
+      </section>
 
 <!-- Renders the footer -->
 <%= render partial: "elements/footer" %>
-<%= bootstrap_flash %>
+
+
+<!-- js placed at the end of the document so the pages load faster -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
 </body>
 </html>

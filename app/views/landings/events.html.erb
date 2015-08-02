@@ -1,0 +1,55 @@
+<!-- Displays Events -->
+          <h1> Events near you:</h1>
+          <div class="notification-box">
+            <div class="list">
+              <!--          TODO: Sort by soonest to latest & location -->
+              <%@all_events.each do |event|%>
+              <%@date= event.event_date.to_s%>
+              <%@time=Time.parse(@date)%>
+              <!-- Checks that event has not yet passed -->
+              <%if @time.future?%>
+              <hr>
+              <img src="" class="avatar">
+              <div class="content">
+                <% #if event.public==1 %>
+                <div class="event">
+                 <%@host=User.find(event.host_id)%><br>
+                  <a href="/event/<%= event.id %>"><b><%=event.name%></b></a>
+                 <div class="event-location"> <%=event.latitude%>, <%=event.longitude%></div>
+                  
+                  <!-- Displays the date in readable format-->
+                  <%=Time.parse(@date).strftime('On %A, %B %dth %Y at %k:%M%p')%><br>
+                  Hosted by <a href="/user/<%=@host.username%>"><%=@host.username%></a><br>
+                  
+                  <%end%>
+                  <%end%>
+                </div>
+              </div>
+
+              <h1> Passed Events:</h1>
+              <div class="notification-box">
+                <div class="list">
+                  <!--          TODO: Sort by soonest to latest & location -->
+                  <%@all_events.each do |event|%>
+                  <%@date= event.event_date.to_s%>
+                  <%@time=Time.parse(@date)%>
+                  <!-- Checks that event has not yet passed -->
+                  <%if @time.past?%>
+                  <hr>
+                  <img src="" class="avatar">
+                  <div class="content">
+                    <% #if event.public==1 %>
+                    <div class="event">
+                      <%@host=User.find(event.host_id)%><br>
+                      <a href="/event/<%=event.id%>"><b><%=event.name%></b></a><br>
+                      <div class="event-location"> <%=event.latitude%> <%=event.longitude%></div>
+                      
+                      <!-- Displays the date in readable format-->
+                      <%=Time.parse(@date).strftime('On %A, %B %dth %Y at %k:%M%p')%><br>
+                      Hosted by <a href="/user/<%=@host.username%>"><%=@host.username%></a><br>
+                      
+                      <%end%>
+                      <%end%>
+                    </div>
+                  </div>
+              </div><!-- /row mt -->  

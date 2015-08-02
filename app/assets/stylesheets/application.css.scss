@@ -14,13 +14,18 @@
 *= stub active_admin
 
 *= require_self
+
+*= require font-awesome
+
 */
 
-//= require navbar.css
+//= require elements/navbar.css
 
 //= require helpers.css
 
-//= require footer.css
+//=require home.css
+
+//=require utilities/font-awesome.min.css
 
 @import "bootstrap_configuration";
 

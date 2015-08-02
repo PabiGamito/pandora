@@ -40,6 +40,11 @@ gem 'spring',        group: :development
 
 gem 'bundler'
 
+gem "font-awesome-rails"
+
+gem "private_pub"
+gem "thin"
+
 group :development do
   gem 'pry-rails'
   gem 'better_errors'
