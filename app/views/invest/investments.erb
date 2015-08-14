@@ -1,0 +1,39 @@
+<h1>Companies Looking for Private Investments</h1>
+<table class="table table-bordered table-hover">
+  Add a filter: Date, Rate, Time Ranges
+
+Pay to have a person that finds investments for you automatically. => Return rate higher
+
+  <thead>
+    <tr>
+      <th></th>
+      <th>Company <i class="fa fa-angle-double-down"></i></th>
+      <th>Goal <i class="fa fa-angle-double-down"></i></th>
+      <th>Rate <i class="fa fa-angle-double-down"></i></th>
+      <th>Period <i class="fa fa-angle-double-down"></i></th>
+      <th>% of Goal <i class="fa fa-angle-double-down"></i></th>
+      <th>Requested <i class="fa fa-angle-double-down"></i></th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <%Loan.all.each do |loan|%>
+  <!-- Checks loan is private & not completed -->
+  <%if loan.lender_id!=0 && loan.pending.to_f < loan.amount.to_f%>
+    <tr>
+      <td><a href="/loan/<%=loan.id%>"><div class="center"><i class="fa fa-search"></i></div></a></td>
+      <%@company=Company.find(loan.receiver_id)%>
+      <%@user=User.find_by(@company.user_id)%>
+      <td><a href="/companies/<%=@company.id%>"><%=@company.name%></a></td>
+      <td><%=loan.amount%></td>
+      <td><%=loan.rate%>%</td>
+      <td><%=loan.repay_time%> Days</td>
+      <%@goal=(loan.pending.to_f/loan.amount.to_f)*100%>
+      <td><%=@goal%>%</td>
+      <%@time=Time.parse(loan.created_at.to_s).strftime('%A, %B %d %Y')%>
+      <td><%=@time%></td>
+    </tr>
+    <%end%>
+  <%end%>
+  </tbody>
+</table>

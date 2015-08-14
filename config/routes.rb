@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'landings#index'
+
+  root 'signup#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -59,7 +60,7 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
   
-  #->Prelang (user_login:devise/stylized_paths)
+  #Devise ->Prelang (user_login:devise/stylized_paths)
   devise_scope :user do
     get    "login"   => "users/sessions#new",         as: :new_user_session
     post   "login"   => "users/sessions#create",      as: :user_session
@@ -71,13 +72,45 @@ Rails.application.routes.draw do
     get    "account" => "users/registrations#edit",   as: :edit_user_registration
   end
 
-  # Get pages accessible to all
+  # Get pages accessible to ALL users
+  get "signup_start" => "signup#signup_start"
+  get "create_company" => "signup#create_company"
+
+  # Get pages accessible to all logged in users
+  get "home" => "landings#home"
   get "events" => "landings#events"
   get "users" => "landings#users"
-  get "event/:id" => "landings#eventpage"
+  get "request-help" => "landings#request-and-help"
 
-  # Gets user specific pages
-  get "my_events" => "userpages#userevents"
-  get 'user/:id' => 'userpages#userpage'
+  # All post
+  post "signup_username" => "signup#signup_username"
+  post "create_company_post" => "signup#create_company_post"
+
+  # Tutorail
+  get "tutorial" => "tutorial#start"
+
+  # Shop
+  get "payment" => "shop#payment"
+
+  # Comapny
+  resources :companies
+  get "profit-and-loss" => "companies#profitandloss"
+  get "upgrade" => "companies#upgrades"
+  get "employes/find" => "companies#employe_find"
+  get "trade" => "companies#trade"
+
+  # User
+  get "/inbox" => "userpages#inbox"
+  get "/users-companies" => "userpages#users_companies"
+
+  # Invest
+  get "/stock-market" => "invest#market"
+  get "/find-investors" => "invest#investors"
+  get "/investments" => "invest#investments"
+  get "/loan/:id" => "invest#loan"
+  post "/investors_submit_bank" => "invest#investors_submit_bank"
+  post "/investors_submit_private" => "invest#investors_submit_private"
+  post "/private_investement" => "invest#private_investement"
+
 
 end

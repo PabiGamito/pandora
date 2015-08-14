@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pandora</title>
+  <!-- Include needed.css files for use -->
+  <%= stylesheet_link_tag 'welcome' %>
+  <%= stylesheet_link_tag 'utilities/bootstrap.min'%>
+  <%= stylesheet_link_tag 'elements/navbar' %>
+  <%= stylesheet_link_tag 'helpers' %>
+  <!-- Include all existing js files for use -->
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- Prelang: Analytics / Google Analytics -->
+    <%= analytics_init if Rails.env.production? or Rails.env.development? %>
+
+</head>
+<body>
+
+<%already_signed_in%>
+
+<!-- Redners the page content -->
+  <%= yield %>
+
+</body>
+</html>

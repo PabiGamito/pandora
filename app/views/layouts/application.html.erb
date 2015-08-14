@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pandora</title>
-  <!-- Adds all existing css files -->
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-
+  <title>Pandora - <%=@page_name%></title>
+  <!-- Include needed.css files for use -->
+  <%= stylesheet_link_tag 'application' %>
+  <%= stylesheet_link_tag 'utilities/bootstrap.min'%>
+  <%= stylesheet_link_tag 'utilities/font-awesome.min' %>
+  <%= stylesheet_link_tag 'elements/navbar' %>
+  <%= stylesheet_link_tag 'helpers' %>
+  <%= stylesheet_link_tag 'home' %>
+  <!-- Include all existing js files for use -->
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -12,6 +17,7 @@
     <%= analytics_init if Rails.env.production? or Rails.env.development? %>
 </head>
 <body>
+
 <!-- Render the navbar -->
 <%= render partial: "elements/navbar" %>
 <!-- Render the sidebar -->
@@ -25,7 +31,11 @@
           <div class="row">
             <div class="col-lg-9 main-chart">
             <!-- Renderes the popup notifications -->
-             <%= bootstrap_flash %> <br>
+            <% if flash[:notice]%>
+              <div class="alert alert-successful alert-dismissible" role="alert" style="position: relative; top: -50px;">
+                <%= flash[:notice] %>
+              </div>
+            <% end %> <br>
               <!-- Renders everything in the page file -->
               <div class="main-move-up">
                 <%= yield %>
@@ -45,8 +55,7 @@
 
 
 <!-- js placed at the end of the document so the pages load faster -->
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<%= javascript_include_tag('dropdowns.js') %>
 
 </body>
 </html>

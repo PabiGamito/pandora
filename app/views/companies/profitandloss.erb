@@ -1,0 +1,84 @@
+  <!-- Table -->
+<%Company.where(:user_id => current_user.id).each do |company|%>
+<!-- Initialize everything -->
+<%@profit=0
+  @investment_income=0
+  @investment_expenses=0
+  # Calculate transaction type totals
+  Transaction.where(:company_id => company.id, :income => true).each do |transaction|
+    @investment_income+=transaction.amount
+    @profit+=transaction.amount
+  end
+  Transaction.where(:company_id => company.id, :income => false).each do |transaction|
+    @investment_expenses-=transaction.amount
+    @profit-=transaction.amount
+  end%>
+
+
+Make the companies dropdowns.
+
+<h2><%=company.name%></h2>
+<div class="row">
+<div class="col-sm-6">
+<!-- Income Table -->
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th class="success">Income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Investment<span style="float: right;">$<%=@investment_income%></span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="col-sm-6">
+<!-- Expenses Table -->
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th class="danger">Expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Investment<span style="float: right;">$<%=@investment_expenses%></span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+<%if @profit >= 0%>
+<div class="alert alert-success" role="alert">
+  TOTAL: $<%=@profit%>
+</div>
+<%else%>
+<div class="alert alert-danger" role="alert">
+  TOTAL: $<%=@profit%>
+</div>
+<%end%>
+
+<div class="progress">
+  <div class="progress-bar progress-bar-success" style="width: 35%">
+    <span class="sr-only">35% Complete (success)</span>
+  </div>
+  <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%">
+    <span class="sr-only">20% Complete (warning)</span>
+  </div>
+  <div class="progress-bar progress-bar-danger" style="width: 10%">
+    <span class="sr-only">10% Complete (danger)</span>
+  </div>
+</div>
+
+<br>
+
+<h5>Sales Turnover: <%=company.sales_turnover%><br>
+Market Capita: <%=company.market_capita%></h5>
+Last Updated by your Financer at <%=Time.parse(company.updated_at.to_s).strftime('%A, %B, %d, %Y at %l:%M%p')%>.
+
+<hr>
+
+<%end%>

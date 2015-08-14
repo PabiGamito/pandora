@@ -1,0 +1,22 @@
+<% @companies.each do |company| %>
+  <h1 style="margin-bottom: -25px;"><%=company.name%></h1><br>
+  <hr>
+
+  
+  Employes: <%=company.employes%><br>
+  
+  Balance: <%=company.balance%><br>
+  Stocks info
+  <h3>IMAGE OF COMPANY, BANNER, LOGO. Something</h3>
+
+  <br>
+  <%= link_to 'Show', company %> |
+  <%= link_to 'Edit', edit_company_path(company) %>
+  <hr>
+<% end %>
+
+<br>
+
+<%if @companies.count < 1 #|| user if a premium user%>
+<%= link_to 'Create a New Company', new_company_path %>
+<%end%>

@@ -1,0 +1,13 @@
+<%session[:return_to] ||= request.referer%>
+
+<h1>Edit company</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Show', @company %> |
+
+<%if session.delete(:return_to)==nil%>
+  <a href="/home">Home</a>
+<%else%>
+  <%= link_to 'Back', session.delete(:return_to) %>
+<%end%>

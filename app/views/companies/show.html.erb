@@ -1,0 +1,20 @@
+<%session[:return_to] ||= request.referer%>
+
+<h1 style="margin-bottom: -25px;"><%=@company.name%></h1><br>
+  <hr>
+
+  <div class="row">
+  <div class="col-md-2"><b>Stats:</b> 32432$</div>
+  <div class="col-md-2">Stuff</div>
+  </div>
+
+  <br>
+<%if @company.user_id==current_user.id%>
+  <%= link_to 'Edit', edit_company_path(@company) %> |
+<%end%>
+
+<%if session.delete(:return_to)==nil%>
+  <a href="/home">Home</a>
+<%else%>
+  <%= link_to 'Back', session.delete(:return_to) %>
+<%end%>

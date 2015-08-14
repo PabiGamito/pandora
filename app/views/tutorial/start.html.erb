@@ -1,0 +1,50 @@
+<%= stylesheet_link_tag 'pages/tutorial' %>
+
+<button class="open">Start Tutorial</button>
+
+<div class="container">
+  <h1>Guided tour tooltip</h1>
+  <span class="close"></span>
+  
+  <div class="slider-container">
+    <div class="slider-turn">
+      <p>
+        Guided tour tooltip inspired by Jonathan Moreira
+      </p>
+
+      <p>
+        Dribbble shot visible at 
+        <a href="http://dribbble.com/shots/1216346-Guided-tour-tooltip" title="Dribbble shot" target="_blank">this link</a>
+      </p>
+
+      <p>
+        Codepen by Yoann Helin
+      </p>
+
+      <p>
+        <a href="https://twitter.com/YoannHELIN" title="Twitter" target="_blank">Twitter : @YoannHELIN</a>
+        <br>
+        <a href="http://yoannhelin.fr" title="Book" target="_blank">Book : Yoannhelin.fr</a>
+      </p>
+
+      <p>Thank you !</p>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="step">
+      <span></span>
+      <ul>
+        <li data-num="1"></li>
+        <li data-num="2"></li>
+        <li data-num="3"></li>
+        <li data-num="4"></li>
+        <li data-num="5"></li>
+      </div>
+    </ul>
+    <button class="btn">Next</button>
+  </div>
+</div>
+
+<%= javascript_include_tag 'jquery.min.js' %>
+<%= javascript_include_tag 'tutorial.js' %>

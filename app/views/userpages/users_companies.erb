@@ -1,0 +1,34 @@
+<h1 class="center"> Users & Companies</h1><br>
+
+<form action="/filter-user" method="post" accept-charset="utf-8">
+  Search: <input type="text" name="search"> Use the bootstrap search form
+</form><br>
+<div class="row">
+<!-- User Panel -->
+<%@users=User.all%>
+  <%@users.each do |user|%>
+    <div class="col-md-4 col-sm-4 mb">
+      <div class="white-panel pn">
+        <div class="white-header">
+          <p class="centered"><a href="/user/#"><img src=<%=Gravatar.new(current_user.email).image_url%> class="img-circle" width="60"></p>
+          <h5><b><a href="/user/<%=user.id%>"><%=user.username%></a></b></h5>
+        </div>
+          <div class="row">
+            <%@companies=Company.where(:user_id => user.id)%>
+            <%if @companies.count!=0%>
+              <b>Owns:</b>
+              <p>
+              <%@companies.each do |company|%>
+              <a href="/companies/<%=company.id%>"><b><%=company.name%></b> </a> <br>
+              <%end%>
+              </p>
+            <%else%>
+              <p>Doesn't own a company</p>
+            <%end%>
+          </div>
+          <canvas id="serverstatus01" height="120" width="120"></canvas>
+      </div><!--/white-panel-->
+    </div> <!-- /col-md-4-->
+  <%end%>
+</div>
+ 

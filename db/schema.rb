@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150802142849) do
+ActiveRecord::Schema.define(version: 20150814135241) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -46,6 +46,22 @@ ActiveRecord::Schema.define(version: 20150802142849) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
 
+  create_table "companies", force: true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "moto"
+    t.integer  "employes"
+    t.float    "balance"
+    t.float    "sales_turnover"
+    t.float    "expenses"
+    t.float    "market_capita"
+    t.boolean  "market"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "income"
+    t.integer  "sector"
+  end
+
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
     t.integer  "attempts",   default: 0, null: false
@@ -62,14 +78,41 @@ ActiveRecord::Schema.define(version: 20150802142849) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
 
-  create_table "events", force: true do |t|
-    t.string   "name"
-    t.datetime "event_date"
-    t.integer  "host_id"
-    t.integer  "public"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.integer  "activity_id"
+  create_table "employes", force: true do |t|
+    t.integer  "company_id"
+    t.float    "iq"
+    t.integer  "efficiency"
+    t.integer  "focus"
+    t.string   "quality"
+    t.integer  "happiness"
+    t.boolean  "salery"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "category"
+  end
+
+  create_table "lenders", force: true do |t|
+    t.integer  "user_id"
+    t.float    "percentage"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "loan_id"
+    t.integer  "company_id"
+    t.float    "total_repayed"
+  end
+
+  create_table "loans", force: true do |t|
+    t.integer  "lender_id"
+    t.integer  "receiver_id"
+    t.float    "amount"
+    t.float    "pending"
+    t.integer  "repay_time"
+    t.float    "rate"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "total_repayed"
+    t.boolean  "max"
   end
 
   create_table "posts", force: true do |t|
@@ -80,6 +123,25 @@ ActiveRecord::Schema.define(version: 20150802142849) do
   end
 
   add_index "posts", ["user_id"], name: "index_posts_on_user_id"
+
+  create_table "transactions", force: true do |t|
+    t.string   "description"
+    t.string   "from"
+    t.integer  "company_id"
+    t.boolean  "income"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "amount"
+    t.integer  "user_id"
+    t.string   "category"
+  end
+
+  create_table "updates", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "company_id"
+    t.string   "message"
+    t.datetime "created_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -95,6 +157,9 @@ ActiveRecord::Schema.define(version: 20150802142849) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.string   "username"
+    t.float    "balance"
+    t.string   "full_name"
+    t.boolean  "premium"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

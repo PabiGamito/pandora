@@ -8,6 +8,17 @@ Bundler.require(*Rails.groups)
 
 module Pandora
   class Application < Rails::Application
+    config.assets.precompile += ['welcome.css']
+    config.assets.precompile += ['utilities/bootstrap.min.css']
+    config.assets.precompile += ['utilities/font-awesome.min.css']
+    config.assets.precompile += ['elements/navbar.css']
+    config.assets.precompile += ['helpers.css']
+    config.assets.precompile += ['home.css']
+    config.assets.precompile += ['pages/tutorial.css']
+    config.assets.precompile += ['tutorial.js']
+    config.assets.precompile += ['jquery.min.js']
+    config.assets.precompile += ['payment.css']
+    config.assets.precompile += ['payment.js']
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

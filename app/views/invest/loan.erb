@@ -1,0 +1,89 @@
+<h3><b><%=@company.name%></b> is Looking for a Total Investment of <b>$<%=@loan.amount%></b></h3>
+
+<h5>The return rate for this investment is of: <%=@loan.rate%>%</h5><br>
+
+<%@lenders=Lender.where(:loan_id => @loan.id)%>
+
+<%if @lenders.count!=0%>
+<h4>Current Investors:</h4>
+<table class="table table-bordered table-hover">
+
+  <thead>
+    <tr>
+      <th>Lender <i class="fa fa-angle-double-down"></i></th>
+      <th>Amount <i class="fa fa-angle-double-down"></i></th>
+      <th>Percentage <i class="fa fa-angle-double-down"></i></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%@lenders.each do |lender|%>
+      <%if lender.user_id != nil%>
+      <tr>
+        <td><a href="/user/<%=lender.user_id%>"><%=User.find(user_id).username%></a></td>
+        <td><%=lender.percentage*@loan.amount%></td>
+        <td><%=lender.percentage%></td>
+      </tr>
+      <%elsif lender.company_id != nil%>
+      <tr>
+        <td><a href="/companies/<%=lender.company_id%>"><%=Company.find(lender.company_id).name%></td>
+        <td><%=lender.percentage*@loan.amount%></td>
+        <td><%=lender.percentage*100%>%</td>
+      </tr>
+      <%end%>
+    <%end%>
+  </tbody>
+</table>
+
+<%else%>
+<h4>No one has invested into this investment request.</h4>
+<p>Be to the first to invest.</p>
+
+<%end%>
+
+
+<%if @loan.amount > @loan.pending%> <!-- Checks if loan is complete -->
+<h3>Invest in Company?</h3>
+<form class="form-inline" method="post" action="/private_investement" accept-charset="utf-8">
+  <div class="form-group">
+    <label class="sr-only">Amount</label>
+    <div class="input-group">
+      <div class="input-group-addon">$</div>
+      <input type="number" min="1" max="<%=@loan.amount-@loan.pending%>" class="form-control" name="amount" placeholder="Amount" required>
+    </div>
+  </div>
+
+<br><br>
+
+  <div class="form-group">
+    <div class="input-group">
+      <div class="input-group-addon">Invest with: </div>
+
+      <select name="invest_with" class="form-control" required>
+        <option value="user">Your Personal Balance</option>
+        <%n=0%>
+        <%@lender_companies.each do |company|%>
+          <%n+=1%>
+          <option value="company<%=n%>"><%=company.name%>'s Balance</option>
+        <%end%>
+      </select>
+
+    </div>
+  </div>
+  
+
+  <input type="hidden" name="loan_id" value="<%=@loan.id%>">
+  <input type="hidden" name="company" value="<%=@company.name%>">
+  <input type="hidden" name="company_id" value="<%=@company.id%>">
+  <input type="hidden" name="loan_amount" value="<%=@loan.amount%>">
+  <input type="hidden" name="investor_money" value="<%=current_user.balance%>">
+  <input type="hidden" name="company_money" value="<%=@lender_company%>">
+
+<br><br>
+  <button type="sumbit" class="btn btn-primary">Invest</button><br>
+  Once you press the invest button there is no coming back.
+</form>
+<%else%>
+<h3>This invesment request has reached its Goal.</h3>
+<p>Look for other possible invesments <a href="">here</a>investments</p>
+<%end%>

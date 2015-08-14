@@ -1,6 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   include ApplicationHelper
-
+  layout "signup_layout", only: [:create, :new]
   def create
     super
   end
@@ -12,4 +12,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def edit
     super
   end
+
+  private
+  def after_sign_up_path_for(user)
+    new_company_path
+  end
+
 end

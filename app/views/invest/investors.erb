@@ -1,0 +1,91 @@
+<h1>Find Investors</h1>
+<hr>
+<h3>Find Private Investors</h3>
+
+<form class="form-inline" method="post" action="/investors_submit_private" accept-charset="utf-8">  
+  <div class="form-group">
+    <label class="sr-only" for="exampleInputAmount">Amount</label>
+    <div class="input-group">
+      <div class="input-group-addon">$</div>
+      <input type="number" min="1" class="form-control" name="amount" placeholder="Goal" required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="input-group">
+      <div class="input-group-addon"><i class="fa fa-line-chart"></i></div>
+      <input type="number" min="0.01" max="100" step="0.01" class="form-control" name="rate" placeholder="Interest Rate" required>
+      <div class="input-group-addon">%</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="input-group">
+      <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+      <input type="number" min="1" max="365" class="form-control" name="repay_time" placeholder="Loan Period" required>
+    </div>
+  </div>
+  (in Days)
+
+<!-- <br><br>
+  <b>Is the Goal the Max investment you want to recevie?</b><br>
+  <input type="radio" name="max" value="true"> Yes
+  <input type="radio" name="max" value="false"> No -->
+  
+
+<!-- Commented Out Error Box -->
+<!--   <div class="form-group has-error">
+    <div class="input-group">
+      <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+      <input type="number" class="form-control" name="repay_time" placeholder="Loan Payment Time">
+    </div>
+  </div> -->
+
+  <br><br>
+  Request loan for:
+  <%if Company.where(:user_id => current_user.id).count>=1%>
+    <select name="company_id" class="form-control" required>
+      <%Company.where(:user_id => current_user.id).each do |company|%>
+        <option value="<%=company.id%>"><%=company.name%></option>
+      <%end%>
+    </select>
+  <%end%>
+  <br><br>
+  <button type="submit" class="btn btn-primary">Submit Private Investment Request</button>
+</form>
+<br><br><a href="/investments/edit">Edit your Loans</a> | <a href="/investments">See all Private Investment Requests</a>
+
+<hr>
+
+<%if Company.where(:user_id => current_user.id).count>=1%>
+<h3>Request from Bank</h3>
+You can only request upto a total loan amount from the bank of 10% of your sales turnover.<br>
+<form class="form-inline" method="post" action="/investors_submit_bank" accept-charset="utf-8">
+  <div class="form-group">
+    <div class="input-group">
+      <div class="input-group-addon">$</div>
+      <input type="number" min="1" class="form-control" name="amount" placeholder="Amount" required>
+    </div>
+  </div>
+  <br><br>
+  <div class="form-group">
+    <div class="input-group">
+      <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+      <input type="number" min="1" max="90" class="form-control" name="repay_time" placeholder="Loan Period" required>
+    </div>
+  </div>
+  (in Days)<br>
+    +0.2% Interst Rate per Additional Day
+  <br><br>
+  Request loan for:
+    <select name="company_id" class="form-control" required>
+      <%Company.where(:user_id => current_user.id).each do |company|%>
+        <option value="<%=company.id%>"><%=company.name%></option>
+      <%end%>
+    </select>
+  <br><br>
+  <button type="submit" class="btn btn-primary">Request Loan for Bank</button>
+</form>
+  
+<hr>
+<%end%>

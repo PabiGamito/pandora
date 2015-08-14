@@ -14,8 +14,6 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:username, :email, :password, :password_confirmation, :current_password) }
   end
 
-
-  private
   
   #-> Prelang (user_login:devise)
   def require_user_signed_in
@@ -23,9 +21,9 @@ class ApplicationController < ActionController::Base
 
       # If the user came from a page, we can send them back.  Otherwise, send
       # them to the root path.
-      if request.env['HTTP_REFERER']
-        fallback_redirect = :back
-      elsif defined?(root_path)
+      # if request.env['HTTP_REFERER']
+      #   fallback_redirect = :back
+      if defined?(root_path)
         fallback_redirect = root_path
       else
         fallback_redirect = "/"
@@ -34,5 +32,29 @@ class ApplicationController < ActionController::Base
       redirect_to fallback_redirect, flash: {error: "You must be signed in to view this page."}
     end
   end
+
+  def already_signed_in
+    if user_signed_in?
+        fallback_redirect = "/home"
+    end
+  end
+
+  # # Layout Per Action
+  # private
+
+  # def resolve_layout
+  #   case action_name
+  #   when "new", "create"
+  #     "some_layout"
+  #   when "index"
+  #     "other_layout"
+  #   else
+  #     "application"
+  #   end
+  # end
+
+  helper_method :already_signed_in
+
+  helper_method :require_user_signed_in
 
 end

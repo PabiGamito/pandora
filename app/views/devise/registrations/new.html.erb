@@ -1,51 +1,48 @@
-<div class="page-header">
-  <h1 class="center"><%=t ".title", default: "Sign Up" %></h1>
-</div>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "form-horizontal form-user"}) do |f| %>
-  <%= devise_error_messages! %>
-
-  
-  <div class="form-group">
-    <%= f.label :username, class: "control-label col-md-4" %>
-    <div class="col-md-8">
-      <%= f.text_field :username, class: "text-field form-control", html: {spellcheck: "false"} %>
-    </div>
-  </div>
-  
-
-  <div class="form-group">
-    <%= f.label :email, class: "control-label col-md-4" %>
-    <div class="col-md-8">
-      <%= f.email_field :email, class: "text-field form-control", html: {spellcheck: "false"} %>
-    </div>
-  </div>
+  <div class="container">
+    <div class="row mt centered">
+      <div class="col-lg-6 col-lg-offset-3">
+        <h1>Lets start by<br/>creating your account</h1>
+        <h3>HAVE A LOAD PAGE THAT SHOWS INITIALIZING ACCOUNT, blah blah</h3>
+      </div>
+    </div><!-- /row -->
     
-  <div class="form-group">
-    <%= f.label :password, class: "control-label col-md-4" %>
-    <div class="col-md-8">
-      <%= f.password_field :password, class: "text-field form-control", html: {autocomplete: "off"} %>
-    </div>
-  </div>
-     
-  <div class="form-group">
-    <%= f.label :password_confirmation, "Password Confirmation", class: "control-label col-md-4" %>
-    <div class="col-md-8">
-      <%= f.password_field :password_confirmation, class: "text-field form-control", html: {autocomplete: "off"} %>
-    </div>
-  </div>
-     
-  <div class="form-group">
-    <div class="col-md-offset-4 col-md-8">
-      <%= f.submit "Sign Up", class: "btn btn-primary" %>
-    </div>
-  </div>
+    <div class="row mt">
+      <div class="col-lg-6 col-lg-offset-3">
 
-  <div class="form-group">
-    <div class="col-md-offset-4 col-md-8">
-      <%= render "devise/shared/links" %>
-    </div>
-  </div>
+      <!-- #USER CREATION FORM -->
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "form-horizontal form-user form1"}) do |f| %>
+       <%= devise_error_messages! %>
 
-<% end %>
+        <div class="form-group">
+          <%= f.label :username, class: "control-label mr" %><br>
+          <%= f.text_field :username, class: "text-field form-control", html: {spellcheck: "false"} %>
+        </div>
+              
+        <div class="form-group">
+          <%= f.label :email, class: "control-label mr" %>
+          <%= f.email_field :email, class: "text-field form-control", html: {spellcheck: "false"} %>
+        </div>
+                
+        <div class="form-group">
+          <%= f.label :password, class: "control-label ml" %>
+          <%= f.password_field :password, class: "text-field form-control", html: {autocomplete: "off"} %>
+        </div>
+                 
+        <div class="form-group">
+          <%= f.label :password_confirmation, "Confirm Password", class: "control-label ml" %>
+          <%= f.password_field :password_confirmation, class: "text-field form-control", html: {autocomplete: "off"} %>
+        </div>
 
+        <div class="form-group">
+          <div class="center">
+            <br><%= f.submit "Next", class: " btn btn-primary" %>
+          </div>
+        </div>
+
+        <% end %>
+      </div><!--/col-lg-12 -->
+    </div><!-- /row -->
+  </div><!-- /container -->
+
+  <hr>
+    

@@ -1,7 +1,12 @@
 <div class="row mtbox">
 
-  <% if defined?(Devise) %>
-  <%if user_signed_in? %>
+    <div style="position: relative; top: -50px;">
+    <%@companies=Company.where(:user_id => current_user.id)%>
+    <%@companies.each do |company|%>
+      <h3 class="center"><b><%=company.name%></b></h3>
+    <%end%>
+    </div>
+
     <div class="col-md-2 col-sm-2 box0"></div>
     <div class="col-md-2 col-sm-2 box0"></div>
 
@@ -19,20 +24,11 @@
       <a href = '/users'>
         <div class="box1">
           <i class="fa fa-users fa-4x"></i>
-          <h3>Users</h3>
+          <h3>Hire</h3>
         </div>
-          <p>Find new friends close to you.</p>
+          <p>Find employes to hire</p>
       </a>
     </div>                
-              
-   <%else%>
-    <h3 class="center">To Access all Features Please</h3>
-    <a href="/login"><span class="button">Log in</span></a>
-    <h5 class="center">OR</h5>
-    <a href="/signup"><span class="button">Sign up</span></a>
-
-  <%end%>
-  <%end%>
             
 </div><!-- /row mt -->  
           

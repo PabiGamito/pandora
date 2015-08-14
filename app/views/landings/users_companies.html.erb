@@ -1,10 +1,11 @@
-<h1 class="center"> Users near You </h1><br>
+<h1 class="center"> Users & Companies</h1><br>
 
 <form action="/filter-user" method="post" accept-charset="utf-8">
 	Search: <input type="text" name="search">
-</form>
+</form><br>
 <div class="row">
 <!-- User Panel -->
+<%@users=User.all%>
 	<%@users.each do |user|%>
 		<div class="col-md-4 col-sm-4 mb">
 			<a href="/user/<%=user.id%>">
@@ -15,6 +16,7 @@
 					<div class="row">
 						<p class="center"> <b>IMAGE</b></p>
 						<p class="center"> <b>Bio:</b> I love this website! So so so so cool!</p>
+						<p class="center"> <b>COMPANY</b> </p>
 					</div>
 					<canvas id="serverstatus01" height="120" width="120"></canvas>
 			</div><!--/white-panel-->

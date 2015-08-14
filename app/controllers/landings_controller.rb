@@ -1,14 +1,7 @@
 class LandingsController < ApplicationController
-  def index
-  end
-  def events
-    @all_activities = Activity.all
-    @all_events = Event.all
-  end
-  def users
-    @users = User.all
-  end
-  def eventpage
-    
+  before_action :require_user_signed_in
+
+  def home
+    @page_name="Home"
   end
 end

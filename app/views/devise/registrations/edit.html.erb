@@ -10,7 +10,7 @@
       <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
     <% end %>
 
-    <%= f.input :password, autocomplete: "off", hint: "leave it blank if you don't want to change it", required: false %>
+    <%= f.input :new_password, autocomplete: "off", hint: "leave it blank if you don't want to change it", required: false %>
     <%= f.input :password_confirmation, required: false %>
     <%= f.input :current_password, hint: "we need your current password to confirm your changes", required: true %>
   </div>
@@ -20,8 +20,17 @@
   </div>
 <% end %>
 
+<h3><a href="https://en.gravatar.com/gravatars/new">Edit Profile Picture</a></h3>
+<%@gravatar = Gravatar.new(current_user.email, :api_key => "AbCdEfG1234")%> <!-- TODO: Get this to work -->
+
+<p>We use gravatar (globably recognized avatar) for pofile pictures.<br>
+Change your profile picture on <a href="https://en.gravatar.com/gravatars/new">Gravatar's website</a> <br>
+<a href="https://signup.wordpress.com/signup/?ref=oauth2&oauth2_redirect=37f8c4ae6c5be4c776209c044940217f%40https%3A%2F%2Fpublic-api.wordpress.com%2Foauth2%2Fauthorize%2F%3Fclient_id%3D1854%26response_type%3Dcode%26blog_id%3D0%26state%3D0fad992182a4551d164a83dbef0654f2f2c6cb1af86fe35962c4990cdca4765d%26redirect_uri%3Dhttps%253A%252F%252Fen.gravatar.com%252Fconnect%252F%253Faction%253Drequest_access_token%26jetpack-code%26jetpack-user-id%3D0%26action%3Doauth2-login&wpcom_connect=1">Sign up</a> to gravatar with <b>the SAME email adress</b> you used to create this account.
+
+<hr>
+
 <h3>Cancel my account</h3>
 
-<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
+<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), data: { confirm: "You are about to CANCEL YOUR ACCOUNT. There is no comming back. Are you sure you want to do this?" }, method: :delete %></p>
+<br>
 <%= link_to "Back", :back %>

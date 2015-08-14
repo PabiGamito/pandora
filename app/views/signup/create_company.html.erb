@@ -1,0 +1,21 @@
+<div class="container" id="company">
+    <div class="row mt centered">
+      <div class="col-lg-6 col-lg-offset-3">
+        <h1>Now lets create<br>your own startup</h1>
+        <h3>Need something to make sure fields aren't left blank</h3>
+      </div>
+    </div><!-- /row -->
+    <div class="row mt centered">
+      <div class="col-lg-6 col-lg-offset-3">
+        <form class="form2" action="/create_company_post" method="post" accept-charset="utf-8">
+          <input type="hidden" name="user_id" value="<%=current_user.id%>">
+          <input type="text" name="name" placeholder="Company Name"><br>
+          <input type="text" name="moto" placeholder="Company Moto"><br>
+          Type
+          <select name="type">
+            <option value="">option1</option>
+          </select>
+          <button type="submit">Create</button>     
+        </form>
+      </div>
+    </div><!-- /row -->

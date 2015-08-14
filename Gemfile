@@ -45,6 +45,12 @@ gem "font-awesome-rails"
 gem "private_pub"
 gem "thin"
 
+gem 'gravatar-ultimate'
+
+gem "haml"
+
+gem 'whenever'
+
 group :development do
   gem 'pry-rails'
   gem 'better_errors'

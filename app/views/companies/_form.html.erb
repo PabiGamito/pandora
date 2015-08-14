@@ -1,0 +1,20 @@
+<%= simple_form_for(@company) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <h4><b>List on Stock Market: </b><br></h4>
+    <!-- TODO: Read comments -->
+    <%if @company.market #&& user does not own all stocks%>
+      If you wish to unlist your company from the stock market you must own all shares of your company.
+    <!-- elsif @company.market #&& user owns all stocks -->
+    <%else%>
+    <b><i>The Stock Market is Under Construction</b></i> <br> Whatever you select here will have no effect what so ever <br>
+    <input type="radio" name="market" value="false" checked="checked"> No
+    <input type="radio" name="market" value="true"> Yes
+    <%end%>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

@@ -1,0 +1,19 @@
+<br>
+<div class="center">
+<form action="newevent_submit" method="post" accept-charset="utf-8">
+  <input type="hidden" name="host_id" value="HOSTID">
+  Event name: <input type="text" name="name"><br>
+  Date & Time: <input type="datetime-local" name="datetime"><br> <!-- #Need to use something else. Compatibility issue -->
+  Public: <input type="radio" name="public" value="1"> Yes
+  <input type="radio" name="public" value="0"> No <br>
+  Activity: <select name="activity">
+    <option value="select" selected>Select an activity</option>
+    <option value="value1">Value 1</option>
+    <option value="value2">Value 2</option>
+    <option value="value3">Value 3</option>
+  </select><br>
+  Location: LOCATION INPUT <br>
+
+  <button type="submit" class="button">Create</button>
+</form>
+</div>
