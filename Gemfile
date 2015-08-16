@@ -51,7 +51,7 @@ gem "haml"
 
 gem 'whenever'
 
-gem 'pg'
+
 
 group :development do
   gem 'pry-rails'
