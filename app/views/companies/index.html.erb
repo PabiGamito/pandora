@@ -1,13 +1,150 @@
 <% @companies.each do |company| %>
-  <h1 style="margin-bottom: -25px;"><%=company.name%></h1><br>
+<% @employes = Employe.where(company_id: company.id)%>
+<% @shares = Share.where(company_id: company.id) %>
+  <h2 style="margin-bottom: -25px;"><b><%=company.name%></b></h2><br>
   <hr>
 
-  
-  Employes: <%=company.employes%><br>
-  
-  Balance: <%=company.balance%><br>
-  Stocks info
   <h3>IMAGE OF COMPANY, BANNER, LOGO. Something</h3>
+  
+  <h3>Balance: <b>$<%=company.balance%></b></h3><br>
+
+<!-- EMPLOYES PANEL -->
+  <div class="panel panel-primary">
+  <div class="panel-heading show_hide_employes">
+    <h3 class="panel-title">Employes <span class="badge">2</span> <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
+  </div>
+  <div class="panel-body employes_panel">
+    - You have one employement request <br>
+    - One employe wants a raise <br>
+    - You employement finder has found an employe for you - check your Employement Request. <br>
+    <form action="/hire_employe_finder" method="post" accept-charset="utf-8">
+      <button class="btn btn-default">Hire Employe Finder</button>
+    </form>
+  </div>
+    
+  <div class="panel panel-default employes_panel" style="margin-top: -3px; margin-bottom: -3px;">
+  <div class="panel-heading show_hide_employement_request">
+    <h3 class="panel-title">Employement Request <span class="badge">1</span></h3>
+  </div>
+    <table class="table table-bordered table-hover employement_request_panel">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th class="center">Name <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">IQ <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">Efficiency <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">Focus <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">Happiness <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">Quality <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">Salery <i class="fa fa-angle-double-down"></i></th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <%@employes.each do |employe|%>
+        <tr>
+          <td><div class="center"><i style="color: green;" class="fa fa-check"></i></div></td>
+          <td class="center"><i style="color: red;" class="fa fa-close"></i></td>
+          <td class="center"><%=employe.name%></td>
+          <td class="center"><%=employe.iq%></td>
+          <td class="center"><%=employe.efficiency%></td>
+          <td class="center"><%=employe.focus%></td>
+          <td class="center"><%=employe.happiness%></td>
+          <td class="center"><%=employe.quality.capitalize%></td>
+          <td class="center"><%=employe.salery%></td>
+        </tr>
+      <%end%>
+      </tbody>
+    </table> 
+
+    </div>
+
+
+<!-- Employes Table -->
+<div class="panel panel-default employes_panel" style="margin-top: -3px; margin-bottom: -3px;">
+  <div class="panel-heading">
+    <h3 class="panel-title">List of Employes</h3>
+  </div>
+      <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th class="center">Name <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">IQ <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">Efficiency <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">Focus <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">Happiness <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">Quality <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">Salery <i class="fa fa-angle-double-down"></i></th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <%@employes.each do |employe|%>
+        <tr>
+          <td class="center"><i style="color: red;" class="fa fa-close"></i></td>
+          <td><div class="center"><i style="color: green;" class="fa fa-arrow-up"></i></div></td>
+          <td class="center"><%=employe.name%></td>
+          <td class="center"><%=employe.iq%></td>
+          <td class="center"><%=employe.efficiency%></td>
+          <td class="center"><%=employe.focus%></td>
+          <td class="center"><%=employe.happiness%></td>
+          <td class="center"><%=employe.quality.capitalize%></td>
+          <td class="center"><%=employe.salery%></td>
+        </tr>
+      <%end%>
+      </tbody>
+    </table>
+  </div>
+  <!-- <div class="panel-footer">Panel footer</div> -->
+</div>
+
+
+<!-- STOCKS PANEL -->
+<div class="panel panel-primary">
+  <div class="panel-heading show_hide_stocks">
+    <h3 class="panel-title">Shares <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
+  </div>
+  <div class="panel-body stock_panel">
+  </div>
+
+    <table class="table table-bordered table-hover stock_panel">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th class="center">Name <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">IQ <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">Efficiency <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">Focus <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">Happiness <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">Quality <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">Salery <i class="fa fa-angle-double-down"></i></th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <%@shares.each do |share|%>
+        <tr>
+          <td class="center"><i style="color: red;" class="fa fa-close"></i></td>
+          <td><div class="center"><i style="color: green;" class="fa fa-arrow-up"></i></div></td>
+          <td class="center"><%=employe.name%></td>
+          <td class="center"><%=employe.iq%></td>
+          <td class="center"><%=employe.efficiency%></td>
+          <td class="center"><%=employe.focus%></td>
+          <td class="center"><%=employe.happiness%></td>
+          <td class="center"><%=employe.quality.capitalize%></td>
+          <td class="center"><%=employe.salery%></td>
+        </tr>
+      <%end%>
+      </tbody>
+    </table>
+
+  <!-- <div class="panel-footer">Panel footer</div> -->
+</div>
+
 
   <br>
   <%= link_to 'Show', company %> |

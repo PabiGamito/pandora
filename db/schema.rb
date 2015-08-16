@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814135241) do
+ActiveRecord::Schema.define(version: 20150814151508) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20150814135241) do
     t.datetime "updated_at"
     t.float    "income"
     t.integer  "sector"
+    t.integer  "shares"
   end
 
   create_table "delayed_jobs", force: true do |t|
@@ -85,11 +86,12 @@ ActiveRecord::Schema.define(version: 20150814135241) do
     t.integer  "focus"
     t.string   "quality"
     t.integer  "happiness"
-    t.boolean  "salery"
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "category"
+    t.string   "name"
+    t.integer  "salery"
   end
 
   create_table "lenders", force: true do |t|
@@ -123,6 +125,13 @@ ActiveRecord::Schema.define(version: 20150814135241) do
   end
 
   add_index "posts", ["user_id"], name: "index_posts_on_user_id"
+
+  create_table "shares", force: true do |t|
+    t.integer "company_id"
+    t.integer "company_owner_id"
+    t.integer "user_owner_id"
+    t.integer "shares"
+  end
 
   create_table "transactions", force: true do |t|
     t.string   "description"

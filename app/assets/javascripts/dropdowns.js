@@ -53,4 +53,30 @@ $(".hideothers").hide();
     $(".slidingDiv_invest").slideDown();
     });
 
+
+// ----------- COMPANY INDEX DROPDOWNS ----------- //
+  
+// Employe dropdown
+    $(".employes_panel").hide();
+    $(".show_hide_employes").show();
+    
+    $(".show_hide_employes").click(function(){
+    $(".employes_panel").slideToggle();
+    });
+// Invest dropdown
+    $(".employement_request_panel").hide();
+    $(".show_hide_employement_request").show();
+    
+    $(".show_hide_employement_request").click(function(){
+    $(".employement_request_panel").slideToggle();
+    });
+
+// Stock dropdown
+    $(".stock_panel").hide();
+    $(".show_hide_stocks").show();
+    
+    $(".show_hide_stocks").click(function(){
+    $(".stock_panel").slideToggle();
+    });    
+
   });

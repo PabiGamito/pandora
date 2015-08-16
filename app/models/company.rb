@@ -6,12 +6,13 @@ class Company < ActiveRecord::Base
   after_initialize :defaults
 
   def defaults
-    self.balance = 25000
+    self.balance = 0
     self.market = false
     self.sales_turnover = 0
     self.expenses = 0
     self.income = 0
     self.market_capita = 0
+    self.shares = 0
   end
 
   def process_transaction(transaction)
