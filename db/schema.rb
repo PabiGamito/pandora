@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814151508) do
+ActiveRecord::Schema.define(version: 20150819181015) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -95,12 +95,11 @@ ActiveRecord::Schema.define(version: 20150814151508) do
   end
 
   create_table "lenders", force: true do |t|
-    t.integer  "user_id"
+    t.integer  "company_id"
     t.float    "percentage"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "loan_id"
-    t.integer  "company_id"
     t.float    "total_repayed"
   end
 
@@ -150,6 +149,17 @@ ActiveRecord::Schema.define(version: 20150814151508) do
     t.integer  "company_id"
     t.string   "message"
     t.datetime "created_at"
+  end
+
+  create_table "upgrade_levels", force: true do |t|
+    t.integer "company_id"
+    t.integer "upgrade_value"
+    t.integer "level"
+  end
+
+  create_table "upgrades", force: true do |t|
+    t.string  "description"
+    t.integer "value"
   end
 
   create_table "users", force: true do |t|

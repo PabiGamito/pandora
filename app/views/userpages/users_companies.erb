@@ -10,7 +10,7 @@
     <div class="col-md-4 col-sm-4 mb">
       <div class="white-panel pn">
         <div class="white-header">
-          <p class="centered"><a href="/user/#"><img src=<%=Gravatar.new(current_user.email).image_url%> class="img-circle" width="60"></p>
+          <p class="centered"><a href="/user/#"><img src=<%=Gravatar.new(user.email).image_url%> class="img-circle" width="60"></p>
           <h5><b><a href="/user/<%=user.id%>"><%=user.username%></a></b></h5>
         </div>
           <div class="row">

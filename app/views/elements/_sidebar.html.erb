@@ -5,7 +5,7 @@
           <!-- sidebar menu start-->
           <ul class="sidebar-menu" id="nav-accordion">
             
-            <p class="centered"><a href="/user/#"><img src=<%=Gravatar.new(current_user.email).image_url%> class="img-circle" width="60"></p>
+            <p class="centered"><a href="/user/<%=current_user.id%>"><img src=<%=Gravatar.new(current_user.email).image_url%> class="img-circle" width="60"></p>
             <h5 class="centered"><%=current_user.username%></h5></a>
             <hr>
           
@@ -63,19 +63,15 @@
               <li>
                 <a href="/companies">
                   <i class="fa fa-building"></i>
-                  <%if Company.where(:user_id => current_user.id).count==1%>
-                    <span>Company</span>
-                  <%elsif Company.where(:user_id => current_user.id).count>1%>
                     <span>Companies</span>
-                  <%end%>
                 </a>
               </li>
               <%end%>
               
               <li>
-                <a href="/trade">
+                <a href="/market">
                   <i class="fa fa-exchange"></i>
-                  <span>Trade</span>
+                  <span>Global Market</span>
                 </a>
               </li>
 

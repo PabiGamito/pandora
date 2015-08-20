@@ -2,7 +2,7 @@
   <%@companies=Company.where(:user_id => current_user.id)%>
   <!-- TODO: add this back -->
   <%#if @companies.count >= 1%>
-  <h1 style="position: relative; top: 20px;">You already own a company.</h1><br><h3>As a non-premuim user <br>you may not own more than one company.</h3>
+  <h1 style="position: relative; top: 20px;">You already own a company.</h1><br><h3>As a non-premium user <br>you may not own more than one company.</h3>
 
   <a href="/premium"><button>Go Premium</button></a><br><br>
   <%#else%>

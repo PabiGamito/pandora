@@ -13,8 +13,8 @@ class User < ActiveRecord::Base
   after_initialize :defaults
 
   def defaults
-    self.balance = 25000
-    self.premium = false
+    self.balance ||= 0
+    self.premium ||= false
   end
 
   def self.find_first_by_auth_conditions(warden_conditions)

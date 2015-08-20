@@ -6,6 +6,7 @@ class CompaniesController < ApplicationController
 
   def index
     @companies=Company.where(:user_id => current_user.id)
+    @page_name="Your Companies"
   end
 
   def create

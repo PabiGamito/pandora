@@ -102,6 +102,7 @@ Rails.application.routes.draw do
   # User
   get "/inbox" => "userpages#inbox"
   get "/users-companies" => "userpages#users_companies"
+  get "/user/:id" => "userpages#userpage"
 
   # Invest
   get "/stock-market" => "invest#market"

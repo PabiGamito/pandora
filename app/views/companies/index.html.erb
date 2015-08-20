@@ -1,30 +1,70 @@
+<h3>Companies where you are the CEO:</h3>
 <% @companies.each do |company| %>
 <% @employes = Employe.where(company_id: company.id)%>
 <% @shares = Share.where(company_id: company.id) %>
-  <h2 style="margin-bottom: -25px;"><b><%=company.name%></b></h2><br>
+  <h2 style="margin-bottom: -25px;">
+  <%if company.sector==1%>
+  <i class="fa fa-tree"></i>
+  <%elsif company.sector==2%>
+  <i class="fa fa-industry"></i>
+  <%elsif company.sector==3%>
+  <i class="fa fa-truck"></i>
+  <%end%>
+  <b><%=company.name%></b></h2><br>
   <hr>
 
   <h3>IMAGE OF COMPANY, BANNER, LOGO. Something</h3>
   
   <h3>Balance: <b>$<%=company.balance%></b></h3><br>
 
-<!-- EMPLOYES PANEL -->
-  <div class="panel panel-primary">
+Should these be hover dropdowns or click dropdowns?
+
+
+<!-- ----------------------------------------------
+  UPGRADE PANEL
+ ---------------------------------------------- -->  
+ <div class="panel panel-primary">
+  <div class="panel-heading show_hide_upgrades">
+    <h3 class="panel-title">
+      <i class="fa fa-arrow-up"></i>
+      Upgrade
+      <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
+  </div>
+  <div class="panel-body upgrades_panel">
+    - Stuff
+    <div class="progress">
+      <div class="progress-bar" role="progressbar"
+      aria-valuemin="0" aria-valuemax="100">
+        Time Passed
+      </div>
+      <div class="center">Time Left</div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- ----------------------------------------------
+  EMPLOYES PANEL
+ ---------------------------------------------- -->  
+ <div class="panel panel-primary">
   <div class="panel-heading show_hide_employes">
-    <h3 class="panel-title">Employes <span class="badge">2</span> <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
+    <h3 class="panel-title">
+      <i class="fa fa-users"></i>
+      Employes <span class="badge">2</span>
+      <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
   </div>
   <div class="panel-body employes_panel">
-    - You have one employement request <br>
     - One employe wants a raise <br>
-    - You employement finder has found an employe for you - check your Employement Request. <br>
-    <form action="/hire_employe_finder" method="post" accept-charset="utf-8">
-      <button class="btn btn-default">Hire Employe Finder</button>
-    </form>
   </div>
     
+  <!-- Employement Request -->
   <div class="panel panel-default employes_panel" style="margin-top: -3px; margin-bottom: -3px;">
   <div class="panel-heading show_hide_employement_request">
-    <h3 class="panel-title">Employement Request <span class="badge">1</span></h3>
+    <h3 class="panel-title">Employement Request <span class="badge">1</span>
+    <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
   </div>
     <table class="table table-bordered table-hover employement_request_panel">
       <thead>
@@ -61,12 +101,15 @@
     </div>
 
 
-<!-- Employes Table -->
+<!-- Employes List -->
 <div class="panel panel-default employes_panel" style="margin-top: -3px; margin-bottom: -3px;">
-  <div class="panel-heading">
-    <h3 class="panel-title">List of Employes</h3>
+  <div class="panel-heading show_hide_employes_list">
+    <h3 class="panel-title">
+      List of Employes
+      <span style="float: right;"><i class="fa fa-angle-down"></i></span>
+    </h3>
   </div>
-      <table class="table table-bordered table-hover">
+      <table class="table table-bordered table-hover employes_list_panel">
       <thead>
         <tr>
           <th></th>
@@ -102,12 +145,21 @@
 </div>
 
 
-<!-- STOCKS PANEL -->
+
+
+<!-- ----------------------------------------------
+ STOCKS PANEL 
+ ---------------------------------------------- -->
 <div class="panel panel-primary">
   <div class="panel-heading show_hide_stocks">
-    <h3 class="panel-title">Shares <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
+    <h3 class="panel-title">
+      <i class="fa fa-line-chart"></i>
+      Shares <span style="float: right;">
+      <i class="fa fa-angle-down"></i></span>
+    </h3>
   </div>
   <div class="panel-body stock_panel">
+    You own ##% of all the shares <br>
   </div>
 
     <table class="table table-bordered table-hover stock_panel">
@@ -146,14 +198,77 @@
 </div>
 
 
+
+
+<!-- ----------------------------------------------
+  PROFIT AND LOSS PANEL
+ ---------------------------------------------- -->  
+ <div class="panel panel-primary">
+  <div class="panel-heading show_hide_profit_and_loss">
+    <h3 class="panel-title">
+      <i class="fa fa-list"></i>
+      Profit & Loss
+      <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
+  </div>
+  <div class="panel-body profit_and_loss_panel">
+    - Stuff
+  </div>
+  <div class="row profit_and_loss_panel">
+<div class="col-sm-6">
+<!-- Income Table -->
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th class="success">Income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Investment<span style="float: right;">$<%=@investment_income%></span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="col-sm-6">
+<!-- Expenses Table -->
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th class="danger">Expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Investment<span style="float: right;">$<%=@investment_expenses%></span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+
+<!-- Bottom Links -->
+
   <br>
   <%= link_to 'Show', company %> |
-  <%= link_to 'Edit', edit_company_path(company) %>
+  <%= link_to 'Edit', edit_company_path(company) %> |
+  List your Company on the Stock Market
   <hr>
 <% end %>
 
 <br>
 
+<h3>Companies where you are in the board of directors:</h3>
+
+<h3>Companies where you own stocks:</h3>
+
 <%if @companies.count < 1 #|| user if a premium user%>
 <%= link_to 'Create a New Company', new_company_path %>
 <%end%>
+
+
+
+<!-- Get the needed js -->
+<%= javascript_include_tag('company_index.js') %>
