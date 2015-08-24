@@ -178,6 +178,8 @@ Bank:
 - http://localhost:3000/find-investors fix the inputs sizes.
 - Sidebar closed by default on phone display
 - Make it so user can add investment limit. So user do not give them more than they want.
+- Add male or female to user
+- Make left sidebar scrollable
 
 #PREMIUM:
 - Premium users can have more than one company.

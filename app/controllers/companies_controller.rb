@@ -7,6 +7,15 @@ class CompaniesController < ApplicationController
   def index
     @companies=Company.where(:user_id => current_user.id)
     @page_name="Your Companies"
+
+    # Checks all user companies has employes or else creates one.
+    @companies.each do |company|
+      if Employe.where(company_id: company.id)==0
+        name="#{Employe_name.where(first_name: true).sample.name} #{Employe_name.where(first_name: false).sample.name}"
+        new_employe=Employe.create(name: name, company_id: company.id, iq: rand(65..100), efficiency: rand(22..96), focus: rand(5..80), quality: rand(3..50), happiness: rand(50..95), request: true, category: 1)
+      end
+    end
+
   end
 
   def create

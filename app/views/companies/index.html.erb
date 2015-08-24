@@ -1,6 +1,7 @@
+<%= stylesheet_link_tag 'popup' %>
+
 <h3>Companies where you are the CEO:</h3>
 <% @companies.each do |company| %>
-<% @employes = Employe.where(company_id: company.id)%>
 <% @shares = Share.where(company_id: company.id) %>
   <h2 style="margin-bottom: -25px;">
   <%if company.sector==1%>
@@ -12,13 +13,10 @@
   <%end%>
   <b><%=company.name%></b></h2><br>
   <hr>
-
-  <h3>IMAGE OF COMPANY, BANNER, LOGO. Something</h3>
   
   <h3>Balance: <b>$<%=company.balance%></b></h3><br>
 
 Should these be hover dropdowns or click dropdowns?
-
 
 <!-- ----------------------------------------------
   UPGRADE PANEL
@@ -33,15 +31,13 @@ Should these be hover dropdowns or click dropdowns?
   <div class="panel-body upgrades_panel">
     - Stuff
     <div class="progress">
-      <div class="progress-bar" role="progressbar"
+      <div class="progress-bar progress-bar-striped active" role="progressbar"
       aria-valuemin="0" aria-valuemax="100">
-        Time Passed
       </div>
-      <div class="center">Time Left</div>
     </div>
+    Upgrade Name will be done in <span class="center" id="timeleft"></span>
   </div>
 </div>
-
 
 
 
@@ -53,17 +49,18 @@ Should these be hover dropdowns or click dropdowns?
   <div class="panel-heading show_hide_employes">
     <h3 class="panel-title">
       <i class="fa fa-users"></i>
-      Employes <span class="badge">2</span>
+      Employees <span class="badge">2</span>
       <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
   </div>
   <div class="panel-body employes_panel">
-    - One employe wants a raise <br>
+    - One employee wants a raise <br>
   </div>
     
   <!-- Employement Request -->
+<%if Employe.where(company_id: company.id, request: true).count!=0%>
   <div class="panel panel-default employes_panel" style="margin-top: -3px; margin-bottom: -3px;">
   <div class="panel-heading show_hide_employement_request">
-    <h3 class="panel-title">Employement Request <span class="badge">1</span>
+    <h3 class="panel-title">Employement Request <span class="badge"><%=Employe.where(company_id: company.id, request: true).count%></span>
     <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
   </div>
     <table class="table table-bordered table-hover employement_request_panel">
@@ -82,10 +79,10 @@ Should these be hover dropdowns or click dropdowns?
       </thead>
 
       <tbody>
-      <%@employes.each do |employe|%>
+      <%Employe.where(company_id: company.id, request: true).each do |employe|%>
         <tr>
-          <td><div class="center"><i style="color: green;" class="fa fa-check"></i></div></td>
-          <td class="center"><i style="color: red;" class="fa fa-close"></i></td>
+          <td class="center cd-popup-trigger" id="popup1"><i style="color: green;" class="fa fa-check"></i></td>
+          <td class="center cd-popup-trigger" id="popup2"><i style="color: red;" class="fa fa-close"></i></td>
           <td class="center"><%=employe.name%></td>
           <td class="center"><%=employe.iq%></td>
           <td class="center"><%=employe.efficiency%></td>
@@ -99,13 +96,14 @@ Should these be hover dropdowns or click dropdowns?
     </table> 
 
     </div>
-
+<%end%>
 
 <!-- Employes List -->
+<%if Employe.where(company_id: company.id, request: false).count!=0%>
 <div class="panel panel-default employes_panel" style="margin-top: -3px; margin-bottom: -3px;">
   <div class="panel-heading show_hide_employes_list">
     <h3 class="panel-title">
-      List of Employes
+      List of Employees
       <span style="float: right;"><i class="fa fa-angle-down"></i></span>
     </h3>
   </div>
@@ -125,10 +123,10 @@ Should these be hover dropdowns or click dropdowns?
       </thead>
 
       <tbody>
-      <%@employes.each do |employe|%>
+      <%Employe.where(company_id: company.id, request: false).each do |employe|%>
         <tr>
-          <td class="center"><i style="color: red;" class="fa fa-close"></i></td>
-          <td><div class="center"><i style="color: green;" class="fa fa-arrow-up"></i></div></td>
+          <td class="center cd-popup-trigger" id="popup3"><i style="color: red;" class="fa fa-close"></i></td>
+          <td class="center cd-popup-trigger" id="popup4"><i style="color: green;" class="fa fa-arrow-up"></i></td>
           <td class="center"><%=employe.name%></td>
           <td class="center"><%=employe.iq%></td>
           <td class="center"><%=employe.efficiency%></td>
@@ -141,12 +139,13 @@ Should these be hover dropdowns or click dropdowns?
       </tbody>
     </table>
   </div>
+<%end%>
   <!-- <div class="panel-footer">Panel footer</div> -->
 </div>
 
 
 
-
+<%if company.market%>
 <!-- ----------------------------------------------
  STOCKS PANEL 
  ---------------------------------------------- -->
@@ -196,7 +195,7 @@ Should these be hover dropdowns or click dropdowns?
 
   <!-- <div class="panel-footer">Panel footer</div> -->
 </div>
-
+<%end%>
 
 
 
@@ -270,5 +269,15 @@ Should these be hover dropdowns or click dropdowns?
 
 
 
+<!-- POPUPS -->
+<div class="cd-popup" role="alert">
+  <div class="cd-popup-container">
+    
+    <a class="cd-popup-close popup-close img-replace">Close</a>
+  </div> <!-- cd-popup-container -->
+</div> <!-- cd-popup -->
+
+
 <!-- Get the needed js -->
 <%= javascript_include_tag('company_index.js') %>
+<%= javascript_include_tag('moment.min.js') %>
