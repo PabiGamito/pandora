@@ -2,8 +2,8 @@ $(document).ready(function(){
 // ---- UPGRADES DROPDOWN ---- //
     $(".upgrades_panel").hide();
 
-    $(".show_hide_upgrades").click(function(){
-    $(".upgrades_panel").slideToggle();
+    $(document).on("click",".show_hide_upgrades", function(){
+        $(this).siblings(".upgrades_panel").slideToggle();
     }); 
     
 
@@ -11,35 +11,35 @@ $(document).ready(function(){
     $(".employes_panel").hide();
     
     $(".show_hide_employes").click(function(){
-    $(".employes_panel").slideToggle();
+        $(this).siblings(".employes_panel").slideToggle();
     });
 
     // Employement request dropdown
     $(".employement_request_panel").hide();
     
     $(".show_hide_employement_request").click(function(){
-    $(".employement_request_panel").slideToggle();
+        $(this).siblings(".employement_request_panel").slideToggle();
     });
 
     // Employe list dropdown
     $(".employes_list_panel").hide();;
     
     $(".show_hide_employes_list").click(function(){
-    $(".employes_list_panel").slideToggle();
+        $(this).siblings(".employes_list_panel").slideToggle();
     });
 
 // ---- STOCK DROPDOWN ---- //
     $(".stock_panel").hide();
     
     $(".show_hide_stocks").click(function(){
-    $(".stock_panel").slideToggle();
+        $(this).siblings(".stock_panel").slideToggle();
     });
 
 // ---- PROFIT AND LOSS DROPDOWN ---- //
     $(".profit_and_loss_panel").hide();
 
     $(".show_hide_profit_and_loss").click(function(){
-    $(".profit_and_loss_panel").slideToggle();
+        $(this).siblings(".profit_and_loss_panel").slideToggle();
     });
 
 // Live Progress Bar
@@ -105,8 +105,6 @@ $(document).ready(function(){
         var employeeID = $(this).siblings('.js-employee-id').text();
         var message = "Are you sure you want to hire <b>" + employeeName + "</b>?"
         var postLink = "/hire-employee"
-        
-        createMessage();
 
         $(".cd-popup-container").append( createMessage(message, postLink) );
         $(".cd-popup-container form").append("<input type='hidden' name='employee_id' value='" + employeeID + "'>");
@@ -123,8 +121,6 @@ $(document).ready(function(){
         var employeeID = $(this).siblings('.js-employee-id').text();
         var message = "Are you sure you want to decline <b>" + employeeName + "'s</b> employement request?<br><br>This can not be undone."
         var postLink = "/decline-employee"
-        
-        createMessage();
 
         $(".cd-popup-container").append( createMessage(message, postLink) );
         $(".cd-popup-container form").append("<input type='hidden' name='employee_id' value='" + employeeID + "'>");
@@ -151,11 +147,66 @@ $(document).ready(function(){
         var employeeID = $(this).siblings('.js-employee-id').text();
         var message = "Are you sure you want to fire <b>" + employeeName + "</b>?<br><br>This can not be undone."
         var postLink = "/fire-employee"
-        
-        createMessage();
 
         $(".cd-popup-container").append( createMessage(message, postLink) );
         $(".cd-popup-container form").append("<input type='hidden' name='employee_id' value='" + employeeID + "'>");
+    });
+
+    $(".cd-popup-container").on('click', '.submit', function(event){
+        $('form').submit();
+        event.preventDefault(); //Cancel default behaviour of anchor
+    });
+
+    //Employement Ad
+    $('.popup6').on('click', function() {
+
+        var companyID = $(this).siblings('.js-company-id').text();
+
+        $(".cd-popup-container").append(
+        "<p><h3><b>Place Employement Ad</b></h3></p>" +
+        "<form class='center' action='/employement-ad' method='post' accept-charset='utf-8' style='width: 75%;'>" +
+        "<select name='category' class='form-control' required>" +
+        "<option value='' disabled selected>Chose the Targetted Employee Category</option>" +
+        "<option value='1'>1</option>" +
+        "<option value='2'>2</option>" +
+        "<option value='3'>3</option>" +
+        "</select>" +
+        "<input id='amount' class='form-control' type='number' step='1' min= '1' max='1000' name='amount' placeholder='Amount of Employees Wanted' required><br><br>" +
+        "<b>Price:<b> <span id='price'></span>$ <br><br>" +
+        "<input type='hidden' name='company_id' value='" + companyID + "'>" +
+        "<button class='btn btn-primary' type='submit'>Place Ad</button><br><br>" +
+        "</form>" +
+        "<a class='cd-popup-close popup-close img-replace'>Close</a>");
+
+        $(".cd-popup-container form").css("margin-top", "-50px");
+
+    // Updates Price
+        // grab the values from the form:
+        var getPrice = function () {
+
+        // get form values:
+        var _employees = parseInt($('form > select').find(":selected").val(), 10);
+        var _amount = parseInt($('form > #amount').val(), 10);
+
+        // check values are defined:
+        if (_employees && _amount) {
+            return _amount * 250 * _employees;
+        }
+        };
+
+        // bind events to update the price when something changes:
+        $('form > select').on('change', function () {
+            var _newPrice = getPrice();
+            // update form price:
+            if (_newPrice) $('#price').text(_newPrice);
+        });
+
+        $('form > #amount').on('change', function () {
+            var _newPrice = getPrice();
+            // update form price:
+            if (_newPrice) $('#price').text(_newPrice);
+        });
+
     });
 
     $(".cd-popup-container").on('click', '.submit', function(event){

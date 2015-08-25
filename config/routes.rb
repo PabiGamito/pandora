@@ -101,6 +101,7 @@ Rails.application.routes.draw do
   post "hire-employee" => "companies#hire_employee"
   post "decline-employee" => "companies#decline_employee"
   post "fire-employee" => "companies#fire_employee"
+  post "employement-ad" => "companies#employement_ad"
 
   # User
   get "/inbox" => "userpages#inbox"

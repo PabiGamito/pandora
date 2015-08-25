@@ -1,5 +1,6 @@
 <%= stylesheet_link_tag 'popup' %>
 <%= stylesheet_link_tag 'bootstrap-sortable' %>
+<%= stylesheet_link_tag 'bootstrap-select.min' %>
 
 <h3>Companies where you are the CEO:</h3>
 <% @companies.each do |company| %>
@@ -58,8 +59,19 @@ Should these be hover dropdowns or click dropdowns?
   </div>
   <div class="panel-body employes_panel">
     - One employee wants a raise <br>
+    <table>
+      <tbody>
+        <tr>
+          <td class="cd-popup-trigger popup6 btn btn-primary">Place Employement Ad</td>
+          <td class="js-company-id" style="display:none;"><%=company.id%></td>
+          <td class="cd-popup-trigger popup6 btn btn-primary">Appoint Employees</td>
+          <td class="cd-popup-trigger popup6 btn btn-primary">Employee Training</td>
+          <td class="cd-popup-trigger popup6 btn btn-primary">Employee Finder - Cat. 4 & 5</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-    
+
   <!-- Employement Request -->
 <%if Employe.where(company_id: company.id, request: true).count!=0%>
   <div class="panel panel-default employes_panel" style="margin-top: -3px; margin-bottom: -3px;">
@@ -267,8 +279,6 @@ Should these be hover dropdowns or click dropdowns?
 
 <br>
 
-<h3>Companies where you are in the board of directors:</h3>
-
 <h3>Companies where you own stocks:</h3>
 
 <%if @companies.count < 1 #|| user if a premium user%>
@@ -290,3 +300,4 @@ Should these be hover dropdowns or click dropdowns?
 <%= javascript_include_tag('company_index.js') %>
 <%= javascript_include_tag('moment.min.js') %>
 <%= javascript_include_tag('bootstrap-sortable.js') %>
+<%= javascript_include_tag('bootstrap-select.min.js') %>

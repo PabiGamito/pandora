@@ -40,6 +40,10 @@ every 1.day, :at => '12am' do
   runner "Loan.repay_loans"
 end
 
+every :hour do
+  runner "Employe.employment_request"
+end
+
 #Runs end of day transaction calculations
 # every 2.hours
 #   runner "Company.calculations"

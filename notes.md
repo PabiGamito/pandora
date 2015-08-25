@@ -185,6 +185,9 @@ Bank:
 - Add age to employes so that at some point the leave the company to retire
 - Find a way a submitting a form without reloading the page
 - Make it so paying employes, loans... can be automatic if you have a financer want to but doesn't have to be.
+- Create event "Ad has been placed in Local Newspapers, TV..." when make a new ad.
+- Make balance and other thing update live/ every 1 sec to database
+- Make is so it doesn't save the inputs in the inputs boxes
 
 #PREMIUM:
 - Premium users can have more than one company.

@@ -24,6 +24,8 @@ module Pandora
     config.assets.precompile += ['moment.min.js']
     config.assets.precompile += ['bootstrap-sortable.js']
     config.assets.precompile += ['bootstrap-sortable.css']
+    config.assets.precompile += ['bootstrap-select.min.css']
+    config.assets.precompile += ['bootstrap-select.min.js']
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

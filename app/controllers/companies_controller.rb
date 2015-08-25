@@ -10,11 +10,11 @@ class CompaniesController < ApplicationController
   end
 
   def create
-    Company.create(:user_id => params[:user_id], :name => params[:name], :moto => params[:moto], :sector => params[:sector].to_i)
+    company=Company.create(:user_id => params[:user_id], :name => params[:name], :moto => params[:moto], :sector => params[:sector].to_i)
     # Create 3 employes along with company
-    Employe.new_employe(1)
-    Employe.new_employe(2)
-    Employe.new_employe(2)
+    Employe.new_employe(1, company)
+    Employe.new_employe(2, company)
+    Employe.new_employe(2, company)
     redirect_to "/companies"
   end
 
@@ -80,6 +80,21 @@ class CompaniesController < ApplicationController
   def fire_employee
     session[:return_to] ||= request.referer
     Employe.find(params[:employee_id]).destroy
+
+    begin
+      redirect_to session.delete(:return_to)
+    rescue
+      redirect_to '/companies'
+    end
+  end
+
+  def employement_ad
+    session[:return_to] ||= request.referer
+
+    Ad.create(company_id: params[:company_id].to_i, amount: params[:amount].to_f*100*params[:category].to_i, category: params[:category].to_i)
+    company=Company.find(params[:company_id].to_i)
+    company.balance-=params[:amount].to_f*100*params[:category].to_i
+    company.update(balance: company.balance)
 
     begin
       redirect_to session.delete(:return_to)
