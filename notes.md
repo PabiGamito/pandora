@@ -180,6 +180,11 @@ Bank:
 - Make it so user can add investment limit. So user do not give them more than they want.
 - Add male or female to user
 - Make left sidebar scrollable
+- Use this: http://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_event_change_ref to make inputted stuff not disappear
+- Other companies can offer more money to get other players employees => Creates a notification for compnay
+- Add age to employes so that at some point the leave the company to retire
+- Find a way a submitting a form without reloading the page
+- Make it so paying employes, loans... can be automatic if you have a financer want to but doesn't have to be.
 
 #PREMIUM:
 - Premium users can have more than one company.
@@ -188,6 +193,7 @@ Bank:
 
 #Types of transaction:
 - Investment
+- "pay employes" Find name
 
 #Glitches:
 - Unknown

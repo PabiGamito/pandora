@@ -72,53 +72,95 @@ $(document).ready(function(){
         if( $(event.target).is('.popup-close') || $(event.target).is('.cd-popup') ) {
             event.preventDefault();
             $(this).removeClass('is-visible');
+            $('.cd-popup-container').empty();
         }
     });
     //close popup when clicking the esc keyboard button
     $(document).keyup(function(event){
         if(event.which=='27'){
             $('.cd-popup').removeClass('is-visible');
+            $('.cd-popup-container').empty();
         }
     });
 
-    //POPUP Content
+
+    // Popup Content
+    var popupContent = ''
+    function createMessage(msg,pl) {
+        return [
+            "<p>" + msg + "</p>",
+            "<form action='" + pl + "' method='post' accept-charset='utf-8'>",
+                "<ul class='cd-buttons no_margin'>",
+                    "<li><a class='submit'>Yes</a></li>",
+                    "<li><a class='popup-close'>No</a></li>",
+                "</ul>",
+            "</form>",
+            "<a class='cd-popup-close popup-close img-replace'>Close</a>"
+        ].join('');
+    }
+
     //Accept Employement Request
-    $("#popup1").click(function(){
-        $(".cd-popup-container").prepend(
-        "<p>Are you sure you want to decline this employement request?</p>
-        <form id="accept_employe" action="/accept_employe" method="post" accept-charset="utf-8">
-            <ul class="cd-buttons no_margin">
-                <li><a href="javascript:{}" onclick="document.getElementById('accept_employe').submit();">Yes</a></li>
-                <li><a class="popup-close">No</a></li>
-            </ul>
-        </form>"
-        );
+    $('.popup1').on('click', function() {
+        var employeeName = $(this).siblings('.js-employee-name').text();
+        var employeeID = $(this).siblings('.js-employee-id').text();
+        var message = "Are you sure you want to hire <b>" + employeeName + "</b>?"
+        var postLink = "/hire-employee"
+        
+        createMessage();
+
+        $(".cd-popup-container").append( createMessage(message, postLink) );
+        $(".cd-popup-container form").append("<input type='hidden' name='employee_id' value='" + employeeID + "'>");
+    });
+
+    $(".cd-popup-container").on('click', '.submit', function(event){
+        $('form').submit();
+        event.preventDefault(); //Cancel default behaviour of anchor
     });
 
     //Decline Employement Request
-    $("#popup2").click(function(){
-        $(".cd-popup-container").prepend(
-        "<p>Are you sure you want to discharge this employe?</p>
-        <form id="accept_employe" action="/accept_employe" method="post" accept-charset="utf-8">
-            <ul class="cd-buttons no_margin">
-                <li><a href="javascript:{}" onclick="document.getElementById('accept_employe').submit();">Yes</a></li>
-                <li><a class="popup-close">No</a></li>
-            </ul>
-        </form>"
-        );
+    $('.popup2').on('click', function() {
+        var employeeName = $(this).siblings('.js-employee-name').text();
+        var employeeID = $(this).siblings('.js-employee-id').text();
+        var message = "Are you sure you want to decline <b>" + employeeName + "'s</b> employement request?<br><br>This can not be undone."
+        var postLink = "/decline-employee"
+        
+        createMessage();
+
+        $(".cd-popup-container").append( createMessage(message, postLink) );
+        $(".cd-popup-container form").append("<input type='hidden' name='employee_id' value='" + employeeID + "'>");
+    });
+
+    $(".cd-popup-container").on('click', '.submit', function(event){
+        $('form').submit();
+        event.preventDefault(); //Cancel default behaviour of anchor
     });
 
     //Give a Raise to Employe
-    $("#popup2").click(function(){
-        $(".cd-popup-container").prepend(
-        "<p>Are you sure you want to discharge this employe?</p>
-        <form id="accept_employe" action="/accept_employe" method="post" accept-charset="utf-8">
-            <ul class="cd-buttons no_margin">
-                <li><a href="javascript:{}" onclick="document.getElementById('accept_employe').submit();">Yes</a></li>
-                <li><a class="popup-close">No</a></li>
-            </ul>
-        </form>"
-        );
+    $(".popup3").click(function(){
+        $(".cd-popup-container").prepend();
+    });
+
+    //Give a Pay Cut to Employe
+    $(".popup4").click(function(){
+        $(".cd-popup-container").prepend();
+    });
+
+    //Fire Employe
+    $('.popup5').on('click', function() {
+        var employeeName = $(this).siblings('.js-employee-name').text();
+        var employeeID = $(this).siblings('.js-employee-id').text();
+        var message = "Are you sure you want to fire <b>" + employeeName + "</b>?<br><br>This can not be undone."
+        var postLink = "/fire-employee"
+        
+        createMessage();
+
+        $(".cd-popup-container").append( createMessage(message, postLink) );
+        $(".cd-popup-container form").append("<input type='hidden' name='employee_id' value='" + employeeID + "'>");
+    });
+
+    $(".cd-popup-container").on('click', '.submit', function(event){
+        $('form').submit();
+        event.preventDefault(); //Cancel default behaviour of anchor
     });
 
 });

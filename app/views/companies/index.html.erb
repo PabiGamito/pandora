@@ -1,4 +1,5 @@
 <%= stylesheet_link_tag 'popup' %>
+<%= stylesheet_link_tag 'bootstrap-sortable' %>
 
 <h3>Companies where you are the CEO:</h3>
 <% @companies.each do |company| %>
@@ -49,7 +50,10 @@ Should these be hover dropdowns or click dropdowns?
   <div class="panel-heading show_hide_employes">
     <h3 class="panel-title">
       <i class="fa fa-users"></i>
-      Employees <span class="badge">2</span>
+      Employees 
+      <%if Employe.where(company_id: company.id, request: true).count!=0%>
+        <span class="badge"><%=Employe.where(company_id: company.id, request: true).count%></span>
+      <%end%>
       <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
   </div>
   <div class="panel-body employes_panel">
@@ -63,37 +67,39 @@ Should these be hover dropdowns or click dropdowns?
     <h3 class="panel-title">Employement Request <span class="badge"><%=Employe.where(company_id: company.id, request: true).count%></span>
     <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
   </div>
-    <table class="table table-bordered table-hover employement_request_panel">
+
+    <table class="table table-bordered table-hover employement_request_panel sortable">
       <thead>
         <tr>
           <th></th>
           <th></th>
-          <th class="center">Name <i class="fa fa-angle-double-down"></i></th>
-          <th class="center">IQ <i class="fa fa-angle-double-down"></i></th>
-          <th class="center">Efficiency <i class="fa fa-angle-double-down"></i></th>
-          <th class="center">Focus <i class="fa fa-angle-double-down"></i></th>
-          <th class="center">Happiness <i class="fa fa-angle-double-down"></i></th>
-          <th class="center">Quality <i class="fa fa-angle-double-down"></i></th>
-          <th class="center">Salery <i class="fa fa-angle-double-down"></i></th>
+          <th class="center">Name</th>
+          <th class="center">IQ</th>
+          <th class="center">Efficiency</th>
+          <th class="center">Focus</th>
+          <th class="center">Happiness</th>
+          <th class="center">Quality</th>
+          <th class="center">Salery</th>
         </tr>
       </thead>
 
       <tbody>
       <%Employe.where(company_id: company.id, request: true).each do |employe|%>
         <tr>
-          <td class="center cd-popup-trigger" id="popup1"><i style="color: green;" class="fa fa-check"></i></td>
-          <td class="center cd-popup-trigger" id="popup2"><i style="color: red;" class="fa fa-close"></i></td>
-          <td class="center"><%=employe.name%></td>
+          <td class="center cd-popup-trigger popup1"><i style="color: green;" class="fa fa-check"></i></td>
+          <td class="center cd-popup-trigger popup2"><i style="color: red;" class="fa fa-close"></i></td>
+          <td class="center js-employee-name"><%=employe.name%></td>
           <td class="center"><%=employe.iq%></td>
           <td class="center"><%=employe.efficiency%></td>
           <td class="center"><%=employe.focus%></td>
           <td class="center"><%=employe.happiness%></td>
           <td class="center"><%=employe.quality.capitalize%></td>
           <td class="center"><%=employe.salery%></td>
+          <td class="js-employee-id" style="display:none;"><%=employe.id%></td>
         </tr>
       <%end%>
       </tbody>
-    </table> 
+    </table>
 
     </div>
 <%end%>
@@ -107,33 +113,35 @@ Should these be hover dropdowns or click dropdowns?
       <span style="float: right;"><i class="fa fa-angle-down"></i></span>
     </h3>
   </div>
-      <table class="table table-bordered table-hover employes_list_panel">
+      <table class="table table-bordered table-hover employes_list_panel sortable">
       <thead>
         <tr>
-          <th></th>
-          <th></th>
-          <th class="center">Name <i class="fa fa-angle-double-down"></i></th>
-          <th class="center">IQ <i class="fa fa-angle-double-down"></i></th>
-          <th class="center">Efficiency <i class="fa fa-angle-double-down"></i></th>
-          <th class="center">Focus <i class="fa fa-angle-double-down"></i></th>
-          <th class="center">Happiness <i class="fa fa-angle-double-down"></i></th>
-          <th class="center">Quality <i class="fa fa-angle-double-down"></i></th>
-          <th class="center">Salery <i class="fa fa-angle-double-down"></i></th>
+          <th class="center" data-defaultsort="asc">Name</th>
+          <th class="center">IQ</th>
+          <th class="center">Efficiency</th>
+          <th class="center">Focus</th>
+          <th class="center">Happiness</th>
+          <th class="center">Quality</th>
+          <th class="center">Salery</th>
+          <th class="center" data-defaultsort='disabled'>Raise/Cut</th>
+          <th class="center" data-defaultsort='disabled'>Fire</th>
         </tr>
       </thead>
 
       <tbody>
       <%Employe.where(company_id: company.id, request: false).each do |employe|%>
         <tr>
-          <td class="center cd-popup-trigger" id="popup3"><i style="color: red;" class="fa fa-close"></i></td>
-          <td class="center cd-popup-trigger" id="popup4"><i style="color: green;" class="fa fa-arrow-up"></i></td>
-          <td class="center"><%=employe.name%></td>
+          <td class="center js-employee-name"><%=employe.name%></td>
           <td class="center"><%=employe.iq%></td>
           <td class="center"><%=employe.efficiency%></td>
           <td class="center"><%=employe.focus%></td>
           <td class="center"><%=employe.happiness%></td>
           <td class="center"><%=employe.quality.capitalize%></td>
           <td class="center"><%=employe.salery%></td>
+          <td class="center"><i style="color: green;" class="fa fa-arrow-up cd-popup-trigger popup3"> 
+          <i style="color: red;" class="fa fa-arrow-down cd-popup-trigger popup4"></i></td>
+          <td class="center cd-popup-trigger popup5"><i style="color: red;" class="fa fa-close"></i></td>
+          <td class="js-employee-id" style="display:none;"><%=employe.id%></td>
         </tr>
       <%end%>
       </tbody>
@@ -273,7 +281,7 @@ Should these be hover dropdowns or click dropdowns?
 <div class="cd-popup" role="alert">
   <div class="cd-popup-container">
     
-    <a class="cd-popup-close popup-close img-replace">Close</a>
+    
   </div> <!-- cd-popup-container -->
 </div> <!-- cd-popup -->
 
@@ -281,3 +289,4 @@ Should these be hover dropdowns or click dropdowns?
 <!-- Get the needed js -->
 <%= javascript_include_tag('company_index.js') %>
 <%= javascript_include_tag('moment.min.js') %>
+<%= javascript_include_tag('bootstrap-sortable.js') %>

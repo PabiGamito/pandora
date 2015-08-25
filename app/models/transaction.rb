@@ -1,6 +1,8 @@
 class Transaction < ActiveRecord::Base
   def self.pay_employes
-    Transaction.create(category: )
+    
+    description=
+    Transaction.create(category: , company_id: , income: false, amount: ??, description: description)
     t.string   "description"
     t.string   "from"
     t.integer  "company_id"

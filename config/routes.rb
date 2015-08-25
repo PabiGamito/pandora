@@ -98,6 +98,9 @@ Rails.application.routes.draw do
   get "upgrade" => "companies#upgrades"
   get "employes/find" => "companies#employe_find"
   get "trade" => "companies#trade"
+  post "hire-employee" => "companies#hire_employee"
+  post "decline-employee" => "companies#decline_employee"
+  post "fire-employee" => "companies#fire_employee"
 
   # User
   get "/inbox" => "userpages#inbox"
