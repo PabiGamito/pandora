@@ -3,6 +3,7 @@
 <%= stylesheet_link_tag 'bootstrap-select.min' %>
 
 <h3>Companies where you are the CEO:</h3>
+<hr>
 <% @companies.each do |company| %>
 <% @shares = Share.where(company_id: company.id) %>
   <h2 style="margin-bottom: -25px;">
@@ -83,8 +84,8 @@ Should these be hover dropdowns or click dropdowns?
     <table class="table table-bordered table-hover employement_request_panel sortable">
       <thead>
         <tr>
-          <th></th>
-          <th></th>
+          <th class="center">Hire</th>
+          <th class="center">Decline</th>
           <th class="center">Name</th>
           <th class="center">IQ</th>
           <th class="center">Efficiency</th>
@@ -164,6 +165,87 @@ Should these be hover dropdowns or click dropdowns?
 </div>
 
 
+<!-- ----------------------------------------------
+  PANEL NAME
+ ---------------------------------------------- -->  
+ <div class="panel panel-primary">
+  <div class="panel-heading show_hide_something">
+    <h3 class="panel-title">
+      <i class="fa fa-exchange"></i>
+      Les Stocks/ Buy and Sell Stuff
+      <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
+  </div>
+  <div class="panel-body something_panel">
+    - You have # kg of Uranium
+    - Search Global Market for Items
+  </div>
+</div>
+
+
+<!-- ----------------------------------------------
+  PANEL NAME
+ ---------------------------------------------- -->  
+ <div class="panel panel-primary">
+  <div class="panel-heading show_hide_something">
+    <h3 class="panel-title">
+      <i class="fa fa-suitcase"></i>
+      Work
+      <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
+  </div>
+  <div class="panel-body something_panel">
+    - Set what to mine how much... + Control Deliveries + Chose what to Produce
+    - Plan Events ex: Public Speach
+  </div>
+</div>
+
+
+<!-- ----------------------------------------------
+  PROFIT AND LOSS PANEL
+ ---------------------------------------------- -->  
+ <div class="panel panel-primary">
+  <div class="panel-heading show_hide_profit_and_loss">
+    <h3 class="panel-title">
+      <i class="fa fa-list"></i>
+      Profit & Loss
+      <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
+  </div>
+  <div class="panel-body profit_and_loss_panel">
+    - Stuff
+  </div>
+  <div class="row profit_and_loss_panel">
+<div class="col-sm-6">
+<!-- Income Table -->
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th class="success">Income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Investment<span style="float: right;">$<%=@investment_income%></span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="col-sm-6">
+<!-- Expenses Table -->
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th class="danger">Expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Investment<span style="float: right;">$<%=@investment_expenses%></span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+
 
 <%if company.market%>
 <!-- ----------------------------------------------
@@ -216,55 +298,6 @@ Should these be hover dropdowns or click dropdowns?
   <!-- <div class="panel-footer">Panel footer</div> -->
 </div>
 <%end%>
-
-
-
-<!-- ----------------------------------------------
-  PROFIT AND LOSS PANEL
- ---------------------------------------------- -->  
- <div class="panel panel-primary">
-  <div class="panel-heading show_hide_profit_and_loss">
-    <h3 class="panel-title">
-      <i class="fa fa-list"></i>
-      Profit & Loss
-      <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
-  </div>
-  <div class="panel-body profit_and_loss_panel">
-    - Stuff
-  </div>
-  <div class="row profit_and_loss_panel">
-<div class="col-sm-6">
-<!-- Income Table -->
-<table class="table table-bordered table-hover">
-  <thead>
-    <tr>
-      <th class="success">Income</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Investment<span style="float: right;">$<%=@investment_income%></span></td>
-    </tr>
-  </tbody>
-</table>
-</div>
-<div class="col-sm-6">
-<!-- Expenses Table -->
-<table class="table table-bordered table-hover">
-  <thead>
-    <tr>
-      <th class="danger">Expenses</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Investment<span style="float: right;">$<%=@investment_expenses%></span></td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-</div>
 
 
 

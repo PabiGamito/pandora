@@ -60,7 +60,7 @@ $(document).ready(function(){
         ,1000);
     });
 
-// POPUPS
+// ----- POPUPS ----- //
     //open popup
     $('.cd-popup-trigger').on('click', function(event){
         event.preventDefault();
@@ -180,7 +180,7 @@ $(document).ready(function(){
 
         $(".cd-popup-container form").css("margin-top", "-50px");
 
-    // Updates Price
+    // Updates Price Live
         // grab the values from the form:
         var getPrice = function () {
 

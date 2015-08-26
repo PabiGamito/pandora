@@ -193,6 +193,32 @@ Bank:
 - Premium users can have more than one company.
 - Can purchase special upgrades
 - You can buy with real money or fake, have ranks with different perks
+- Non premium can only own one of each type of coorporation
+
+#Upgrades:
+Company needs to be high enough level for certain upgrades & can not have more than a certain amount of employees at certain level. Needs to fire some to higher more.
+
+Certain Upgrades Need Parts Produced by Industrial Companies
+
+-- ALL --
+- Bathroom
+- Building gets bigger & more modern
+- "Fun room" => Increase Happiness
+- Lunch Room => Happiness
+- Company Tech
+    - better servers => more secure
+    - computer => employes more efficient
+- Desk & Tables => Employees more Happy
+
+-- Mining --
+- Drills
+
+-- Industrial --
+- Better Machines => Makes processing faster
+
+-- Service --
+- Better Trucks => Faster Delivery
+
 
 #Types of transaction:
 - Investment

@@ -18,6 +18,16 @@ class CompaniesController < ApplicationController
     redirect_to "/companies"
   end
 
+  def update
+    session[:return_to] ||= request.referer
+
+    begin
+      redirect_to session.delete(:return_to)
+    rescue
+      redirect_to '/companies'
+    end
+  end
+
   def new
     @page_name="Create Company"
   end
@@ -91,9 +101,9 @@ class CompaniesController < ApplicationController
   def employement_ad
     session[:return_to] ||= request.referer
 
-    Ad.create(company_id: params[:company_id].to_i, amount: params[:amount].to_f*100*params[:category].to_i, category: params[:category].to_i)
+    Ad.create(company_id: params[:company_id].to_i, amount: params[:amount].to_f*250*params[:category].to_i, category: params[:category].to_i)
     company=Company.find(params[:company_id].to_i)
-    company.balance-=params[:amount].to_f*100*params[:category].to_i
+    company.balance-=params[:amount].to_f*250*params[:category].to_i
     company.update(balance: company.balance)
 
     begin
