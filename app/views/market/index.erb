@@ -1,0 +1,51 @@
+<%= stylesheet_link_tag 'bootstrap-sortable' %>
+
+
+<form action="/update-buy-sell-orders" method="post" id="js-update-arrays">
+
+</form>
+
+
+<h3>The Global Market</h3>
+
+<div class="row">
+<form id="js-enter-market">
+
+	<div class="col-md-6 col-xm-12">
+	<div class="form-group">
+		<label>Select a Market</label>
+    <select class="form-control js-select" id="market_select">
+     <option value="" disabled selected>Chose a Market</option>
+    	<%Item.all.each do |item|%>
+    	<option value="<%=item.id%>"><%=item.name.capitalize%></option>
+    	<%end%>
+    </select>
+	</div>
+	</div>
+
+	<div class="col-md-6 col-xm-12">
+	<div class="form-group">
+		<label>Enter Market with:</label>
+    <select class="form-control js-select" id="company_select">
+    	<option value="" disabled selected>Chose a Company</option>
+    	<%Company.where(user_id: current_user.id).each do |company|%>
+    	<option value="<%=company.id%>"><%=company.name%></option>
+    	<%end%>
+    </select>
+	</div>
+	</div>
+</form>
+</div>
+
+<div id="js-hide-when-market-open">
+	
+</div>
+
+<div id="js-market">
+
+	<!-- Renders buy and sell order table + request creation on AJAX request-->
+
+</div>
+
+
+<%= javascript_include_tag('market-index.js') %>

@@ -81,6 +81,7 @@ Rails.application.routes.draw do
   get "events" => "landings#events"
   get "users" => "landings#users"
   get "request-help" => "landings#request-and-help"
+  get "forum" => "forem/forums#index"
 
   # All post
   post "signup_username" => "signup#signup_username"
@@ -88,9 +89,22 @@ Rails.application.routes.draw do
 
   # Tutorail
   get "tutorial" => "tutorial#start"
+  get "tutorial/2" => "tutorial#tutorial_2"
+  get "tutorial/3" => "tutorial#tutorial_3"
+  get "tutorial/4" => "tutorial#tutorial_4"
+  post "new-company-tutorial" => "tutorial#new_company"
+  post "new-loan-tutorial" => "tutorial#new_loan"
+  get "wiki" => "wiki#index"
 
   # Shop
   get "payment" => "shop#payment"
+
+  # Global Market
+  get "market" => "market#index"
+  post "market-search" => "market#search"
+  post "market-sell" => "market#sell"
+  post "market-buy" => "market#buy"
+  get "update-orders" => "market#update_orders"
 
   # Comapny
   resources :companies
@@ -98,6 +112,7 @@ Rails.application.routes.draw do
   get "upgrade" => "companies#upgrades"
   get "employes/find" => "companies#employe_find"
   get "trade" => "companies#trade"
+  get "load-dropdown" => "companies#load_dropdown"
   post "hire-employee" => "companies#hire_employee"
   post "decline-employee" => "companies#decline_employee"
   post "fire-employee" => "companies#fire_employee"

@@ -9,7 +9,8 @@ Get them all
     + if Company.where(:user_id => User.id) == nil : remove User.id
 - Check user doesn't change html when they submit post
 - Can building company buy directly from building or only from sell?
-- 
+- Be able to mine manythings with one mining item, many thing each different mining items, both? Only  a couple of minable items, invented.
+- New geu and you can build anything with it.
 
 CREATE A SINGLE INITIALIZE MIGRATION
 
@@ -188,12 +189,19 @@ Bank:
 - Create event "Ad has been placed in Local Newspapers, TV..." when make a new ad.
 - Make balance and other thing update live/ every 1 sec to database
 - Make is so it doesn't save the inputs in the inputs boxes
+- Use this for notifications, and any other popup: http://codepen.io/hmps/pen/sCnbm
+- Have an adblock checker
+- Only partially reload page on form submit
+- Have something that check if that the forms have not been changed when submitted
+- Make it so you can cancel requests
+- Add employe skill after training to make certain works go faster for that employee.
 
 #PREMIUM:
 - Premium users can have more than one company.
 - Can purchase special upgrades
 - You can buy with real money or fake, have ranks with different perks
 - Non premium can only own one of each type of coorporation
+- Have no ads
 
 #Upgrades:
 Company needs to be high enough level for certain upgrades & can not have more than a certain amount of employees at certain level. Needs to fire some to higher more.
@@ -220,9 +228,28 @@ Certain Upgrades Need Parts Produced by Industrial Companies
 - Better Trucks => Faster Delivery
 
 
+#Items
+- Vublyx
+Raw
+- Uridite
+- Liquidium
+- Kryptocite
+
+Transformed (Combination of Two Things => 9 things total)
+- Conductive Bion
+- Crystalized Astronite
+- Morphic Xenomite
+
+Each of these can have an exotic type that will be rarer
+
 #Types of transaction:
 - Investment
 - "pay employes" Find name
 
 #Glitches:
 - Unknown
+
+#Wiki
+#Mining Company
+#Industrial Company
+#Service Company

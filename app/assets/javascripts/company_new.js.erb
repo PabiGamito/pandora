@@ -1,0 +1,44 @@
+$(document).ready(function(){
+	$('#sector').on('change', function() {
+	  if ($('#sector').val()=="1") {
+	  	$('#speciality').html(
+	  		"<option value='' disabled selected>Chose what you want to Specialize in</option>" +
+	  		"<option disabled>──────────</option>" +
+      		"<option value='100'>Kryptonium Mining</option>" +
+      		"<option disabled>Kryptonium is a rare element used to produce high quality goods.</option>" +
+      		"<option disabled>──────────</option>" +
+      		"<option value='101'> Mining</option>" +
+      		"<option disabled>Something is a common element used to produce almost every good.</option>" +
+      		"<option disabled>──────────</option>" +
+      		"<option value='102'> Mining</option>" +
+      		"<option disabled>Something is an easily modified element used to produce complex goods.</option>"
+	  	);
+	  }else if ($('#sector').val()=="2"){
+	  	$('#speciality').html(
+	  		"<option value='' disabled selected>Chose what you want to Specialize in</option>" +
+	  		"<option disabled>──────────</option>" +
+      		"<option value='200'>Manufacturing Conductive Bion</option>" +
+      		"<option disabled>A material used to build</option>" +
+      		"<option disabled>──────────</option>" +
+      		"<option value='201'>Manufacturing Crystalized Astronite</option>" +
+      		"<option disabled>Something is a common element used to produce almost every good.</option>" +
+      		"<option disabled>──────────</option>" +
+      		"<option value='202'>Manufacturing Morphic Xenomite</option>" +
+      		"<option disabled>Something is an easily modified element used to produce complex goods.</option>"
+	  	);
+	  }else if ($('#sector').val()=="3"){
+	  	$('#speciality').html(
+	  		"<option value='' disabled selected>Chose what you want to Specialize in</option>" +
+	  		"<option disabled>──────────</option>" +
+      		"<option value='300'>Transportation</option>" +
+      		"<option disabled>Help other companies transport their goods.</option>" +
+      		"<option disabled>──────────</option>" +
+      		"<option value='301'>Distribution</option>" +
+      		"<option disabled>Sell goods in shops.</option>" +
+      		"<option disabled>──────────</option>" +
+      		"<option value='302'>Construction</option>" +
+      		"<option disabled>Assemble machines, build offices and more.</option>"
+	  	);
+	  }
+	});
+});

@@ -52,6 +52,10 @@ gem "haml"
 
 gem 'whenever'
 
+# gem 'forem', github: "radar/forem", branch: "rails4"
+
+# gem 'will_paginate', '3.0.5'
+
 group :development do
   gem 'pry-rails'
   gem 'better_errors'

@@ -1,0 +1,28 @@
+<%= stylesheet_link_tag 'pages/tutorial' %>
+
+<%= render template: "companies/index.html.erb" %>
+
+<!-- TUTORIAL -->
+<div class="tutorial-box">
+  <h1>Welcome</h1>
+  <span class="close"></span>
+  
+  <div class="slider-container">
+    <div class="slider-turn">
+      <p>
+        Here, under the Company tab, is where you will do most of the company managment.<br>
+        We will come back here in a second.<br>
+        Press next to continue.
+      </p>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="btn-2">
+      <span>Step 2/?</span>
+    </div>
+    <a href="/tutorial/3" class="allowedLink next">Next</a>
+  </div>
+</div>
+
+<%= javascript_include_tag('tutorial.js') %>

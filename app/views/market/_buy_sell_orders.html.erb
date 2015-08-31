@@ -1,0 +1,223 @@
+<% if flash[:notice]%>
+    <div class="Message Message--green" id="js-timer">
+    	<div class="Message-icon">
+    		<i class="fa fa-check"></i>
+    	</div>
+    	<div class="Message-body">
+    		<p><%= flash[:notice] %></p>
+    	</div>
+    	<button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
+  	</div>
+<% end %>
+
+
+<!-- BUY -->
+<div class="col-md-6">
+  <h4><b>BUY</b></h4>
+	<form action="/market-buy" method="post">
+	<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+		<div class="row">
+	  	<div class="col-md-4 col-xs-12">
+			  <div class="form-group">
+			    <label>Amount to Sell</label>	
+      			<input id="js-buy-amount-input" name="amount" type="number" min="1" step="1" max="" class="form-control js-buy-input" placeholder="Amount">
+      			<input class="js-buy-input" type="hidden" name="company_balance" value="<%=@company.balance%>">
+			  </div>
+			</div>
+			<div class="col-md-4 col-xs-12">
+			  <div class="form-group">
+			    <label>Price per Unit</label>
+			    <div class="input-group">
+			     <div class="input-group-addon">$</div>
+      			<input id="js-buy-price-input" name="price" type="number" min="0" class="form-control js-buy-input" placeholder="Price per Unit">
+    			</div>
+			  </div>
+		  </div>
+		  <div class="col-md-4 col-xs-12">
+
+		  <input type="hidden" name="company_id" value="<%=@company.id%>">
+	  	<input type="hidden" name="market_id" value="<%=@item.id%>">
+
+		  	<button id="submit-buy-order" class="btn btn-primary" style="margin-top: 22px; float: right">Place Order</button>
+		  </div>
+	  </div>
+	</form>
+
+<hr>
+<!-- BUY TABLE -->
+<h4>Current Buy Offers</h4>
+	<table class="table table-bordered table-responsive table-hover togglable_panel sortable">
+    <thead>
+      <tr>
+        <th class="center">Amount</th>
+        <th class="center">Price per <%=@item.name.capitalize%></th>
+      </tr>
+    </thead>
+		<!-- <div style="height:100px;overflow:auto;"> -->
+    <tbody>
+      <%@buy_offers.each do |offer|%>
+	    <%if defined?(@previous_price)==nil
+	      	@amount=offer.amount
+	    elsif @previous_price==offer.price
+	      	@amount+=offer.amount
+		else%>
+			<tr>
+	          <td class="center js-buy-amount"><%=@amount%></td>
+	          <td class="center js-buy-price"><%=@previous_price%></td>
+	        </tr>
+	        <%@amount=offer.amount
+	    end
+	    @previous_price=offer.price%>
+      <%end%>
+      <!-- Shows the last offer -->
+      <tr>
+	     <td class="center js-buy-amount"><%=@amount%></td>
+	     <td class="center js-buy-price"><%=@previous_price%></td>
+	  </tr>
+    </tbody>
+    <!-- </div> -->
+  </table>
+
+
+
+  </div>
+
+
+
+<!-- SELL -->
+
+
+  <div class="col-md-6">
+  <h4><b>SELL</b></h4>
+
+<%if @stock_amount==0%>
+	<br><h5><b>You do not have anything to sell in this Market<b></h5><br>
+<%else%>	
+	<form action="/market-sell" method="post">
+		<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+		<div class="row">
+	  	<div class="col-md-4 col-xs-12">
+			  <div class="form-group">
+			    <label>Amount to Sell</label>
+      		<input id="js-sell-amount-input" name="amount" type="number" min="1" step="1" max="<%=@stock_amount%>" class="form-control" placeholder="Amount">
+			  </div>
+			</div>
+			<div class="col-md-4 col-xs-12">
+			  <div class="form-group">
+			    <label>Price per Unit</label>
+			    <div class="input-group">
+			     <div class="input-group-addon">$</div>
+      			<input id="js-sell-price-input" name="price" min="0" type="number" class="form-control" placeholder="Price per Unit">
+    			</div>
+			  </div>
+		  </div>
+		  <div class="col-md-4 col-xs-12">
+
+		  <input type="hidden" name="company_id" value="<%=@company.id%>">
+	  	<input type="hidden" name="market_id" value="<%=@item.id%>">
+
+		  	<button id="submit-sell-order" class="btn btn-primary" style="margin-top: 22px; float: right">Place Order</button>
+		  </div>
+	  </div>
+	</form>
+<%end%>
+<hr>
+<!-- SELL TABLE -->
+<h4>Current Sell Offers</h4>
+	<table class="table table-bordered table-responsive table-hover togglable_panel sortable">
+    <thead>
+      <tr>
+        <th class="center">Amount</th>
+        <th class="center">Price per <%=@item.name.capitalize%></th>
+      </tr>
+    </thead>
+
+		
+    <tbody>
+      <%@sell_offers.each do |offer|%>
+	    <%if defined?(@previous_price)==nil
+	      	@amount=offer.amount
+	    elsif @previous_price==offer.price
+	      	@amount+=offer.amount
+		else%>
+			<tr>
+	          <td class="center js-buy-amount"><%=@amount%></td>
+	          <td class="center js-buy-price"><%=@previous_price%></td>
+	        </tr>
+	        <%@amount=offer.amount
+	    end
+	    @previous_price=offer.price%>
+      <%end%>
+      <!-- Shows the last offer -->
+      <tr>
+	     <td class="center js-buy-amount"><%=@amount%></td>
+	     <td class="center js-buy-price"><%=@previous_price%></td>
+	  </tr>
+    </tbody>
+  </table>
+
+
+
+  </div>
+</div>
+
+<%= javascript_include_tag('bootstrap-sortable.js') %>
+<%= javascript_include_tag('bootstrap-select.min.js') %>
+
+<!-- Makes so that when you click the price or amount in table it updates the input value -->
+<script>
+	$(".js-buy-price").on("click", function(){
+    	var buy_price = $(this).text();
+    	$("#js-sell-price-input").val(buy_price);
+	});
+
+	$(".js-buy-amount").on("click", function(){
+    	var buy_amount = $(this).text();
+    	$("#js-sell-amount-input").val(buy_amount);
+	});
+
+	$(".js-sell-price").on("click", function(){
+    	var sell_price = $(this).text();
+    	$("#js-buy-price-input").val(sell_price);
+	});
+
+	$(".js-sell-amount").on("click", function(){
+    	var sell_amount = $(this).text();
+    	$("#js-buy-amount-input").val(sell_amount);
+	});
+
+	// Submit Orders Via Ajax
+	$("#submit-buy-order").on("click", function(){
+		$.ajax({
+			type: 'POST',
+			url: '/market-buy',
+			dataType: 'script',
+			// data: { 'item_id' : item_id, 'company_id' : company_id } 
+		});
+	});
+
+	$("submit-sell-order").on("click", function(){
+		$.ajax({
+			type: 'POST',
+			url: '/market-sell',
+			dataType: 'script',
+		});
+	});
+	//Checks if buy amount and price are not too high for user
+	// $('.js-buy-input').change(function() {
+	// 	var amount = parseInt($(this).find("[name='amount']").val()
+	// 	var price = parseInt($(this).find("[name='price']").val()
+	// 	var balance = parseFloat($(this).find("[name='company_balance']").val()
+	// 	var max_amount = balance*price
+	// 	var max_price = balance*balance
+
+	// 	$("[name='amount']").attr('id', 'inputError1');
+
+	// 	$(this).find("[name='amount']").attr('max', max_amount);
+	// 	$(this).find("[name='price']").attr('max', max_price);
+	// });
+
+	// $('.js-update-buy-value').click(function(){
+
+	// });
+</script>

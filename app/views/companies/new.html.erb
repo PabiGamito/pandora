@@ -1,36 +1,48 @@
 <div class="center">
-  <%@companies=Company.where(:user_id => current_user.id)%>
+  <%@companies=Company.where(:user_id => current_user.id, :main=> true)%>
   <!-- TODO: add this back -->
-  <%#if @companies.count >= 1%>
+  <%if @companies.count > 0 && current_user.premium==false%>
   <h1 style="position: relative; top: 20px;">You already own a company.</h1><br><h3>As a non-premium user <br>you may not own more than one company.</h3>
 
   <a href="/premium"><button>Go Premium</button></a><br><br>
-  <%#else%>
+  <%else%>
 
-  <!-- <h1>Welcome</h1>
-  <h3 style="position: relative; top:-15px;">Lets start by creating your own startup</h3> -->
+  <h1>Create a New Company</h1>
   
 <div class="row">
 <div class="col col-md-3"></div>
 <div class="col col-md-6">
-  <form class="form" action="/companies" method="post" accept-charset="utf-8">
+  <form id="new_company_form" class="form" action="/companies" method="post" accept-charset="utf-8">
+
     <input type="hidden" name="user_id" value="<%=current_user.id%>">
-    <input class="form-control" type="text" name="name" placeholder="Company Name"><br>
-    <input class="form-control" type="text" name="moto" placeholder="Company Moto - Can be left blank"><br>
-    Type
-    <select name="sector" class="form-control">
-      <option value="1">Miner</option>
+
+    <input class="form-control" type="text" name="name" placeholder="Company Name" required><br>
+
+    <input class="form-control" type="text" name="moto" placeholder="Company Moto - Not required"><br>
+
+    <b>Company Initial Sector</b>- Expansion to other Sectors is Possible.
+    <select id="sector" name="sector" class="form-control" required>
+      <option value="" disabled selected>Chose what sector you want to conquer first</option>
+      <option value="1">Mining</option>
       <option value="2">Industrial</option>
       <option value="3">Services</option>
+    </select><br>
+
+    <b>Specialize in</b>- This can not be changed, unless you make a new company.
+    <select id="speciality" name="specialize" class="form-control" required>
+      <option value="" disabled selected>Select a Sector Before Chosing a Speciality</option>
     </select><br><br>
+
     <div class="form-group">
-      <label for="exampleInputFile">File input</label>
+      <label for="exampleInputFile">Upload Company Logo</label>
       <input type="file" id="exampleInputFile">
-      <p class="help-block">Example block-level help text here.</p>
+      <p class="help-block">This can be added later.</p>
     </div>
     <button class="form-control" type="submit">Create</button>     
   </form>
-  <%#end%>
+  <%end%>
 </div>
 </div>
 </div>
+
+<%= javascript_include_tag('company_new.js') %>

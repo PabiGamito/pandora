@@ -44,19 +44,23 @@ class InvestController < ApplicationController
       flash[:notice]="You can only have one pending loan from the bank at a time."
     else
 
-      if params[:amount].to_f <= Company.find(params[:company_id]).sales_turnover*0.1
+      if params[:amount].to_f <= Company.find(params[:company_id]).sales_turnover*0.1  || params[:amount].to_f<=25000
       @time=params[:repay_time].to_i
       @rate=@time*0.2
 
       Loan.create(:lender_id => 0, :receiver_id => @company_id, :amount => params[:amount].to_f, :rate => @rate, :repay_time => params[:repay_time].to_f)
-      current_user.add_balance(params[:amount])
 
-      new_transaction=Transaction.create(:company_id => @receiving_company.id, :amount => params[:amount].to_f, :description => "#{params[:amount]}$ investment from the bank.", :income => true)
-      @receiving_company.process_transaction(new_transaction)
+      new_transaction=Transaction.create(:company_id => @company_id, :amount => params[:amount].to_f, :description => "#{params[:amount]}$ investment from the bank.", :category => "Bank Loan",:income => true)
+      Company.find(@company_id).process_transaction(new_transaction)
 
       flash[:notice]="Successfully Created a Loan!"
       else
-        flash[:notice]="The bank is not willing to lend #{Company.find(params[:company_id]).name} more than #{Company.find(params[:company_id]).sales_turnover*0.1}."
+        if Company.find(params[:company_id]).sales_turnover*0.1 > 25000
+          max=Company.find(params[:company_id]).sales_turnover*0.1
+        else
+          max=25000
+        end
+        flash[:notice]="The bank is not willing to lend #{Company.find(params[:company_id]).name} more than #{max}$."
       end
 
     end

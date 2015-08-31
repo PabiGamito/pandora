@@ -1,6 +1,5 @@
-<h1>Find Investors</h1>
-<hr>
-<h3>Find Private Investors</h3>
+<div class="hide_in_tutorial">
+<h3>Request Private Loan</h3>
 
 <form class="form-inline" method="post" action="/investors_submit_private" accept-charset="utf-8">  
   <div class="form-group">
@@ -54,17 +53,18 @@
   <button type="submit" class="btn btn-primary">Submit Private Investment Request</button>
 </form>
 <br><br><a href="/investments/edit">Edit your Loans</a> | <a href="/investments">See all Private Investment Requests</a>
+</div>
 
 <hr>
 
-<%if Company.where(:user_id => current_user.id).count>=1%>
+
 <h3>Request from Bank</h3>
-You can only request upto a total loan amount from the bank of 10% of your sales turnover.<br>
-<form class="form-inline" method="post" action="/investors_submit_bank" accept-charset="utf-8">
+You can only request upto a total loan amount from the bank of 25,000$ or 10% of your sales turnover.<br>
+<form id="loan_from_bank_form" class="form-inline" method="post" action="/investors_submit_bank" accept-charset="utf-8">
   <div class="form-group">
     <div class="input-group">
       <div class="input-group-addon">$</div>
-      <input type="number" min="1" class="form-control" name="amount" placeholder="Amount" required>
+      <input id="amount_input_loan_from_bank_form" type="number" min="1" class="form-control" name="amount" placeholder="Amount" required>
     </div>
   </div>
   <br><br>
@@ -88,4 +88,3 @@ You can only request upto a total loan amount from the bank of 10% of your sales
 </form>
   
 <hr>
-<%end%>

@@ -1,0 +1,39 @@
+/* liScroll styles */
+
+
+ul.newsticker { /* that's your list */
+position: relative;
+left: 750px;
+font: bold 10px Verdana;
+list-style-type: none;
+margin: 0;
+padding: 0;
+z-index: 999999;
+
+}
+ul.newsticker li {
+float: left; /* important: display inline gives incorrect results when you check for elem's width */
+margin: 0;
+padding: 0;
+z-index: 999999;
+}
+ul.newsticker a {
+white-space: nowrap;
+padding: 0;
+font: bold 15px Verdana;
+margin: 0 50px 0 0;
+z-index: 999999;
+} 
+ul.newsticker span {
+margin: 0 10px 0 0;
+z-index: 999999;
+} 
+
+
+#nav-scrolling-news{
+	position: fixed;
+	top: 12px;
+	left: 200px;
+	z-index: 999999;
+	width: calc(100% - 200px);
+}

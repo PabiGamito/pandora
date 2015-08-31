@@ -1,63 +1,25 @@
+  <!-- <div class="row">
+    <div class="col-xs-12"> -->
+
       <!--sidebar start-->
       <aside>
       <!-- Start of Toggle -->
-        <div id="sidebar"  class="nav-collapse ">
+        <div id="sidebar"  class="nav-collapse sidebar force-hidden-xm" style="display: block;">
           <!-- sidebar menu start-->
           <ul class="sidebar-menu" id="nav-accordion">
             
-            <p class="centered"><a href="/user/<%=current_user.id%>"><img src=<%=Gravatar.new(current_user.email).image_url%> class="img-circle" width="60"></p>
-            <h5 class="centered"><%=current_user.username%></h5></a>
-            <hr>
-          
-
-          <div class="top_menu">
-            <span class="show_hide_company"><i class="fa fa-briefcase"></i></span>
-            <span class="show_hide_invest"><i class="fa fa-line-chart"></i></span>
-            <span class="show_hide_account"><i class="fa fa-user"></i></span>
-          </div><br>
-
-
-          <!-- Account Dropdown --> 
-            <div class="slidingDiv_account hideothers"> <!-- Start of toggle -->
-              <li>
-                <a href="/inbox">
-                  <i class="fa fa-inbox"></i>
-                  <span>Inbox</span>
-                </a>
-              </li>
-              <li>
-                <a href="/users-companies">
-                  <i class="fa fa-search"></i>
-                  <span>Users & Companies</span>
-                </a>
-              </li>
-              <li>
-                <a href="/account">
-                  <i class="fa fa-pencil"></i>
-                  <span>Edit Account</span>
-                </a>
-              </li>
-              <li>
-                <a href="/request-help">
-                  <i class="fa fa-question"></i>
-                  <span>Request & Help</span>
-                </a>
-              </li>
-            </div> <!-- end of toggle -->
-
-
-          <!-- Company Dropdown -->
-            <div class="sub slidingDiv_company hideothers" style="display: block;"> <!-- Start of toggle -->
+            <p class="centered force-hidden-xm"><a href="/user/<%=current_user.id%>"><img src=<%=Gravatar.new(current_user.email).image_url%> class="img-circle" width="60"></p>
+            <h5 class="centered force-hidden-xm"><%=current_user.username%></h5></a>
+            <hr class="force-hidden-xm">
               
-              <!-- TODO: Add this back -->
-              <%#if Company.where(:user_id => current_user.id).count==0 || current_user.premium%>
+              <%if Company.where(:user_id => current_user.id, :main => true).count<1%>
               <li>
                 <a href="/companies/new">
                   <i class="fa fa-star"></i>
                   <span>Start a Startup</span>
                 </a>
               </li>
-              <%#end%>
+              <%end%>
 
               <%if Company.where(:user_id => current_user.id).count>=1%>
               <li>
@@ -76,79 +38,41 @@
               </li>
 
               <li>
-                <a href="/profit-and-loss">
-                  <i class="fa fa-list"></i>
-                  <span>Profit & Loss</span>
-                </a>
-              </li>
-
-              <li>
-                <a href="/upgrade">
-                  <i class="fa fa-arrow-up"></i>
-                  <span>Upgrade</span>
-                </a>
-              </li>
-
-              <li>
-                <a href="/employes/find">
-                  <i class="fa fa-search"></i>
-                  <span>Find Employes</span>
-                </a>
-              </li>
-              
-
-            </div> <!-- end of toggle -->
-          
-
-          <!-- Invest Dropdown -->
-            <div class="sub slidingDiv_invest hideothers" style="display: block;"> <!-- Start of toggle -->
-              <li>
-                <a href="/stock-market">
-                  <i class="fa fa-line-chart"></i>
-                  <span>Stock Market</span>
-                </a>
-              </li>
-
-              <li>
-                <a href="/find-investors">
-                  <i class="fa fa-search"></i>
-                  <span>Find Investors</span>
-                </a>
-              </li>
-
-              <li>
                 <a href="/investments">
-                  <i class="fa fa-list"></i>
+                  <i class="fa fa-line-chart"></i>
                   <span>Invest</span>
                 </a>
               </li>
 
               <li>
-                <a href="/properties">
-                  <i class="fa fa-bank"></i>
-                  <span>Properties</span>
+                <a href="/users-companies">
+                  <i class="fa fa-search"></i>
+                  <span>Users & Companies</span>
                 </a>
               </li>
-
               <li>
-                <a href="/advertisement">
-                  <i class="fa fa-tv"></i>
-                  <span>Advertisment</span>
+                <a href="/inbox">
+                  <i class="fa fa-inbox"></i>
+                  <span>Inbox</span>
                 </a>
               </li>
-
-            </div> <!-- end of toggle -->
-          
-
-            <li class="mt">
-              <!--                       <a href="index.html"> -->
-              <!--                           <i class="fa fa-search"></i> -->
-              <!--                           <span>Browse Events</span> -->
-            </a>
-          </li>
+              <li>
+                <a href="/account">
+                  <i class="fa fa-user"></i>
+                  <span>Account</span>
+                </a>
+              </li>
+              <li>
+                <a href="/request-help">
+                  <i class="fa fa-question"></i>
+                  <span>Request & Help</span>
+                </a>
+              </li>
 
         </ul>
         <!-- sidebar menu end-->
       </div>
     </aside>
     <!--sidebar end -->
+  <!-- </div>
+</div> -->

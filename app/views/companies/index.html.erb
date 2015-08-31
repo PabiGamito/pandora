@@ -4,20 +4,66 @@
 
 <h3>Companies where you are the CEO:</h3>
 <hr>
-<% @companies.each do |company| %>
-<% @shares = Share.where(company_id: company.id) %>
+<% @companies.each do |main_company| %>
+<% @shares = Share.where(company_id: main_company.id) %>
+<div> <!-- Div around whole company -->
+<div class="js-company_dropdown">
   <h2 style="margin-bottom: -25px;">
-  <%if company.sector==1%>
+  <%if main_company.sector==1%>
   <i class="fa fa-tree"></i>
-  <%elsif company.sector==2%>
+  <%elsif main_company.sector==2%>
   <i class="fa fa-industry"></i>
-  <%elsif company.sector==3%>
+  <%elsif main_company.sector==3%>
   <i class="fa fa-truck"></i>
   <%end%>
-  <b><%=company.name%></b></h2><br>
+
+<%@company_sectors=Company_sector.where(owner_company_id: main_company.id)%>
+<%@all_sectors=[main_company]%>
+<%@company_sectors.each do |sector|%>
+  <%@company=Company.find(sector.company_id)%>
+  <%@all_sectors<<@company%>
+
+  <%if @company.sector==1%>
+  <i class="fa fa-tree"></i>
+  <%elsif @company.sector==2%>
+  <i class="fa fa-industry"></i>
+  <%elsif @company.sector==3%>
+  <i class="fa fa-truck"></i>
+  <%end%>
+<%end%>
+
+
+<b><%=main_company.name%></b></h2><br>
+  </div>
   <hr>
-  
-  <h3>Balance: <b>$<%=company.balance%></b></h3><br>
+<div class="togglable_panel">
+
+<%@all_sectors.each do |company|%>
+<div>
+<div class="js-sector-dropdown">
+  <h3><b>
+  <%if company.sector==1%>
+  <i class="fa fa-tree"></i> Mining
+  <%elsif company.sector==2%>
+  <i class="fa fa-industry"></i> Industrial
+  <%elsif company.sector==3%>
+  <i class="fa fa-truck"></i> Services
+  <%end%>
+  </b></h3>
+</div>
+  <hr>
+
+<div class="togglable_panel">
+
+<%if company.balance==company.balance.to_i
+    @company_balance=company.balance.to_i
+  else
+    @company_balance=company.balance
+  end%>
+  <h3>Balance: <b>$<%=@company_balance%></b></h3>
+  <h3>Estimated Worth: <b>$<%=company.balance%>+ Stock Value + Machines Value (recepy*item value price)</b></h3><br>
+
+
 
 Should these be hover dropdowns or click dropdowns?
 
@@ -25,20 +71,15 @@ Should these be hover dropdowns or click dropdowns?
   UPGRADE PANEL
  ---------------------------------------------- -->  
  <div class="panel panel-primary">
-  <div class="panel-heading show_hide_upgrades">
+  <div class="panel-heading panel_dropdown">
     <h3 class="panel-title">
       <i class="fa fa-arrow-up"></i>
-      Upgrade
+      <span class="js-panel-name">Upgrade</span>
       <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
+      <input type="hidden" value="<%=company.id%>" class="company_id">
   </div>
-  <div class="panel-body upgrades_panel">
-    - Stuff
-    <div class="progress">
-      <div class="progress-bar progress-bar-striped active" role="progressbar"
-      aria-valuemin="0" aria-valuemax="100">
-      </div>
-    </div>
-    Upgrade Name will be done in <span class="center" id="timeleft"></span>
+  <div class="panel-body togglable_panel" id="Upgrade<%=company.id%>">
+  
   </div>
 </div>
 
@@ -49,221 +90,181 @@ Should these be hover dropdowns or click dropdowns?
   EMPLOYES PANEL
  ---------------------------------------------- -->  
  <div class="panel panel-primary">
-  <div class="panel-heading show_hide_employes">
+  <div class="panel-heading panel_dropdown">
     <h3 class="panel-title">
       <i class="fa fa-users"></i>
-      Employees 
+      <span class="js-panel-name">Employees</span>
       <%if Employe.where(company_id: company.id, request: true).count!=0%>
-        <span class="badge"><%=Employe.where(company_id: company.id, request: true).count%></span>
+        <span class="badge"><%=Employe.where(company_id: company.id, request: true).count%> Pending Requests</span>
       <%end%>
       <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
+      <input type="hidden" value="<%=company.id%>" class="company_id">
   </div>
-  <div class="panel-body employes_panel">
-    - One employee wants a raise <br>
-    <table>
-      <tbody>
-        <tr>
-          <td class="cd-popup-trigger popup6 btn btn-primary">Place Employement Ad</td>
-          <td class="js-company-id" style="display:none;"><%=company.id%></td>
-          <td class="cd-popup-trigger popup6 btn btn-primary">Appoint Employees</td>
-          <td class="cd-popup-trigger popup6 btn btn-primary">Employee Training</td>
-          <td class="cd-popup-trigger popup6 btn btn-primary">Employee Finder - Cat. 4 & 5</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Employement Request -->
-<%if Employe.where(company_id: company.id, request: true).count!=0%>
-  <div class="panel panel-default employes_panel" style="margin-top: -3px; margin-bottom: -3px;">
-  <div class="panel-heading show_hide_employement_request">
-    <h3 class="panel-title">Employement Request <span class="badge"><%=Employe.where(company_id: company.id, request: true).count%></span>
-    <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
-  </div>
-
-    <table class="table table-bordered table-hover employement_request_panel sortable">
-      <thead>
-        <tr>
-          <th class="center">Hire</th>
-          <th class="center">Decline</th>
-          <th class="center">Name</th>
-          <th class="center">IQ</th>
-          <th class="center">Efficiency</th>
-          <th class="center">Focus</th>
-          <th class="center">Happiness</th>
-          <th class="center">Quality</th>
-          <th class="center">Salery</th>
-        </tr>
-      </thead>
-
-      <tbody>
-      <%Employe.where(company_id: company.id, request: true).each do |employe|%>
-        <tr>
-          <td class="center cd-popup-trigger popup1"><i style="color: green;" class="fa fa-check"></i></td>
-          <td class="center cd-popup-trigger popup2"><i style="color: red;" class="fa fa-close"></i></td>
-          <td class="center js-employee-name"><%=employe.name%></td>
-          <td class="center"><%=employe.iq%></td>
-          <td class="center"><%=employe.efficiency%></td>
-          <td class="center"><%=employe.focus%></td>
-          <td class="center"><%=employe.happiness%></td>
-          <td class="center"><%=employe.quality.capitalize%></td>
-          <td class="center"><%=employe.salery%></td>
-          <td class="js-employee-id" style="display:none;"><%=employe.id%></td>
-        </tr>
-      <%end%>
-      </tbody>
-    </table>
-
-    </div>
-<%end%>
-
-<!-- Employes List -->
-<%if Employe.where(company_id: company.id, request: false).count!=0%>
-<div class="panel panel-default employes_panel" style="margin-top: -3px; margin-bottom: -3px;">
-  <div class="panel-heading show_hide_employes_list">
-    <h3 class="panel-title">
-      List of Employees
-      <span style="float: right;"><i class="fa fa-angle-down"></i></span>
-    </h3>
-  </div>
-      <table class="table table-bordered table-hover employes_list_panel sortable">
-      <thead>
-        <tr>
-          <th class="center" data-defaultsort="asc">Name</th>
-          <th class="center">IQ</th>
-          <th class="center">Efficiency</th>
-          <th class="center">Focus</th>
-          <th class="center">Happiness</th>
-          <th class="center">Quality</th>
-          <th class="center">Salery</th>
-          <th class="center" data-defaultsort='disabled'>Raise/Cut</th>
-          <th class="center" data-defaultsort='disabled'>Fire</th>
-        </tr>
-      </thead>
-
-      <tbody>
-      <%Employe.where(company_id: company.id, request: false).each do |employe|%>
-        <tr>
-          <td class="center js-employee-name"><%=employe.name%></td>
-          <td class="center"><%=employe.iq%></td>
-          <td class="center"><%=employe.efficiency%></td>
-          <td class="center"><%=employe.focus%></td>
-          <td class="center"><%=employe.happiness%></td>
-          <td class="center"><%=employe.quality.capitalize%></td>
-          <td class="center"><%=employe.salery%></td>
-          <td class="center"><i style="color: green;" class="fa fa-arrow-up cd-popup-trigger popup3"> 
-          <i style="color: red;" class="fa fa-arrow-down cd-popup-trigger popup4"></i></td>
-          <td class="center cd-popup-trigger popup5"><i style="color: red;" class="fa fa-close"></i></td>
-          <td class="js-employee-id" style="display:none;"><%=employe.id%></td>
-        </tr>
-      <%end%>
-      </tbody>
-    </table>
-  </div>
-<%end%>
+  <div class="panel-body togglable_panel" id="Employees<%=company.id%>">
   <!-- <div class="panel-footer">Panel footer</div> -->
+  </div>
 </div>
 
 
 <!-- ----------------------------------------------
-  PANEL NAME
+  STOCKS PANEL
  ---------------------------------------------- -->  
  <div class="panel panel-primary">
-  <div class="panel-heading show_hide_something">
+  <div class="panel-heading panel_dropdown">
     <h3 class="panel-title">
-      <i class="fa fa-exchange"></i>
-      Les Stocks/ Buy and Sell Stuff
+      <i class="fa fa-archive"></i>
+      <span class="js-panel-name">Stock</span>
       <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
+      <input type="hidden" value="<%=company.id%>" class="company_id">
   </div>
-  <div class="panel-body something_panel">
-    - You have # kg of Uranium
+  <div class="panel-body togglable_panel" id="Stock<%=company.id%>">
+    <%Stock.where(company_id: company.id).each do |stock|%>
+      You have <%=stock.amount%> <%=Item.find(stock.item_id).name.capitalize%>
+    <%end%>
     - Search Global Market for Items
   </div>
 </div>
 
 
 <!-- ----------------------------------------------
-  PANEL NAME
+  PRODUCTION PANEL
  ---------------------------------------------- -->  
  <div class="panel panel-primary">
-  <div class="panel-heading show_hide_something">
+  <div class="panel-heading panel_dropdown">
     <h3 class="panel-title">
-      <i class="fa fa-suitcase"></i>
-      Work
+      <i class="fa fa-briefcase"></i>
+      <span class="js-panel-name">Production</span>
       <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
+      <input type="hidden" value="<%=company.id%>" class="company_id">
   </div>
-  <div class="panel-body something_panel">
+  <div class="panel-body togglable_panel" id="Production<%=company.id%>">
     - Set what to mine how much... + Control Deliveries + Chose what to Produce
     - Plan Events ex: Public Speach
   </div>
 </div>
 
 
+<%if Transaction.where(company_id: company.id).count>0%>
 <!-- ----------------------------------------------
   PROFIT AND LOSS PANEL
  ---------------------------------------------- -->  
  <div class="panel panel-primary">
-  <div class="panel-heading show_hide_profit_and_loss">
+  <div class="panel-heading panel_dropdown">
     <h3 class="panel-title">
       <i class="fa fa-list"></i>
-      Profit & Loss
+      <span class="js-panel-name">Profit & Loss</span>
       <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
+      <input type="hidden" value="<%=company.id%>" class="company_id">
   </div>
-  <div class="panel-body profit_and_loss_panel">
+  <div class="panel-body togglable_panel" id="Profit_and_Loss<%=company.id%>">
     - Stuff
   </div>
-  <div class="row profit_and_loss_panel">
-<div class="col-sm-6">
+  <div class="row togglable_panel">
+
+
+<div class="col-sm-6 col-xm-12">
 <!-- Income Table -->
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-responsive table-hover">
   <thead>
     <tr>
       <th class="success">Income</th>
     </tr>
   </thead>
   <tbody>
+  <%Transaction.where(company_id: company.id, income: true).order(:category).each do |transaction|
+    if defined?(@previous_category)==nil
+      @amount=transaction.amount
+    elsif @previous_category==transaction.category
+      @amount+=transaction.amount
+    else%>
+      <tr>
+      <td><%=@previous_category%><span style="float: right;">$<%=@amount%></span></td>
+      </tr>
+      <%@amount=transaction.amount
+    end
+    @previous_category=transaction.category
+  end%>
+      <!-- Shows the last transaction -->
     <tr>
-      <td>Investment<span style="float: right;">$<%=@investment_income%></span></td>
+      <td><%=@previous_category%><span style="float: right;">$<%=@amount%></span></td>
     </tr>
   </tbody>
 </table>
 </div>
-<div class="col-sm-6">
+
+
+<div class="col-sm-6 col-xm-12">
 <!-- Expenses Table -->
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-responsive table-hover">
   <thead>
     <tr>
       <th class="danger">Expenses</th>
     </tr>
   </thead>
   <tbody>
+  <%Transaction.where(company_id: company.id, income: false).order(:category).each do |transaction|
+    if defined?(@previous_category)==nil
+      @amount=transaction.amount
+    elsif @previous_category==transaction.category
+      @amount+=transaction.amount
+    else%>
+      <tr>
+      <td><%=@previous_category%><span style="float: right;">$<%=@amount%></span></td>
+      </tr>
+      <%@amount=transaction.amount
+    end
+    @previous_category=transaction.category
+  end%>
+      <!-- Shows the last transaction -->
     <tr>
-      <td>Investment<span style="float: right;">$<%=@investment_expenses%></span></td>
+      <td><%=@previous_category%><span style="float: right;">$<%=@amount%></span></td>
     </tr>
   </tbody>
 </table>
 </div>
-</div>
-</div>
 
 
-<%if company.market%>
+</div>
+</div>
+<%end%>
+
+
+</div> <!-- Close of seector togglable panel -->
+</div> <!-- Close div around company sectors -->
+<%end%> <!-- Close .each for sector of company -->
+
+
 <!-- ----------------------------------------------
- STOCKS PANEL 
+ STOCK MARKET PANEL 
  ---------------------------------------------- -->
 <div class="panel panel-primary">
-  <div class="panel-heading show_hide_stocks">
+  <div class="panel-heading panel_dropdown">
     <h3 class="panel-title">
       <i class="fa fa-line-chart"></i>
-      Shares <span style="float: right;">
+      <span class="js-panel-name">Shares</span> <span style="float: right;">
       <i class="fa fa-angle-down"></i></span>
     </h3>
+    <input type="hidden" value="<%=main_company.id%>" class="company_id">
   </div>
-  <div class="panel-body stock_panel">
+  <div class="panel-body togglable_panel">
     You own ##% of all the shares <br>
+    <%if main_company.market%>
+      <table>
+        <tbody>
+          <tr>
+            <td class="center cd-popup-trigger popup6 btn btn-primary">Issue Shares</td>
+            <td class="center cd-popup-trigger popup6 btn btn-primary"></td>
+          </tr>
+        </tbody>
+      </table>
+    <%elsif current_user.premium%>
+      List Your Company on the Public Stock Exchange
+    <%else%>
+      Only Premium Members may list their Company on the Stock Market
+    <%end%>
   </div>
 
-    <table class="table table-bordered table-hover stock_panel">
+    <table class="table table-bordered table-responsive table-hover togglable_panel">
       <thead>
         <tr>
           <th></th>
@@ -297,24 +298,24 @@ Should these be hover dropdowns or click dropdowns?
 
   <!-- <div class="panel-footer">Panel footer</div> -->
 </div>
-<%end%>
 
 
 
 <!-- Bottom Links -->
 
   <br>
-  <%= link_to 'Show', company %> |
-  <%= link_to 'Edit', edit_company_path(company) %> |
-  List your Company on the Stock Market
+  <%= link_to 'Show', main_company %> | 
+  <%= link_to 'Edit', edit_company_path(main_company) %> | 
+  List your Company on the Stock Market | 
+  CREATE LOAN
   <hr>
+  </div> <!-- Closes whole company panel toggle -->
+</div> <!-- Close div around whole company -->
 <% end %>
 
 <br>
 
-<h3>Companies where you own stocks:</h3>
-
-<%if @companies.count < 1 #|| user if a premium user%>
+<%if @companies.count < 1 || current_user.premium%>
 <%= link_to 'Create a New Company', new_company_path %>
 <%end%>
 

@@ -110,7 +110,35 @@ ul.dropdown-menu li a{
     left: -6px;
 }
 
-/*.first{
-  border-left: 5px solid transparent;
-  margin-left: 100px;
-}*/
+
+/*Hove Message*/
+.message{
+    position:absolute;
+    width:150px;
+    background: rgba(0, 0, 0, 0.80);
+    color:#fff;
+    padding:15px;
+    left:30px;
+    top:-30px;
+    font-size:13px;
+     display:none;  
+    }
+
+/*For scrolling Text*/
+div.marquee {
+  border: 1px solid #fff;
+    white-space:no-wrap;
+    width: 600px;
+    position: fixed;
+    left: 200px;
+    top: 13px;
+    z-index: 999999;
+    overflow:hidden;
+}
+div.marquee > div.marquee-text {
+    font-size: 15px;
+    color: #fff;
+    white-space:nowrap;
+    display:inline;
+    width:auto;
+}

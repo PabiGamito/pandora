@@ -5,12 +5,28 @@ class CompaniesController < ApplicationController
   layout "application"
 
   def index
-    @companies=Company.where(:user_id => current_user.id)
+    @companies=Company.where(user_id: current_user.id, main: true)
     @page_name="Your Companies"
   end
 
+  def load_dropdown
+    @company=Company.find(params[:company_id])
+    @render=params[:render]
+    render 'load_dropdown.js.erb'
+  end
+
   def create
-    company=Company.create(:user_id => params[:user_id], :name => params[:name], :moto => params[:moto], :sector => params[:sector].to_i)
+    company=Company.create(:user_id => params[:user_id], :name => params[:name], :moto => params[:moto], :sector => params[:sector].to_i, :main => true, :specialize => params[:specialize].to_i)
+    # Create 3 employes along with company
+    Employe.new_employe(1, company)
+    Employe.new_employe(2, company)
+    Employe.new_employe(2, company)
+    redirect_to "/companies"
+  end
+
+  def create_sector
+    company=Company.create(:user_id => params[:user_id], :name => params[:name], :moto => params[:moto], :sector => params[:sector].to_i, :main => false, :specialize => params[:specialize].to_i)
+    Company_sector.create(company_id: company.id, owner_company_id: params[:company_id])
     # Create 3 employes along with company
     Employe.new_employe(1, company)
     Employe.new_employe(2, company)
@@ -67,8 +83,9 @@ class CompaniesController < ApplicationController
 # EMPLOYEES
   def hire_employee
     session[:return_to] ||= request.referer
-    Employe.find(params[:employee_id]).update(request: false)
-
+    employee=Employe.find(params[:employee_id])
+    employee.update(request: false)
+    flash[:notice] = "#{employee.name} has been hired."
     begin
       redirect_to session.delete(:return_to)
     rescue
@@ -90,7 +107,7 @@ class CompaniesController < ApplicationController
   def fire_employee
     session[:return_to] ||= request.referer
     Employe.find(params[:employee_id]).destroy
-
+    flash[:notice] = "#{employee.name} has been fired."
     begin
       redirect_to session.delete(:return_to)
     rescue
@@ -101,16 +118,23 @@ class CompaniesController < ApplicationController
   def employement_ad
     session[:return_to] ||= request.referer
 
-    Ad.create(company_id: params[:company_id].to_i, amount: params[:amount].to_f*250*params[:category].to_i, category: params[:category].to_i)
-    company=Company.find(params[:company_id].to_i)
-    company.balance-=params[:amount].to_f*250*params[:category].to_i
-    company.update(balance: company.balance)
+    company = Company.find(params[:company_id].to_i)
+    ad_price = params[:amount].to_f*250*params[:category].to_i
+    # Checks company has enough money for the ad.
+    if company.balance >= ad_price
+      Ad.create(company_id: params[:company_id].to_i, amount: params[:amount].to_f*250*params[:category].to_i, category: params[:category].to_i)
+      company.balance-=params[:amount].to_f*250*params[:category].to_i
+      company.update(balance: company.balance)
+    else
+      flash[:notice] = "You do not have enough money to create this ad."
+    end
 
     begin
       redirect_to session.delete(:return_to)
     rescue
       redirect_to '/companies'
     end
+
   end
 
 end

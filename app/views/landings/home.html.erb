@@ -1,22 +1,14 @@
 <div class="row mtbox">
 
-    <div style="position: relative; top: -50px;">
-    <%@companies=Company.where(:user_id => current_user.id)%>
-    <%@companies.each do |company|%>
-      <h3 class="center"><b><%=company.name%></b></h3>
-    <%end%>
-    </div>
-
-    <div class="col-md-2 col-sm-2 box0"></div>
     <div class="col-md-2 col-sm-2 box0"></div>
 
     <div class="col-md-2 col-sm-2 box0">
       <a href = '/events'>
         <div class="box1">
           <i class="fa fa-calendar-o fa-4x"></i>
-          <h3>Events</h3>
+          <h3>Training</h3>
         </div>
-          <p>You are part of event(s).</p>
+          <p>Show progress or allow user to set</p>
       </a>
     </div>
 
@@ -28,21 +20,42 @@
         </div>
           <p>Find employes to hire</p>
       </a>
-    </div>                
+    </div>        
+
+    <div class="col-md-2 col-sm-2 box0">
+      <a href = '/users'>
+        <div class="box1">
+          <i class="fa fa-arrow-circle-up fa-4x"></i>
+          <h3>Upgrade</h3>
+        </div>
+          <p>Quickly Upgrade or Show current upgrade progress</p>
+      </a>
+    </div>    
+
+    <div class="col-md-2 col-sm-2 box0">
+      <a href = '/users'>
+        <div class="box1">
+          <i class="fa fa-briefcase fa-4x"></i>
+          <h3>Production</h3>
+        </div>
+          <p>Quickly Produce or Show current production progress</p>
+      </a>
+    </div>       
             
 </div><!-- /row mt -->  
           
 <!-- PANELS -->
   <div class="row mt">
-    <!-- Weather Panel -->
+    <!-- Stock Market Quick Access Panel -->
       <div class="col-md-4 col-sm-4 mb">
         <div class="white-panel pn donut-chart">
           <div class="white-header">
-            <h5>WEATHER</h5>
+            <h5>STOCK MARKET</h5>
           </div>
             <div class="row">
               <div class="col-sm-6 col-xs-6 goleft">
-                <p>75F</p>
+                <p>Best Performing</p>
+                <p>Worst Performing</p>
               </div>
             </div>
          <canvas id="serverstatus01" height="120" width="120"></canvas>
@@ -50,15 +63,15 @@
         </div> <!--/grey-panel-->
       </div> <!-- /col-md-4-->
 
-    <!-- Top Event Panel -->
+    <!-- Global Market Panel -->
       <div class="col-md-4 col-sm-4 mb">
         <div class="white-panel pn donut-chart">
           <div class="white-header">
-            <h5>TOP EVENT</h5>
+            <h5>GLOBAL GOODS MARKET</h5>
           </div>
-            <p>EVENT NAME</p>
-              IMAGE
-            <p class="bottom-right">LIKES</p>
+            <%Item.all.each do |item|%>
+            <p><%=item.name.capitalize%>: $<%=item.price%></p>
+            <%end%>
          <canvas id="serverstatus01" height="120" width="120"></canvas>
 
         </div> <!--/grey-panel-->
@@ -69,11 +82,9 @@
       <div class="col-md-4 col-sm-4 mb">
         <div class="white-panel pn donut-chart">
           <div class="white-header">
-            <h5>TOP EVENT</h5>
+            <h5>RICHEST PEOPLE</h5>
           </div>
-            <p>EVENT NAME</p>
-              IMAGE
-            <p class="bottom-right">LIKES</p>
+            <p>Stuff</p>
          <canvas id="serverstatus01" height="120" width="120"></canvas>
 
         </div> <!--/grey-panel-->

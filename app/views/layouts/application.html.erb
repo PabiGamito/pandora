@@ -29,11 +29,17 @@
       <section id="main-content">
         <section class="wrapper">
           <div class="row">
-            <div class="col-lg-9 main-chart">
+            <div class="col-md-9 col-sm-8 main-chart">
             <!-- Renderes the popup notifications -->
             <% if flash[:notice]%>
-              <div class="alert alert-successful alert-dismissible" role="alert" style="position: relative; top: -50px;">
-                <%= flash[:notice] %>
+              <div class="Message" id="js-timer">
+                <div class="Message-icon">
+                  <i class="fa fa-bell-o"></i>
+                </div>
+                <div class="Message-body">
+                  <p><%= flash[:notice] %></p>
+                </div>
+                <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
               </div>
             <% end %> <br>
               <!-- Renders everything in the page file -->
@@ -42,7 +48,7 @@
               </div>
           </div><!-- /col-lg-9 END SECTION MIDDLE -->
 
-          <div class="col-lg-3 ds">
+          <div class="col-md-3 col-sm-4 ds force-hidden-xm" id="notificationbar">
             <%= render partial: "elements/notificationbar" %>
           </div><!--/col-lg-3 ds -->
         </section>
@@ -50,12 +56,9 @@
       <!--main content end-->
       </section>
 
-<!-- Renders the footer -->
-<%= render partial: "elements/footer" %>
-
 
 <!-- js placed at the end of the document so the pages load faster -->
-<%= javascript_include_tag('dropdowns.js') %>
+<%= javascript_include_tag('main.js') %>
 
 </body>
 </html>

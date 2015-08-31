@@ -1,0 +1,51 @@
+<!-- Initialize Upgrades if not yet initialized -->
+<%if Upgrade_level.find_by(company_id: @company.id)==nil%>
+
+<%@upgrades=Upgrade.where(category: 0, level: 1)%>
+<%if @company.sector==1
+	if @company.specialize==100
+		@upgrades.push(*Upgrade.where(category: 100, level: 1))
+	elsif @company.specialize==101
+		@upgrades.push(*Upgrade.where(category: 101, level: 1))
+	elsif @company.specialize==102
+		@upgrades.push(*Upgrade.where(category: 102, level: 1))
+	end
+elsif @company.sector==2
+	if @company.specialize==200
+		@upgrades.push(*Upgrade.where(category: 200, level: 1))
+	elsif @company.specialize==201
+		@upgrades.push(*Upgrade.where(category: 201, level: 1))
+	elsif @company.specialize==202
+		@upgrades.push(*Upgrade.where(category: 202, level: 1))
+	end
+elsif @company.sector==3
+	if @company.specialize==300
+		@upgrades.push(*Upgrade.where(category: 300, level: 1))
+	elsif @company.specialize==301
+		@upgrades.push(*Upgrade.where(category: 301, level: 1))
+	elsif @company.specialize==302
+		@upgrades.push(*Upgrade.where(category: 302, level: 1))
+	end
+end%>
+
+<%@upgrades.each do |upgrade|
+	Upgrade_level.create(company_id: @company.id, upgrade_value: upgrade.value, level: 0)
+end%>
+
+<%end%>
+
+<!-- End of initialization -->
+
+<%Upgrade_level.where(company_id: @company.id) do |upgrade|%>
+ <%@upgrade=Upgrade.find_by(value: upgrade.upgrade_value, level: upgrade.level+1)%>
+ <%@upgrade.description%>
+<%end%>
+
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped active" role="progressbar"
+      aria-valuemin="0" aria-valuemax="100">
+      </div>
+    </div>
+    Upgrade Name will be done in <span class="center" id="timeleft"></span>
+
+    <%= javascript_include_tag('upgrade.js') %>

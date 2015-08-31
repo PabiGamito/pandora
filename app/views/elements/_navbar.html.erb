@@ -1,33 +1,35 @@
 <!-- Navigation -->
       <nav class="navbar navbar-trans navbar-fixed-top" role="navigation">
-        <!-- Container makes the navbar extend across the whole screen, removing the default curved sides -->
-        <div class="container">
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
+            <div id="sidebar_toggle" class="sidebar-toggle-box fa fa-bars tooltips navbar-brand" data-original-title="Toggle Navigation"></div>
             <a class="navbar-brand">Pandora</a>
+            <div class="show-sm navbar-brand" style="float: right; margin-right: 15px;"><i class="fa fa-sign-out"></i></div>
           </div>
-          <!-- Collect the nav links, forms, and other content for toggling -->
-
-          <div class="collapse navbar-collapse" id="navbar-collapse-1">
-            <ul class="nav navbar-nav">
-              <li class="center"><i class="fa fa-news"></i> <b>News:</b> <span class="news_box">
-                Here will be displayed moving news. Ex: High demand for sugar
-              </span></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li class="center">Balance: <%=current_user.balance%><i class="fa fa-usd"></i><div class="border"></div></li>
+          <!-- Container makes the navbar extend across the whole screen, removing the default curved sides -->
+        <!-- <div class="container"> -->
+            <ul class="nav navbar-nav navbar-right force-hidden-xm" style="margin-right: 15px;">
+              <li class="center">Net Worth: <%=current_user.balance%> <!-- + other stuff --><i class="fa fa-usd"></i><div class="border"></div></li>
               <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
                 <li>
                   <%= link_to destroy_user_session_path, method: :delete do %>
                     <span>
                       <i class="fa fa-sign-out"></i>
-                      Sign Out
+                      <span>Sign Out</span>
                     </span>
                   <% end %>
                 </li>
             </ul>
-          </div><!-- /.navbar-collapse -->
-        </div><!-- container-collapse -->
+        <!-- </div> --><!-- container-collapse -->
       </nav>
+
+          <!-- Scrolling News -->
+          <div class='marquee'>
+            <div class='marquee-text'>
+                <b><%=Item.find(1).name.capitalize%>:</b>  $<%=Item.find(1).price%>  <span style="color: green;"> +1.56%</span>
+                More stuff kfjasdhf asdjkf asdkjfh asdjfh sdgaf hsdgf sdjgfjkasdghfh gsdhg sadgasdgf jgsdfj
+            </div>
+        </div>
+
 
 
