@@ -21,8 +21,24 @@
     <div class="btn-2">
       <span>Step 2/?</span>
     </div>
-    <a href="/tutorial/3" class="allowedLink next">Next</a>
+    <button class="next">Got it</button>
+    <!-- <a href="/tutorial/3" class="allowedLink next">Next</a> -->
   </div>
 </div>
 
 <%= javascript_include_tag('tutorial.js') %>
+
+<script type="text/javascript">
+  $("a[href*='/companies']").addClass("active");
+  $(".js-sector-dropdown h3").prepend("<span class='pointing-finger'>Click on that<img src='/assets/right_pointing.png' style='height: 25px;'></span>");
+
+  $(".js-sector-dropdown").click(function(){
+    $(".pointing-finger").hide();
+    $(".balance").append("<img src='/assets/left_pointing.png' style='height: 25px;'> Click on that");
+  });
+
+  $("a[href='/find-investors']").click(function(){
+    window.location.href = "/tutorial/3";
+  });
+
+</script>

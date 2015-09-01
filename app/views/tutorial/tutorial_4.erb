@@ -1,1 +1,52 @@
-Global Market to get first recources to build what you need to start different for each company.
+<%= stylesheet_link_tag 'pages/tutorial' %>
+
+<%= render template: "market/index.erb" %>
+
+<!-- TUTORIAL -->
+<div class="tutorial-box">
+  <h1>Get Money</h1>
+  <span class="close"></span>
+  
+  <div class="slider-container">
+    <div class="slider-turn">
+      <p>
+        You will need resources to build stuff.<br>
+        You have entered the <b>Granor market</b> with your company. Place a buy order for <b>2 Granor</b> at current market price.
+      </p>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="btn-2">
+      <span>Step 4/?</span>
+    </div>
+    <button class="next">Got it</button>
+  </div>
+</div>
+
+<%@company=Company.find_by(user_id: current_user.id)
+@item=Item.find(1)
+@buy_offers=Buy_request.where(item_id: 1).sort_by { |req| req.price }
+@sell_offers=Sell_request.where(item_id: 1).sort_by { |req| req.price }.reverse
+@stock_amount=0%>
+
+<%= javascript_include_tag('tutorial.js') %>
+
+<script type="text/javascript">
+	$("#market_select").val("1");
+	$("#company_select").val("1");
+	$("a[href*='/market']").addClass("active");
+	// $.ajax({
+	// 	type: 'GET',
+	// 	url: '/update-orders',
+	// 	dataType: 'script',
+	// 	data: { 'item_id' : '1', 'company_id' : $("#tut-company-id").val() }
+	// });
+	$('#js-market').html("<%= j render 'market/buy_sell_orders' %>");
+	$(".btn").after("<div class='col-md-12 col-xs-12'>Place the order<img src='/assets/up_pointing.png' style='width: 25px; float: left;'></div>");
+	$("#js-buy-amount-input").val(2);
+	$("input").prop('disabled', true);
+	$("select").prop('disabled', true);
+	$("#js-buy-price-input").val(<%=@item.price%>);
+	$("form").attr("action", "/tutorial-sell-order")
+</script>

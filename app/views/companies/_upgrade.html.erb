@@ -36,16 +36,45 @@ end%>
 
 <!-- End of initialization -->
 
-<%Upgrade_level.where(company_id: @company.id) do |upgrade|%>
- <%@upgrade=Upgrade.find_by(value: upgrade.upgrade_value, level: upgrade.level+1)%>
- <%@upgrade.description%>
-<%end%>
+<%Upgrade_level.where(company_id: @company.id).each do |upgrade|%>
+ <%@upgrade=Upgrade.find_by(value: upgrade.upgrade_value, level: upgrade.level)%>
+ <!-- If upgrade is not in progress -->
+ <%if Time.at(upgrade.updated_at)+@upgrade.time < Time.now%>
+	<%@next_upgrade=Upgrade.find_by(value: upgrade.upgrade_value, level: upgrade.level+1)%>
+	<div class="row mtbox">
 
-    <div class="progress">
+    <div class="col-md-2 col-sm-2 box0">
+        <div class="box1 cd-popup-trigger js-upgrade">
+          <i class="fa fa-calendar-o fa-4x"></i>
+          <h3 class="js-upgrade"><%=@next_upgrade.description.capitalize%> Lv.<%=@next_upgrade.level%></h3>
+          <input class="js-upgrade-value" type="hidden" value="<%=@next_upgrade.value%>">
+          <input class="js-upgrade-name" type="hidden" value="<%=@next_upgrade.description%>">
+          <input class="js-upgrade-level" type="hidden" value="<%=@next_upgrade.level%>">
+          <input class="js-upgrade-company-id" type="hidden" value="<%=@company.id%>">
+        </div>
+        	<%t=@next_upgrade.time
+					mm, ss = t.divmod(60)            #=> [4515, 21]
+					hh, mm = mm.divmod(60)           #=> [75, 15]
+					dd, hh = hh.divmod(24)           #=> [3, 3]%>
+          <p><%="Upgrade takes %dd %dh %dm %ds" % [dd, hh, mm, ss]%><br>
+          <!-- Last upgraded <%= time_ago_in_words(upgrade.updated_at) %> ago -->
+          Click to Start Upgrade</p>
+    </div>      
+            
+</div><!-- /row mt --> 
+	
+	<%else%> <!-- if upgrade is in progress -->
+		<%@time_left=(Time.at(upgrade.updated_at)+@upgrade.time)-Time.now%>
+		<input class="js-upgrade-time-left" type="hidden" value="<%=@time_left%>">
+		<input class="js-upgrade-time" type="hidden" value="<%=@upgrade.time%>">
+		<div class="progress">
       <div class="progress-bar progress-bar-striped active" role="progressbar"
       aria-valuemin="0" aria-valuemax="100">
       </div>
     </div>
-    Upgrade Name will be done in <span class="center" id="timeleft"></span>
+    The <%=@upgrade.description.capitalize%> upgrade <span class="center" id="timeleft"></span> <a href="#">Cancel Upgrade?</a>
+
+ <%end%>
+<%end%>
 
     <%= javascript_include_tag('upgrade.js') %>

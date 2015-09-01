@@ -43,11 +43,11 @@
 <div class="js-sector-dropdown">
   <h3><b>
   <%if company.sector==1%>
-  <i class="fa fa-tree"></i> Mining
+  <i class="fa fa-tree"></i> Mining <i class="fa fa-caret-down"></i>
   <%elsif company.sector==2%>
-  <i class="fa fa-industry"></i> Industrial
+  <i class="fa fa-industry"></i> Industrial <i class="fa fa-caret-down"></i>
   <%elsif company.sector==3%>
-  <i class="fa fa-truck"></i> Services
+  <i class="fa fa-truck"></i> Services <i class="fa fa-caret-down"></i>
   <%end%>
   </b></h3>
 </div>
@@ -60,7 +60,7 @@
   else
     @company_balance=company.balance
   end%>
-  <h3>Balance: <b>$<%=@company_balance%></b></h3>
+  <h3 class="balance">Balance: <b>$<%=@company_balance%></b> | <a href="/find-investors">Request a Loan</a></h3>
   <h3>Estimated Worth: <b>$<%=company.balance%>+ Stock Value + Machines Value (recepy*item value price)</b></h3><br>
 
 
@@ -332,6 +332,3 @@ Should these be hover dropdowns or click dropdowns?
 
 <!-- Get the needed js -->
 <%= javascript_include_tag('company_index.js') %>
-<%= javascript_include_tag('moment.min.js') %>
-<%= javascript_include_tag('bootstrap-sortable.js') %>
-<%= javascript_include_tag('bootstrap-select.min.js') %>

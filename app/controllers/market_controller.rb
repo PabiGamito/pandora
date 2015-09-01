@@ -19,8 +19,8 @@ class MarketController < ApplicationController
   def update_orders
     @company=Company.find(params[:company_id])
     @item=Item.find(params[:item_id])
-    @buy_offers=Buy_request.all.sort_by { |req| req.price }
-    @sell_offers=Sell_request.all.sort_by { |req| req.price }.reverse
+    @buy_offers=Buy_request.where(item_id: params[:item_id]).sort_by { |req| req.price }
+    @sell_offers=Sell_request.where(item_id: params[:item_id]).sort_by { |req| req.price }.reverse
     stock=Stock.find_by(company_id: @company.id, item_id: @item.id)
     if stock==nil || stock.amount==0
       @stock_amount=0

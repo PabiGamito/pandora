@@ -1,7 +1,7 @@
 class CompaniesController < ApplicationController
 
   before_action :require_user_signed_in
-  skip_before_action :verify_authenticity_token
+  # skip_before_action :verify_authenticity_token
   layout "application"
 
   def index
@@ -32,6 +32,13 @@ class CompaniesController < ApplicationController
     Employe.new_employe(2, company)
     Employe.new_employe(2, company)
     redirect_to "/companies"
+  end
+
+  def upgrade
+    Upgrade_level.find_by(company_id: params[:company_id], upgrade_value: params[:upgrade]).update(level: params[:level])
+    @company=Company.find(params[:company_id])
+    @render="Upgrade"
+    render 'load_dropdown.js.erb'
   end
 
   def update

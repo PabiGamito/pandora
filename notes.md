@@ -230,10 +230,11 @@ Certain Upgrades Need Parts Produced by Industrial Companies
 
 #Items
 - Vublyx
+- Zedryx
 Raw
 - Uridite
 - Liquidium
-- Kryptocite
+- Kryptonium
 
 Transformed (Combination of Two Things => 9 things total)
 - Conductive Bion

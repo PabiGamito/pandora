@@ -12,8 +12,8 @@
     <div class="slider-turn">
       <p>
         Lets start by creating your very own startup!<br>
-        Fill out all the information and press create once you are done. 
-        Self-explanatory right?
+        Fill out all the information and press create once you are done. <br>
+        This guy: <img src='/assets/right_pointing.png' style='height: 25px;'> will guide you.
       </p>
     </div>
   </div>
@@ -27,3 +27,15 @@
 </div>
 
 <%= javascript_include_tag('tutorial.js') %>
+
+<script type="text/javascript">
+  $("input[name='name']").before("<div class='finger_point'><img src='/assets/down_pointing.png' style='width: 25px;'></div>");
+  $('input').change(function(){
+    $(".finger_point").hide();
+    $(this).after("<div class='finger_point'><img src='/assets/down_pointing.png' style='width: 25px;'></div>");
+  });
+  $('select').change(function(){
+    $(".finger_point").hide();
+    $(this).after("<div class='finger_point'><img src='/assets/down_pointing.png' style='width: 25px;'></div>");
+  });
+</script>
