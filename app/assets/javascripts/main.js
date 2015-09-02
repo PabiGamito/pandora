@@ -7,6 +7,10 @@ $(document).ready(function(){
   }
   $("#sidebar a[href='" + path + "']").addClass("active");
 
+// Count Timer
+$('.timer').countTo();
+
+
 //    sidebars toggle
     $("#sidebar_toggle").click(function(){
       if ($("#sidebar").is(":visible")){

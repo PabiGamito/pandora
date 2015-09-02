@@ -70,7 +70,7 @@
             <h5>GLOBAL GOODS MARKET</h5>
           </div>
             <%Item.all.each do |item|%>
-            <p><%=item.name.capitalize%>: $<%=item.price%></p>
+            <p><%=item.name.capitalize%>: $<span class="timer" data-to="<%=item.price%>" data-speed="750"><%=item.price%></span></p>
             <%end%>
          <canvas id="serverstatus01" height="120" width="120"></canvas>
 
