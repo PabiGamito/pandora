@@ -28,8 +28,27 @@
 		<label>Enter Market with:</label>
     <select class="form-control js-select" id="company_select">
     	<option value="" disabled selected>Chose a Company</option>
-    	<%Company.where(user_id: current_user.id).each do |company|%>
-    	<option value="<%=company.id%>"><%=company.name%></option>
+    	<%Company.where(user_id: current_user.id, main: true).each do |company|%>
+			<!-- Display main company sector -->
+			<%if company.sector == 1%>
+		    	<option value="<%=company.id%>">Mining Sector of <%=company.name%></option>
+		    <%elsif company.sector == 2%>
+		    	<option value="<%=company.id%>">Industrial Sector of <%=company.name%></option>
+		    <%elsif company.sector == 3%>
+		    	<option value="<%=company.id%>">Service Sector of <%=company.name%></option>
+		    <%end%>
+			
+
+			<!-- Display sector of sectors the company has other than main -->
+	    	<%Company_sector.where(owner_company_id: company.id).each do |sector|%>
+		    	<%if Company.find(sector.company_id).sector == 1%>
+		    	<option value="<%=sector.company_id%>">Mining Sector of <%=company.name%></option>
+		    	<%elsif Company.find(sector.company_id).sector == 2%>
+		    	<option value="<%=sector.company_id%>">Industrial Sector of <%=company.name%></option>
+		    	<%elsif Company.find(sector.company_id).sector == 3%>
+		    	<option value="<%=sector.company_id%>">Service Sector of <%=company.name%></option>
+		    	<%end%>
+	    	<%end%>
     	<%end%>
     </select>
 	</div>

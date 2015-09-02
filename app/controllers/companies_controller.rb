@@ -89,37 +89,18 @@ class CompaniesController < ApplicationController
 
 # EMPLOYEES
   def hire_employee
-    session[:return_to] ||= request.referer
     employee=Employe.find(params[:employee_id])
     employee.update(request: false)
     flash[:notice] = "#{employee.name} has been hired."
-    begin
-      redirect_to session.delete(:return_to)
-    rescue
-      redirect_to '/companies'
-    end
   end
 
   def decline_employee
-    session[:return_to] ||= request.referer
     Employe.find(params[:employee_id]).destroy
-
-    begin
-      redirect_to session.delete(:return_to)
-    rescue
-      redirect_to '/companies'
-    end
   end
 
   def fire_employee
-    session[:return_to] ||= request.referer
     Employe.find(params[:employee_id]).destroy
     flash[:notice] = "#{employee.name} has been fired."
-    begin
-      redirect_to session.delete(:return_to)
-    rescue
-      redirect_to '/companies'
-    end
   end
 
   def employement_ad

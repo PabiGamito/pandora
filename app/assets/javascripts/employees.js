@@ -33,15 +33,13 @@ $(".panel_dropdown").click(function(){
 
     // Popup Content
     var popupContent = ''
-    function createMessage(msg,pl) {
+    function createMessage(msg) {
         return [
             "<p>" + msg + "</p>",
-            "<form action='" + pl + "' method='post' accept-charset='utf-8'>",
                 "<ul class='cd-buttons no_margin'>",
-                    "<li><a class='submit'>Yes</a></li>",
+                    "<li><a class='submit popup-close'>Yes</a></li>",
                     "<li><a class='popup-close'>No</a></li>",
                 "</ul>",
-            "</form>",
             "<a class='cd-popup-close popup-close img-replace'>Close</a>"
         ].join('');
     }
@@ -53,12 +51,17 @@ $(".panel_dropdown").click(function(){
         var message = "Are you sure you want to hire <b>" + employeeName + "</b>?"
         var postLink = "/hire-employee"
 
-        $(".cd-popup-container").append( createMessage(message, postLink) );
-        $(".cd-popup-container form").append("<input type='hidden' name='employee_id' value='" + employeeID + "'>");
+        $(".cd-popup-container").append( createMessage(message) );
     });
 
     $(".cd-popup-container").on('click', '.submit', function(event){
-        $('form').submit();
+        $.ajax({
+            type: 'POST',
+            url: postLink,
+            dataType: 'script',
+            data: { 'employee_id' : employeeID },
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
+        });
         event.preventDefault(); //Cancel default behaviour of anchor
     });
 
@@ -69,12 +72,17 @@ $(".panel_dropdown").click(function(){
         var message = "Are you sure you want to decline <b>" + employeeName + "'s</b> employement request?<br><br>This can not be undone."
         var postLink = "/decline-employee"
 
-        $(".cd-popup-container").append( createMessage(message, postLink) );
-        $(".cd-popup-container form").append("<input type='hidden' name='employee_id' value='" + employeeID + "'>");
+        $(".cd-popup-container").append( createMessage(message) );
     });
 
     $(".cd-popup-container").on('click', '.submit', function(event){
-        $('form').submit();
+        $.ajax({
+            type: 'POST',
+            url: postLink,
+            dataType: 'script',
+            data: { 'employee_id' : employeeID },
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
+        });
         event.preventDefault(); //Cancel default behaviour of anchor
     });
 
@@ -95,12 +103,17 @@ $(".panel_dropdown").click(function(){
         var message = "Are you sure you want to fire <b>" + employeeName + "</b>?<br><br>This can not be undone."
         var postLink = "/fire-employee"
 
-        $(".cd-popup-container").append( createMessage(message, postLink) );
-        $(".cd-popup-container form").append("<input type='hidden' name='employee_id' value='" + employeeID + "'>");
+        $(".cd-popup-container").append( createMessage(message) );
     });
 
     $(".cd-popup-container").on('click', '.submit', function(event){
-        $('form').submit();
+        $.ajax({
+            type: 'POST',
+            url: postLink,
+            dataType: 'script',
+            data: { 'employee_id' : employeeID },
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
+        });
         event.preventDefault(); //Cancel default behaviour of anchor
     });
 
@@ -121,7 +134,7 @@ $(".panel_dropdown").click(function(){
         "<input id='amount' class='form-control' type='number' step='1' min= '1' max='1000' name='amount' placeholder='Amount of Employees Wanted' required><br><br>" +
         "<b>Price:<b> <span id='price'>0</span>$ <br><br>" +
         "<input type='hidden' name='company_id' value='" + companyID + "'>" +
-        "<button class='btn btn-primary' type='submit'>Place Ad</button><br><br>" +
+        "<button class='btn btn-primary submit popup-close' type='submit'>Place Ad</button><br><br>" +
         "</form>" +
         "<a class='cd-popup-close popup-close img-replace'>Close</a>");
 
@@ -160,8 +173,29 @@ $(".panel_dropdown").click(function(){
     });
 
     $(".cd-popup-container").on('click', '.submit', function(event){
-        $('form').submit();
-        event.preventDefault(); //Cancel default behaviour of anchor
+        $.ajax({
+            type: 'POST',
+            url: postLink,
+            dataType: 'script',
+            data: { 'employee_id' : employeeID },
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
+        });
+    });
+
+Runs ajax on submit
+    $('.submit').validate({
+
+    // ... your validation rules come here,
+
+    submitHandler: function(form) {
+        $.ajax({
+            type: 'POST',
+            url: postLink,
+            dataType: 'script',
+            data: { 'employee_id' : employeeID },
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
+        });
+    }
     });
 
 });

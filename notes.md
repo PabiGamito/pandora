@@ -195,6 +195,7 @@ Bank:
 - Have something that check if that the forms have not been changed when submitted
 - Make it so you can cancel requests
 - Add employe skill after training to make certain works go faster for that employee.
+- Add employee holiodays and holiday places
 
 #PREMIUM:
 - Premium users can have more than one company.

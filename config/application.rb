@@ -31,7 +31,9 @@ module Pandora
     config.assets.precompile += ['market-index.js']
     config.assets.precompile += ['employees.js']
     config.assets.precompile += ['company_new.js']
-    config.assets.precompile += ['upgrade.js']
+    config.assets.precompile += ['unslider.min.js']
+    config.assets.precompile += ['welcome.js']
+    config.assets.precompile += ['jquery.countTo.js']
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
