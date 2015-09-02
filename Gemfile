@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+#Gem allows to transfer data from dev to production database
+gem 'yaml_db'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.4'
