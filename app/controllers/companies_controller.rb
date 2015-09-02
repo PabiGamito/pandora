@@ -125,4 +125,24 @@ class CompaniesController < ApplicationController
 
   end
 
+def self.generate_stock
+  Company.each do |company|
+    efficiency=0
+    iq=0
+    focus=0
+    quality=0
+    happiness=0
+    # Every 1% efficiency adds 1% production speed
+    # IQ has minmal effect, except for decision making
+    Employe.where(company_id: company.id).each do |employe| #ADD number of active employees working on machines
+      efficiency+=employe.efficiency
+      iq+=employe.iq
+      focus+=employe.focus
+      quality+=employe.quality
+      happiness+=employe.happiness
+    end
+
+  end
+end
+
 end
