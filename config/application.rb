@@ -34,6 +34,11 @@ module Pandora
     config.assets.precompile += ['unslider.min.js']
     config.assets.precompile += ['welcome.js']
     config.assets.precompile += ['jquery.countTo.js']
+    config.assets.precompile += ['jquery-ui.js']
+    config.assets.precompile += ['jquery-ui.structure.css']
+    config.assets.precompile += ['jquery-ui.theme.css']
+    config.assets.precompile += ['jquery-ui.css']
+    config.assets.precompile += ['upgrade.js']
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

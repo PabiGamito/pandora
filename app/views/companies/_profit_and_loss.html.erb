@@ -1,0 +1,65 @@
+<div class="row togglable_panel">
+
+<div class="col-sm-6 col-xm-12">
+<!-- Income Table -->
+<table class="table table-bordered table-responsive table-hover">
+  <thead>
+    <tr>
+      <th class="success">Income</th>
+    </tr>
+  </thead>
+  <tbody>
+  <%Transaction.where(company_id: @company.id, income: true).order(:category).each do |transaction|
+    if defined?(@previous_category)==nil
+      @amount=transaction.amount
+    elsif @previous_category==transaction.category
+      @amount+=transaction.amount
+    else%>
+      <tr>
+      <td><%=@previous_category%><span style="float: right;">$<%=@amount%></span></td>
+      </tr>
+      <%@amount=transaction.amount
+    end
+    @previous_category=transaction.category
+  end%>
+      <!-- Shows the last transaction -->
+    <tr>
+      <td><%=@previous_category%><span style="float: right;">$<%=@amount%></span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+<div class="col-sm-6 col-xm-12">
+<!-- Expenses Table -->
+<table class="table table-bordered table-responsive table-hover">
+  <thead>
+    <tr>
+      <th class="danger">Expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+  <%Transaction.where(company_id: @company.id, income: false).order(:category).each do |transaction|
+    if defined?(@previous_category)==nil
+      @amount=transaction.amount
+    elsif @previous_category==transaction.category
+      @amount+=transaction.amount
+    else%>
+      <tr>
+      <td><%=@previous_category%><span style="float: right;">$<%=@amount%></span></td>
+      </tr>
+      <%@amount=transaction.amount
+    end
+    @previous_category=transaction.category
+  end%>
+      <!-- Shows the last transaction -->
+    <tr>
+      <td><%=@previous_category%><span style="float: right;">$<%=@amount%></span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+</div>

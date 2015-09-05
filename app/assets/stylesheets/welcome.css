@@ -1,3 +1,43 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300);
+
+.btn {
+  border: none;
+  color: white;
+  overflow: hidden;
+  margin: 1rem;
+  padding: 0;
+  text-transform: uppercase;
+  width: 150px;
+  height: 40px;
+}
+.btn.color-1 {
+  background-color: #426FC5;
+}
+
+.btn-border.color-1 {
+  background-color: transparent;
+  border: 2px solid #426FC5;
+  color: #426FC5;
+}
+
+.btn-round {
+  border-radius: 10em;
+}
+
+.material-design {
+  position: relative;
+}
+.material-design canvas {
+  opacity: 0.25;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+
+
+
+
 .banner { position: relative; overflow: auto;}
     .banner li { list-style: none; }
         .banner ul li { float: left; height: 400px;}

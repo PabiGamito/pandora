@@ -1,6 +1,16 @@
 #Install:
 Get them all
 
+#Data:
+- Upgrades
+    + name: office (many upgrade level with time)
+    + name: shop (many upgrade level with time)
+    + name: mine (many upgrade level with time)
+    + name: machine (many upgrade level with time)
+    + name: shop (many upgrade level with time)
+- 
+    + 
+
 #Problem:
 - What if no one owns over 50% of the shares? Who takes decissions?
     + Top 5? stock holders decide togethe one click on stuff he wants to do and it will sumbit a message to the other so they decide what to do.

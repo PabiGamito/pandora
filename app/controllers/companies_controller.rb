@@ -99,8 +99,15 @@ class CompaniesController < ApplicationController
   end
 
   def fire_employee
-    Employe.find(params[:employee_id]).destroy
-    flash[:notice] = "#{employee.name} has been fired."
+    employee=Employe.find(params[:employee_id])
+    company=Company.find(employee.company_id)
+    amount=employee.salery*7
+
+    new_transaction=Transaction.create(:company_id => @company_id, :amount => amount, :description => "#{amount}$ to fire #{employee.name}.", :category => "Employee Salery",:income => false)
+    company.process_transaction(new_transaction)
+
+    employee.destroy
+    flash[:notice] = "#{employee.name} has been fired. You have payed him #{amount}$ to leave your company."
   end
 
   def employement_ad
@@ -125,24 +132,12 @@ class CompaniesController < ApplicationController
 
   end
 
-def self.generate_stock
-  Company.each do |company|
-    efficiency=0
-    iq=0
-    focus=0
-    quality=0
-    happiness=0
-    # Every 1% efficiency adds 1% production speed
-    # IQ has minmal effect, except for decision making
-    Employe.where(company_id: company.id).each do |employe| #ADD number of active employees working on machines
-      efficiency+=employe.efficiency
-      iq+=employe.iq
-      focus+=employe.focus
-      quality+=employe.quality
-      happiness+=employe.happiness
+  def build
+    if params[:production]=="true"
+      Building.create(company_id: params[:company_id].to_i, name: params[:building_name], level: 1, production: true)
+    else
+      Building.create(company_id: params[:company_id].to_i, name: params[:building_name], level: 1, production: false)
     end
-
   end
-end
 
 end

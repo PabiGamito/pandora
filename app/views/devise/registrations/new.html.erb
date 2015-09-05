@@ -1,8 +1,19 @@
+  <style type="text/css">
+    #error_explanation{
+
+    }
+    #error_explanation h2{
+      display: none;
+    }
+    #error_explanation ul{
+      color: red;
+    }
+  </style>
+
   <div class="container">
     <div class="row mt centered">
       <div class="col-lg-6 col-lg-offset-3">
-        <h1>Lets start by<br/>creating your account</h1>
-        <h3>HAVE A LOAD PAGE THAT SHOWS INITIALIZING ACCOUNT, blah blah</h3>
+        <h1>Sign up to Pandora's<br/>Amazing Beta</h1>
       </div>
     </div><!-- /row -->
     
@@ -11,7 +22,7 @@
 
       <!-- #USER CREATION FORM -->
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "form-horizontal form-user form1"}) do |f| %>
-       <%= devise_error_messages! %>
+       <%=flash[:notice]!%>
 
         <div class="form-group">
           <%= f.label :username, class: "control-label mr" %><br>
@@ -24,13 +35,13 @@
         </div>
                 
         <div class="form-group">
-          <%= f.label :password, class: "control-label ml" %>
-          <%= f.password_field :password, class: "text-field form-control", html: {autocomplete: "off"} %>
+          <%= f.label :password, class: "control-label ml pwd-label" %>
+          <%= f.password_field :password, class: "text-field form-control pwd", html: {autocomplete: "off"} %>
         </div>
                  
         <div class="form-group">
-          <%= f.label :password_confirmation, "Confirm Password", class: "control-label ml" %>
-          <%= f.password_field :password_confirmation, class: "text-field form-control", html: {autocomplete: "off"} %>
+          <%= f.label :password_confirmation, "Confirm Password", class: "control-label ml pwd-confirm-label" %>
+          <%= f.password_field :password_confirmation, class: "text-field form-control pwd-confirm", html: {autocomplete: "off"} %>
         </div>
 
         <div class="form-group">
@@ -46,3 +57,14 @@
 
   <hr>
     
+
+<script type="text/javascript">
+  // // Signup Verification
+  // $(".pwd").change(function(){
+  //   pwd = $(".pwd").val();
+  //   if (pwd.length<8){
+  //     $(".pwd").attr('id', 'inputError1');
+  //     $(".pwd-label").after('Your Password');
+  //   }
+  // });
+</script>

@@ -1,4 +1,6 @@
-<%if @render=="Employees"%>
+<%if @render=="Build"%>
+$('#Build<%=@company.id%>').html("<%= j render 'build' %>");
+<%elsif @render=="Employees"%>
 $('#Employees<%=@company.id%>').html("<%= j render 'employees' %>");
 <%elsif @render=="Upgrade"%>
 $('#Upgrade<%=@company.id%>').html("<%= j render 'upgrade' %>");

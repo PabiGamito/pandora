@@ -1,0 +1,46 @@
+<%if @company.specialize<300%>
+
+<p>You are producing <%=@company.production_speed%> 
+
+<%if @company.specialize<200%>
+	<%if @company.specialize==100%>
+		Kryptonium per Hour
+	<%elsif @company.specialize==101%>
+		Granor per Hour
+	<%elsif @company.specialize==102%>
+		Stradian per Hour
+	<%end%>
+<%elsif @company.specialize<300%>
+	<%if @company.specialize==200%>
+		Conductive per Hour
+	<%elsif @company.specialize==201%>
+		Crystalized Astronite per Hour
+	<%elsif @company.specialize==202%>
+		Morphic Xenomite per Hour
+	<%end%>
+<%end%>
+
+<%end%>
+</p>
+
+<table class="table table-bordered table-responsive table-hover js-togglable_panel sortable">
+      <thead>
+        <tr>
+          <th class="center">Sell</th>
+          <th class="center">Buy</th>
+          <th class="center">Item</th>
+          <th class="center">Amount</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <%Stock.where(company_id: @company.id).each do |stock|%>
+        <tr>
+          <td class="center cd-popup-trigger popup1"><i style="color: green;" class="fa fa-check"></i></td>
+          <td class="center cd-popup-trigger popup2"><i style="color: red;" class="fa fa-close"></i></td>
+          <td class="center js-employee-name"><%=Item.find(stock.item_id).name.capitalize%></td>
+          <td class="center"><%=stock.amount%></td>
+        </tr>
+      <%end%>
+      </tbody>
+    </table>

@@ -20,7 +20,7 @@
 	  	<div class="col-md-4 col-xs-12">
 			  <div class="form-group">
 			    <label>Amount to Buy</label>	
-      			<input id="js-buy-amount-input" name="amount" type="number" min="1" step="1" max="" class="form-control js-buy-input" placeholder="Amount">
+      			<input id="js-buy-amount-input" name="amount" type="number" min="1" step="1" max="999999" class="form-control js-buy-input" placeholder="Amount">
       			<input class="js-buy-input" type="hidden" name="company_balance" value="<%=@company.balance%>">
 			  </div>
 			</div>
@@ -55,19 +55,19 @@
     </thead>
 		<!-- <div style="height:100px;overflow:auto;"> -->
     <tbody>
-      <%@buy_offers.each do |offer|%>
+      <%@buy_offers.each do |buy_offer|%>
 	    <%if defined?(@previous_price)==nil
-	      	@amount=offer.amount
-	    elsif @previous_price==offer.price
-	      	@amount+=offer.amount
+	      	@amount=buy_offer.amount
+	    elsif @previous_price==buy_offer.price
+	      	@amount+=buy_offer.amount
 		else%>
 			<tr>
 	          <td class="center js-buy-amount"><%=@amount%></td>
 	          <td class="center js-buy-price"><%=@previous_price%></td>
 	        </tr>
-	        <%@amount=offer.amount
+	        <%@amount=buy_offer.amount
 	    end
-	    @previous_price=offer.price%>
+	    @previous_price=buy_offer.price%>
       <%end%>
       <!-- Shows the last offer -->
       <tr>
@@ -134,24 +134,24 @@
 
 		
     <tbody>
-      <%@sell_offers.each do |offer|%>
-	    <%if defined?(@previous_price)==nil
-	      	@amount=offer.amount
-	    elsif @previous_price==offer.price
-	      	@amount+=offer.amount
+      <%@sell_offers.each do |sell_offer|%>
+	    <%if defined?(@sell_previous_price)==nil
+	      	@sell_amount=sell_offer.amount
+	    elsif @sell_previous_price==sell_offer.price
+	      	@sell_amount+=sell_offer.amount
 		else%>
 			<tr>
-	          <td class="center js-sell-amount"><%=@amount%></td>
-	          <td class="center js-sell-price"><%=@previous_price%></td>
+	          <td class="center js-sell-amount"><%=@sell_amount%></td>
+	          <td class="center js-sell-price"><%=@sell_previous_price%></td>
 	        </tr>
-	        <%@amount=offer.amount
+	        <%@sell_amount=sell_offer.amount
 	    end
-	    @previous_price=offer.price%>
+	    @sell_previous_price=sell_offer.price%>
       <%end%>
       <!-- Shows the last offer -->
       <tr>
-	     <td class="center js-sell-amount"><%=@amount%></td>
-	     <td class="center js-sell-price"><%=@previous_price%></td>
+	     <td class="center js-sell-amount"><%=@sell_amount%></td>
+	     <td class="center js-sell-price"><%=@sell_previous_price%></td>
 	  </tr>
     </tbody>
   </table>

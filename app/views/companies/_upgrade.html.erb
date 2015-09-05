@@ -1,3 +1,9 @@
+<!-- If user does not have a headquaters -->
+<%if Building.find_by(company_id: @company.id, name: "headquarters")==nil%>
+	<b>You must build a headquaters before you can upgrade anything.</b>
+<%else%>
+
+
 <!-- Initialize Upgrades if not yet initialized -->
 <%if Upgrade_level.find_by(company_id: @company.id)==nil%>
 
@@ -36,33 +42,36 @@ end%>
 
 <!-- End of initialization -->
 
+<!-- Normal Upgrades --> <!-- Ex: Pay to increase worker productivity-->
 <%Upgrade_level.where(company_id: @company.id).each do |upgrade|%>
  <%@upgrade=Upgrade.find_by(value: upgrade.upgrade_value, level: upgrade.level)%>
  <!-- If upgrade is not in progress -->
  <%if Time.at(upgrade.updated_at)+@upgrade.time < Time.now%>
 	<%@next_upgrade=Upgrade.find_by(value: upgrade.upgrade_value, level: upgrade.level+1)%>
-	<div class="row mtbox">
+		<%if @next_upgrade!=nil%>
+		<div class="row mtbox">
 
-    <div class="col-md-2 col-sm-2 box0">
-        <div class="box1 cd-popup-trigger js-upgrade">
-          <i class="fa fa-calendar-o fa-4x"></i>
-          <h3 class="js-upgrade"><%=@next_upgrade.description.capitalize%> Lv.<%=@next_upgrade.level%></h3>
-          <input class="js-upgrade-value" type="hidden" value="<%=@next_upgrade.value%>">
-          <input class="js-upgrade-name" type="hidden" value="<%=@next_upgrade.description%>">
-          <input class="js-upgrade-level" type="hidden" value="<%=@next_upgrade.level%>">
-          <input class="js-upgrade-company-id" type="hidden" value="<%=@company.id%>">
-        </div>
-        	<%t=@next_upgrade.time
-					mm, ss = t.divmod(60)            #=> [4515, 21]
-					hh, mm = mm.divmod(60)           #=> [75, 15]
-					dd, hh = hh.divmod(24)           #=> [3, 3]%>
-          <p><%="Upgrade takes %dd %dh %dm %ds" % [dd, hh, mm, ss]%><br>
-          <!-- Last upgraded <%= time_ago_in_words(upgrade.updated_at) %> ago -->
-          Click to Start Upgrade</p>
-    </div>      
-            
-</div><!-- /row mt --> 
-	
+	    <div class="col-md-2 col-sm-2 box0">
+	        <div class="box1 cd-popup-trigger js-upgrade">
+	          <i class="fa fa-calendar-o fa-4x"></i>
+	          <h3 class="js-upgrade"><%=@next_upgrade.name.capitalize%> Lv.<%=@next_upgrade.level%></h3>
+	          <input class="js-upgrade-value" type="hidden" value="<%=@next_upgrade.value%>">
+	          <input class="js-upgrade-name" type="hidden" value="<%=@next_upgrade.name%>">
+	          <input class="js-upgrade-level" type="hidden" value="<%=@next_upgrade.level%>">
+	          <input class="js-upgrade-company-id" type="hidden" value="<%=@company.id%>">
+	        </div>
+	        	<%t=@next_upgrade.time
+						mm, ss = t.divmod(60)            #=> [4515, 21]
+						hh, mm = mm.divmod(60)           #=> [75, 15]
+						dd, hh = hh.divmod(24)           #=> [3, 3]%>
+	          <p><%="Upgrade takes %dd %dh %dm %ds" % [dd, hh, mm, ss]%><br>
+	          <!-- Last upgraded <%= time_ago_in_words(upgrade.updated_at) %> ago -->
+	          Click to Start Upgrade</p>
+	    </div>      
+	            
+	</div><!-- /row mt --> 
+		<%end%>
+
 	<%else%> <!-- if upgrade is in progress -->
 		<%@time_left=(Time.at(upgrade.updated_at)+@upgrade.time)-Time.now%>
 		<input class="js-upgrade-time-left" type="hidden" value="<%=@time_left%>">
@@ -72,9 +81,34 @@ end%>
       aria-valuemin="0" aria-valuemax="100">
       </div>
     </div>
-    The <%=@upgrade.description.capitalize%> upgrade <span class="center" id="timeleft"></span> <a href="#">Cancel Upgrade?</a>
+    The <%=@upgrade.name.capitalize%> upgrade <span class="center" id="timeleft"></span> <a href="#">Cancel Upgrade?</a>
 
  <%end%>
 <%end%>
 
+<!-- Building Upgrade -->
+<%Building.where(company_id: @company.id).each do |building|%>
+<div class="row mtbox">
+
+	    <div class="col-md-2 col-sm-2 box0">
+	        <div class="box1 cd-popup-trigger js-upgrade">
+	          <i class="fa fa-calendar-o fa-4x"></i>
+	          <h4 class="js-upgrade">Upgrade <%=building.name.capitalize%> <br>to Level <%=building.level+1%></h4>
+	        </div>
+	        	<%t=Upgrade.find_by(name: building.name).time
+						mm, ss = t.divmod(60)            #=> [4515, 21]
+						hh, mm = mm.divmod(60)           #=> [75, 15]
+						dd, hh = hh.divmod(24)           #=> [3, 3]%>
+	          <p><%="Upgrade takes %dd %dh %dm %ds" % [dd, hh, mm, ss]%><br>
+	          Click to Start Upgrade</p>
+	    </div>      
+	            
+	</div><!-- /row mt -->
+<%end%>
+
+
     <%= javascript_include_tag('upgrade.js') %>
+
+
+
+<%end%>

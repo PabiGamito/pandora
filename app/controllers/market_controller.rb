@@ -116,7 +116,7 @@ class MarketController < ApplicationController
       company_id=params[:company_id].to_i
       price=params[:price].to_f
       amount=params[:amount].to_i
-
+    if Company.find(company_id).balance > amount*price
       # If a buy offer at this price already exists
       sell_requests=Sell_request.where(price: price, item_id: item_id)
       while sell_requests.count>0 && amount>0
@@ -181,8 +181,10 @@ class MarketController < ApplicationController
     else
       @stock_amount=stock.amount
     end
+    else
+    flash[:notice]="You do not have enought money to buy all that."
+    end
     redirect_to '/market'
-
   end
 
 end #close Class

@@ -25,6 +25,7 @@ $(document).ready(function(){
 // Companies Dropdown
     $(".js-company_dropdown").siblings(".togglable_panel").show();
     $(".js-company_dropdown").click(function(){
+        $(".togglable_panel").slideUp();
         $(this).siblings(".togglable_panel").slideToggle();
     });
 

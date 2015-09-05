@@ -3,7 +3,7 @@
 </div>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "form-horizontal form-user"}) do |f| %>
-                                                                                                                                        
+  <p><%= devise_error_messages! %></p>                                                                                                                  
   
   <div class="form-group">
     <%= f.label :login, "Username or Email", class: "control-label col-md-4" %>
@@ -27,7 +27,7 @@
         <%= f.check_box :remember_me %>
       </div>
     </div>
-  <% end -%>
+  <% end %>
                                                                                                                                         
   <div class="form-group">
     <div class="col-md-offset-4 col-md-8">

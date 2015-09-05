@@ -34,22 +34,22 @@
               <li style="background-image: url(/assets/welcome-1.jpg)">
                 <h1 class="center">WELCOME TO PANDORA</h1>
                 <h2 class="center">Where you fight to become the Largest Corporation</h2>
-                <p class="center"><a href="/signup"><button class="btn btn-primary">Join the Beta Now</button></a></p>
+                <p class="center"><a href="/signup"><button class="btn btn-round color-1 material-design" data-color="#ffffff">Join the Beta Now</button></a></p>
               </li>
               <li style="background-image: url(/assets/welcome-2.jpg)">
                 <h1 class="center">GROW TILL YOU ARE THE BIGGEST</h1>
                 <h2 class="center">There is no limit to the expansion of your Company</h2>
-                <p class="center"><a href="/signup"><button class="btn btn-primary">Join the Beta Now</button></a></p>
+                <p class="center"><a href="/signup"><button class="btn btn-round color-1 material-design" data-color="#ffffff">Join the Beta Now</button></a></p>
               </li>
               <li style="background-image: url(/assets/welcome-3.jpg)">
                 <h1 class="center">MEET AND PLAY WITH FRIENDS</h1>
                 <h2 class="center">to Grow Faster Together</h2>
-                <p class="center"><a href="/signup"><button class="btn btn-primary">Join the Beta Now</button></a></p>
+                <p class="center"><a href="/signup"><button class="btn btn-round color-1 material-design" data-color="#ffffff">Join the Beta Now</button></a></p>
               </li>
               <li style="background-image: url(/assets/welcome-4.jpg)">
                 <h1 class="center">ALL THIS FROM HOME</h1>
                 <h2 class="center">Or anywhere else in the WORLD</h2>
-                <p class="center"><a href="/signup"><button class="btn btn-primary">Join the Beta Now</button></a></p>
+                <p class="center"><a href="/signup"><button class="btn btn-round color-1 material-design" data-color="#ffffff">Join the Beta Now</button></a></p>
               </li>
           </ul>
       </div>
@@ -206,3 +206,64 @@
         </div> <!-- end row -->
       </div> <!-- end container -->
     </footer> <!-- end footer -->
+
+    <script type="text/javascript">
+      var canvas = {},
+    centerX = 0,
+    centerY = 0,
+    color = '',
+    containers = document.getElementsByClassName('material-design')
+    context = {},
+    element = {},
+    radius = 0,
+
+    requestAnimFrame = function () {
+      return (
+        window.requestAnimationFrame       || 
+        window.mozRequestAnimationFrame    || 
+        window.oRequestAnimationFrame      || 
+        window.msRequestAnimationFrame     || 
+        function (callback) {
+          window.setTimeout(callback, 1000 / 60);
+        }
+      );
+    } (),
+      
+    init = function () {
+      containers = Array.prototype.slice.call(containers);
+      for (var i = 0; i < containers.length; i += 1) {
+        canvas = document.createElement('canvas');
+        canvas.addEventListener('click', press, false);
+        containers[i].appendChild(canvas);
+        canvas.style.width ='100%';
+        canvas.style.height='100%';
+        canvas.width  = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+    },
+      
+    press = function (event) {
+      color = event.toElement.parentElement.dataset.color;
+      element = event.toElement;
+      context = element.getContext('2d');
+      radius = 0;
+      centerX = event.offsetX;
+      centerY = event.offsetY;
+      context.clearRect(0, 0, element.width, element.height);
+      draw();
+    },
+      
+    draw = function () {
+      context.beginPath();
+      context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+      context.fillStyle = color;
+      context.fill();
+      radius += 2;
+      if (radius < element.width) {
+        requestAnimFrame(draw);
+      }
+    };
+
+init();
+
+    </script>

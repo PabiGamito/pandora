@@ -1,0 +1,109 @@
+<%= javascript_include_tag('employees.js') %>
+
+<style type="text/css">
+	.build_box{
+		height: 150px;
+		width: 150px;
+		border: 1px solid black;
+	}
+	.build_box img{
+		margin-left: 15px;
+		height: 120px;
+		width: 120px;
+	}
+	.build_box p{
+		text-align: center;
+	}
+
+</style>
+
+<%if Building.find_by(company_id: @company.id, name: "headquarters")==nil%>
+<div class="build_box">
+	<img src="assets/headquarters.png">
+	<p class="headquarters">Build Headquaters</p>
+	<p class="produtcion" style="display: none;">false</p>
+</div>
+<%else%>
+<%@buildings = {}
+#For all
+@buildings["Office"] = false
+%>
+<%if @company.specialize<200
+	if @company.specialize==100
+		@buildings["Kryptonium Mine"] = true
+	elsif @company.specialize==101
+		@buildings["Granor Mine"] = true
+	elsif @company.specialize==102
+		@buildings["Stradian Mine"] = true
+	end
+elsif @company.specialize<300
+	if @company.specialize==200
+		@buildings["Conductive Bion"] = true
+	elsif @company.specialize==201
+		@buildings["Crystalized Astronite"] = true
+	elsif @company.specialize==202
+		@buildings["Morphic Xenomite"] = true
+	end
+elsif @company.specialize<400
+	if @company.specialize==300
+	elsif @company.specialize==301
+	elsif @company.specialize==302
+
+	end
+end%>
+
+<%@buildings.each do |building, production|%>
+	<div class="build_box">
+		<img src="assets/<%=building%>.png">
+		<p class="<%=building.downcase%>">Build <%=building%></p>
+		<p class="produtcion" style="display: none;"><%=production%></p>
+	</div>
+<%end%>
+
+<div class="construction">
+<%@construction=false%>
+<p>Currently under Construction</p>
+<%Building.where(company_id: @company.id).each do |building|%>
+	<%@upgrade=Upgrade.find_by(name: building.name)%>
+	<!-- if in construction -->
+	<%if Time.at(building.created_at)+@upgrade.time > Time.now%>
+		<%@construction=true%>
+		<%@time_left=(Time.at(building.created_at)+@upgrade.time)-Time.now%>
+ 		<div class="progress">
+			<!-- <input class="js-build-time-left" type="hidden" value="<%=@time_left%>">
+			<input class="js-build-time" type="hidden" value="<%=@upgrade.time%>">
+	      <div class="progress-bar progress-bar-striped active" role="progressbar"
+	      aria-valuemin="0" aria-valuemax="100">
+	      </div>
+	    </div> -->
+	    The construction for your <%=building.name.capitalize%> will be done in <span class="center" id="timeleft"><%=@time_left.to_i%>s</span> <a href="#">Cancel Upgrade?</a>
+
+	<%end%>
+
+<%end%>
+</div>
+
+What you have: <%Building.where(company_id: @company.id).each do |building|%> <%=building.name.capitalize%> <%end%>
+
+<%end%>
+
+<%= javascript_tag do %>
+$(document).ready(function(){
+	$('.build_box').click(function(){
+		var buildingName = $(this).children('p').attr("class")
+		var production = $(this).children('.production').text()
+		alert(buildingName);
+		$.ajax({
+            type: 'POST',
+            url: '/build',
+            dataType: 'script',
+            data: { 'building_name' : buildingName, 'company_id' : '<%=@company.id%>', 'production' : production},
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
+        });
+	});
+
+	<%if @construction==false%>
+		$('.construction').hide();
+	<%end%>
+});
+<%end%>

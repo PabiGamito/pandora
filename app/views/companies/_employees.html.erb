@@ -1,3 +1,35 @@
+<%= stylesheet_link_tag('jquery-ui.css')%>
+<%= stylesheet_link_tag('jquery-ui.structure.css') %>
+<%= stylesheet_link_tag('jquery-ui.theme.css') %>
+
+<%= javascript_include_tag('jquery-ui.js') %>
+<%= javascript_include_tag('bootstrap-sortable.js') %>
+<%= javascript_include_tag('bootstrap-select.min.js') %>
+<%= javascript_include_tag('employees.js') %>
+
+<style media="screen" type="text/css">
+
+.dragging li.ui-state-hover {
+    min-width: 240px;
+}
+.dragging .ui-state-hover a {
+    color:green !important;
+    font-weight: bold;
+}
+th,td {
+    text-align: right;
+    padding: 2px 4px;
+    border: 1px solid;
+}
+.connectedSortable tr, .ui-sortable-helper {
+    cursor: move;
+}
+.ui-sortable-placeholder {
+    background: yellow;
+}
+
+</style>
+
 - One employee wants a raise <br>
     <table>
       <tbody>
@@ -30,7 +62,7 @@
           <th class="center">Focus</th>
           <th class="center">Happiness</th>
           <th class="center">Quality</th>
-          <th class="center">Salery</th>
+          <th class="center">Daily Wage</th>
         </tr>
       </thead>
 
@@ -55,6 +87,23 @@
     </div>
 <%end%>
 
+<!-- Gets Employee Working List -->
+<%Building.where(company_id: @company.id).order(:name).each do |building|
+    if defined?(@previous_name)==nil
+      @employees=Employe.where(building_id: building.id, request: false)
+      @buildings={}
+    elsif @previous_name==building.name
+      @employees.push(*Employe.where(building_id: building.id, request: false))
+    else
+      @buildings["#{@previous_name}"]=@employees
+      @employees=Employe.where(building_id: building.id, request: false)
+    end
+    @previous_name=building.name
+end
+  # Last category
+  @buildings["#{@previous_name}"]=@employees
+%>
+
 <!-- Employes List -->
 <%if Employe.where(company_id: @company.id, request: false).count!=0%>
 <div class="panel panel-default" style="margin-top: -3px; margin-bottom: -3px;">
@@ -64,8 +113,12 @@
       <span style="float: right;"><i class="fa fa-angle-down"></i></span>
     </h3>
   </div>
-      <table class="table table-bordered table-responsive table-hover js-togglable_panel sortable">
+
+
+  <table class="table table-bordered table-responsive table-hover js-togglable_panel sortable">
+      
       <thead>
+        <caption>Not Working <i class="fa fa-angle-down"></i></caption>
         <tr>
           <th class="center" data-defaultsort="asc">Name</th>
           <th class="center">IQ</th>
@@ -73,14 +126,13 @@
           <th class="center">Focus</th>
           <th class="center">Happiness</th>
           <th class="center">Quality</th>
-          <th class="center">Salery</th>
+          <th class="center">Daily Wage</th>
           <th class="center" data-defaultsort='disabled'>Raise/Cut</th>
           <th class="center" data-defaultsort='disabled'>Fire</th>
         </tr>
       </thead>
-
-      <tbody>
-      <%Employe.where(company_id: @company.id, request: false).each do |employe|%>
+      <tbody class="connectedSortable">
+      <%Employe.where(company_id: @company.id, request: false, building_id: nil).each do |employe|%>
         <tr>
           <td class="center js-employee-name"><%=employe.name%></td>
           <td class="center"><%=employe.iq%></td>
@@ -97,10 +149,44 @@
       <%end%>
       </tbody>
     </table>
+  
+  <%@buildings.each do |building, employees|%>
+    <table class="table table-bordered table-responsive table-hover js-togglable_panel sortable">
+      <caption>Working in <%=building.capitalize%> <i class="fa fa-angle-down"></i></caption>
+      <thead>
+        <tr>
+          <th class="center" data-defaultsort="asc">Name</th>
+          <th class="center">IQ</th>
+          <th class="center">Efficiency</th>
+          <th class="center">Focus</th>
+          <th class="center">Happiness</th>
+          <th class="center">Quality</th>
+          <th class="center">Daily Wage</th>
+          <th class="center" data-defaultsort='disabled'>Raise/Cut</th>
+          <th class="center" data-defaultsort='disabled'>Fire</th>
+        </tr>
+      </thead>
+      <tbody class="connectedSortable">
+      <%employees.each do |employe|%>
+        <tr>
+          <td class="center js-employee-name"><%=employe.name%></td>
+          <td class="center"><%=employe.iq%></td>
+          <td class="center"><%=employe.efficiency%></td>
+          <td class="center"><%=employe.focus%></td>
+          <td class="center"><%=employe.happiness%></td>
+          <td class="center"><%=employe.quality.capitalize%></td>
+          <td class="center"><%=employe.salery%></td>
+          <td class="center"><i style="color: green;" class="fa fa-arrow-up cd-popup-trigger popup3"> 
+          <i style="color: red;" class="fa fa-arrow-down cd-popup-trigger popup4"></i></td>
+          <td class="center cd-popup-trigger popup5"><i style="color: red;" class="fa fa-close"></i></td>
+          <td class="js-employee-id" style="display:none;"><%=employe.id%></td>
+        </tr>
+      <%end%>
+      </tbody>
+    </table>
+  <%end%>
+
+
   </div>
+
 <%end%>
-
-
-<%= javascript_include_tag('employees.js') %>
-<%= javascript_include_tag('bootstrap-sortable.js') %>
-<%= javascript_include_tag('bootstrap-select.min.js') %>

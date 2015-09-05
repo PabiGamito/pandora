@@ -92,7 +92,7 @@ $(".panel_dropdown").click(function(){
     $('.popup5').on('click', function() {
         var employeeName = $(this).siblings('.js-employee-name').text();
         var employeeID = $(this).siblings('.js-employee-id').text();
-        var message = "Are you sure you want to fire <b>" + employeeName + "</b>?<br><br>This can not be undone."
+        var message = "Are you sure you want to fire <b>" + employeeName + "</b>?<br><br>This can not be undone and you will have to pay " + employeeName + " their weekly salery."
         var postLink = "/fire-employee"
 
         $(".cd-popup-container").append( createMessage(message, postLink) );
@@ -163,6 +163,30 @@ $(".panel_dropdown").click(function(){
         $('form').submit();
         event.preventDefault(); //Cancel default behaviour of anchor
     });
+
+
+    // Makes Table Drag and Dropable
+    $("tbody.connectedSortable")
+        .sortable({
+        connectWith: ".connectedSortable",
+        appendTo: "parent",
+        helper: "clone",
+        cursor: "move",
+        zIndex: 999990,
+        receive: function () {
+            alert("The ajax should be called");
+        }
+    });
+
+    // Close tables
+    $('tbody').hide();
+    $('thead').hide();
+    $('caption').click(function(){
+        $(this).siblings('tbody').toggle();
+        $(this).siblings('thead').toggle();
+    });
+
+    alert("It fucking works!");
 
 });
 
