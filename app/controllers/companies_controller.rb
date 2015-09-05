@@ -132,6 +132,7 @@ class CompaniesController < ApplicationController
 
   end
 
+<<<<<<< HEAD
   def build
     if params[:production]=="true"
       Building.create(company_id: params[:company_id].to_i, name: params[:building_name], level: 1, production: true)
@@ -140,4 +141,6 @@ class CompaniesController < ApplicationController
     end
   end
 
+=======
+>>>>>>> parent of 2c730fd... End of day update fixing all glitches
 end
