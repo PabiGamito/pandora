@@ -1,0 +1,625 @@
+
+---
+users:
+  columns:
+  - id
+  - email
+  - encrypted_password
+  - reset_password_token
+  - reset_password_sent_at
+  - remember_created_at
+  - sign_in_count
+  - current_sign_in_at
+  - last_sign_in_at
+  - current_sign_in_ip
+  - last_sign_in_ip
+  - created_at
+  - updated_at
+  - username
+  - balance
+  - full_name
+  - premium
+  records: 
+  - - 1
+    - pablogamito@gmail.com
+    - "$2a$10$BPaM60XEuxB8LRamGObLIOKye5NQlWCHX1q7MIwbGlZ4tuwGvLbmK"
+    - 
+    - 
+    - 
+    - 3
+    - '2015-09-02 09:22:04.976243'
+    - '2015-09-02 08:12:10.681560'
+    - 128.79.244.111
+    - 128.79.244.111
+    - '2015-09-01 20:21:18.657442'
+    - '2015-09-02 09:22:04.977123'
+    - Pabi
+    - 0.0
+    - 
+    - false
+
+---
+admin_users:
+  columns:
+  - id
+  - email
+  - encrypted_password
+  - reset_password_token
+  - reset_password_sent_at
+  - remember_created_at
+  - sign_in_count
+  - current_sign_in_at
+  - last_sign_in_at
+  - current_sign_in_ip
+  - last_sign_in_ip
+  - created_at
+  - updated_at
+  records: 
+  - - 1
+    - admin@example.com
+    - "$2a$10$aex2fr5npvn9/hZMnsb/Ce/Bpqg2rUNO4C98iSBMx9W0HsAHPz3b."
+    - 
+    - 
+    - 
+    - 0
+    - 
+    - 
+    - 
+    - 
+    - '2015-09-01 20:19:23.215633'
+    - '2015-09-01 20:19:23.215633'
+
+---
+loans:
+  columns:
+  - id
+  - lender_id
+  - receiver_id
+  - amount
+  - pending
+  - repay_time
+  - rate
+  - created_at
+  - updated_at
+  - total_repayed
+  - max
+  records: 
+  - - 1
+    - 0
+    - 1
+    - 25000.0
+    - 
+    - 7
+    - 1.4000000000000001
+    - '2015-09-02 08:13:33.831823'
+    - '2015-09-02 08:13:33.831823'
+    - 
+    - false
+
+---
+transactions:
+  columns:
+  - id
+  - description
+  - from
+  - company_id
+  - income
+  - created_at
+  - updated_at
+  - amount
+  - user_id
+  - category
+  records: 
+  - - 1
+    - 25000$ investment from the bank.
+    - 
+    - 1
+    - true
+    - '2015-09-02 08:13:33.952731'
+    - '2015-09-02 08:13:33.952731'
+    - 25000.0
+    - 
+    - 
+
+---
+companies:
+  columns:
+  - id
+  - user_id
+  - name
+  - moto
+  - employes
+  - balance
+  - sales_turnover
+  - expenses
+  - market_capita
+  - market
+  - created_at
+  - updated_at
+  - income
+  - sector
+  - shares
+  - share_price
+  - main
+  - specialize
+  records: 
+  - - 1
+    - 1
+    - Pabi Corporation
+    - ''
+    - 
+    - 25000.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - false
+    - '2015-09-01 20:32:20.809355'
+    - '2015-09-02 08:13:34.074947'
+    - 0.0
+    - 1
+    - 0
+    - 
+    - true
+    - 101
+
+---
+employe_names:
+  columns:
+  - id
+  - name
+  - first_name
+  - origin
+  records: 
+  - - 1
+    - James
+    - true
+    - 
+  - - 2
+    - John
+    - true
+    - 
+  - - 3
+    - Robert
+    - true
+    - 
+  - - 4
+    - Micheal
+    - true
+    - 
+  - - 5
+    - William
+    - true
+    - 
+  - - 6
+    - David
+    - true
+    - 
+  - - 7
+    - Richard
+    - true
+    - 
+  - - 8
+    - Charles
+    - true
+    - 
+  - - 9
+    - Joseph
+    - true
+    - 
+  - - 10
+    - Thomas
+    - true
+    - 
+  - - 11
+    - Christopher
+    - true
+    - 
+  - - 12
+    - Daniel
+    - true
+    - 
+  - - 13
+    - Paul
+    - true
+    - 
+  - - 14
+    - Mark
+    - true
+    - 
+  - - 15
+    - Donald
+    - true
+    - 
+  - - 16
+    - George
+    - true
+    - 
+  - - 17
+    - Kenneth
+    - true
+    - 
+  - - 18
+    - Steven
+    - true
+    - 
+  - - 19
+    - Edward
+    - true
+    - 
+  - - 20
+    - Brian
+    - true
+    - 
+  - - 21
+    - Ronald
+    - true
+    - 
+  - - 22
+    - Anthony
+    - true
+    - 
+  - - 23
+    - Kevin
+    - true
+    - 
+  - - 24
+    - Jason
+    - true
+    - 
+  - - 25
+    - Jeff
+    - true
+    - 
+  - - 26
+    - Mary
+    - true
+    - 
+  - - 27
+    - Patricia
+    - true
+    - 
+  - - 28
+    - Linda
+    - true
+    - 
+  - - 29
+    - Barbara
+    - true
+    - 
+  - - 30
+    - Elizabeth
+    - true
+    - 
+  - - 31
+    - Jennifer
+    - true
+    - 
+  - - 32
+    - Maria
+    - true
+    - 
+  - - 33
+    - Susan
+    - true
+    - 
+  - - 34
+    - Margaret
+    - true
+    - 
+  - - 35
+    - Dorothy
+    - true
+    - 
+  - - 36
+    - Lisa
+    - true
+    - 
+  - - 37
+    - Nancy
+    - true
+    - 
+  - - 38
+    - Karen
+    - true
+    - 
+  - - 39
+    - Betty
+    - true
+    - 
+  - - 40
+    - Helen
+    - true
+    - 
+  - - 41
+    - Sandra
+    - true
+    - 
+  - - 42
+    - Donna
+    - true
+    - 
+  - - 43
+    - Carol
+    - true
+    - 
+  - - 44
+    - Ruth
+    - true
+    - 
+  - - 45
+    - Sharon
+    - true
+    - 
+  - - 46
+    - Michelle
+    - true
+    - 
+  - - 47
+    - Laura
+    - true
+    - 
+  - - 48
+    - Sarah
+    - true
+    - 
+  - - 49
+    - Kimberly
+    - true
+    - 
+  - - 50
+    - Deborah
+    - true
+    - 
+  - - 51
+    - Smith
+    - false
+    - 
+  - - 52
+    - Johnson
+    - false
+    - 
+  - - 53
+    - Williams
+    - false
+    - 
+  - - 54
+    - Jones
+    - false
+    - 
+  - - 55
+    - Brown
+    - false
+    - 
+  - - 56
+    - Davis
+    - false
+    - 
+  - - 57
+    - Miller
+    - false
+    - 
+  - - 58
+    - Wilson
+    - false
+    - 
+  - - 59
+    - Moore
+    - false
+    - 
+  - - 60
+    - Taylor
+    - false
+    - 
+  - - 61
+    - Anderson
+    - false
+    - 
+  - - 62
+    - Thomas
+    - false
+    - 
+  - - 63
+    - Jackson
+    - false
+    - 
+  - - 64
+    - White
+    - false
+    - 
+  - - 65
+    - Harris
+    - false
+    - 
+  - - 66
+    - Martin
+    - false
+    - 
+  - - 67
+    - Thompson
+    - false
+    - 
+  - - 68
+    - Martinez
+    - false
+    - 
+  - - 69
+    - Robinson
+    - false
+    - 
+  - - 70
+    - Clark
+    - false
+    - 
+  - - 71
+    - Rodriguez
+    - false
+    - 
+  - - 72
+    - Lewis
+    - false
+    - 
+  - - 73
+    - Lee
+    - false
+    - 
+  - - 74
+    - Walker
+    - false
+    - 
+  - - 75
+    - Hall
+    - false
+    - 
+  - - 76
+    - Allen
+    - false
+    - 
+  - - 77
+    - Young
+    - false
+    - 
+  - - 78
+    - Hernandez
+    - false
+    - 
+  - - 79
+    - King
+    - false
+    - 
+  - - 80
+    - Wright
+    - false
+    - 
+  - - 81
+    - Lopez
+    - false
+    - 
+  - - 82
+    - Hill
+    - false
+    - 
+  - - 83
+    - Scott
+    - false
+    - 
+  - - 84
+    - Green
+    - false
+    - 
+  - - 85
+    - Adams
+    - false
+    - 
+  - - 86
+    - Baker
+    - false
+    - 
+  - - 87
+    - Gonzalez
+    - false
+    - 
+  - - 88
+    - Nelson
+    - false
+    - 
+  - - 89
+    - Carter
+    - false
+    - 
+  - - 90
+    - Mitchell
+    - false
+    - 
+  - - 91
+    - Perez
+    - false
+    - 
+  - - 92
+    - Roberts
+    - false
+    - 
+  - - 93
+    - Turner
+    - false
+    - 
+  - - 94
+    - Phillips
+    - false
+    - 
+  - - 95
+    - Campbell
+    - false
+    - 
+  - - 96
+    - Parker
+    - false
+    - 
+  - - 97
+    - Evans
+    - false
+    - 
+  - - 98
+    - Edwards
+    - false
+    - 
+  - - 99
+    - Collins
+    - false
+    - 
+  - - 100
+    - Wang
+    - false
+    - 
+  - - 101
+    - Zhang
+    - false
+    - 
+  - - 102
+    - Li
+    - false
+    - 
+  - - 103
+    - Smirnov
+    - false
+    - 
+  - - 104
+    - Nguyen
+    - false
+    - 
+  - - 107
+    - Muhammad
+    - true
+    - 
+
+---
+items:
+  columns:
+  - id
+  - name
+  - value
+  - price
+  records: 
+  - - 1
+    - granor
+    - 1.0
+    - 10.0
+  - - 2
+    - stradian
+    - 
+    - 20.0
+  - - 3
+    - kryptonium
+    - 
+    - 100.0
+  - - 4
+    - conductive bion
+    - 
+    - 80.0
+  - - 5
+    - crystalized astronite
+    - 
+    - 180.0
+  - - 6
+    - morphic xenomite
+    - 
+    - 130.0

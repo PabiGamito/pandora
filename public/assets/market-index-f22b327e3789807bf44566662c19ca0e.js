@@ -1,0 +1,1 @@
+$(document).ready(function(){var e=$(".js-select").length;$(".js-select").change(function(){$.each($(".js-select"),function(t){$(this);if(t+1==e){var a=$("#market_select").val(),c=$("#company_select").val();$.ajax({type:"GET",url:"/update-orders",dataType:"script",data:{item_id:a,company_id:c}})}})})});
