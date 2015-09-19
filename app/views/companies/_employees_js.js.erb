@@ -1,4 +1,7 @@
+<%= javascript_tag do %>
+
 $(document).ready(function(){
+
 
 $(".js-togglable_panel").hide();
 
@@ -107,8 +110,6 @@ $(".panel_dropdown").click(function(){
     //Employement Ad
     $('.popup6').on('click', function() {
 
-        var companyID = $(this).siblings('.js-company-id').text();
-
         $(".cd-popup-container").append(
         "<p><h3><b>Place Employement Ad</b></h3></p>" +
         "<form class='center' action='/employement-ad' method='post' accept-charset='utf-8' style='width: 75%;'>" +
@@ -120,7 +121,7 @@ $(".panel_dropdown").click(function(){
         "</select>" +
         "<input id='amount' class='form-control' type='number' step='1' min= '1' max='1000' name='amount' placeholder='Amount of Employees Wanted' required><br><br>" +
         "<b>Price:<b> <span id='price'>0</span>$ <br><br>" +
-        "<input type='hidden' name='company_id' value='" + companyID + "'>" +
+        "<input type='hidden' name='company_id' value='<%@company.id%>'>" +
         "<button class='btn btn-primary' type='submit'>Place Ad</button><br><br>" +
         "</form>" +
         "<a class='cd-popup-close popup-close img-replace'>Close</a>");
@@ -174,7 +175,25 @@ $(".panel_dropdown").click(function(){
         cursor: "move",
         zIndex: 999990,
         receive: function () {
-            alert("The ajax should be called");
+            $(this).children('.js-employee-none').remove();
+            $('.connectedSortable').parent().each(function(){
+              if (($(this).children('.connectedSortable').children().size() - $(this).children('.connectedSortable').children('.js-building-name').size())<1) {
+                $(this).children('.connectedSortable').prepend("<tr class='js-employee-none'>" +
+                "<td class='center'>No employees works here.</td>" +
+                "</tr>");
+              };
+            });
+            if ($(this).siblings().size() == 0){
+              $('tbody.connectedSortable').children('.js-employee-none').show();
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/update-employee-building',
+                dataType: 'script',
+                data: { 'building_name' : $(this).children('.js-building-name').children('.js-building-name').text(), 'company_id' : '<%=@company.id%>' }, //'employee_id' :
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
+            });
+            alert($(this).children('.js-building-name').children('.js-building-name').text());
         }
     });
 
@@ -187,8 +206,6 @@ $(".panel_dropdown").click(function(){
     });
 
 });
-
-
 
 // DOESN'T WORK:
 // 
@@ -393,3 +410,5 @@ $(".panel_dropdown").click(function(){
 //     });
 
 // });
+// 
+<%end%>
