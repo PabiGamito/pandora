@@ -153,7 +153,7 @@ class CompaniesController < ApplicationController
       @building_id
       # if @building_id!=nil
       #   break
-      # end
+      # en d
       end
     end
   end
