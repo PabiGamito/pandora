@@ -186,6 +186,8 @@ $(".panel_dropdown").click(function(){
         $(this).siblings('thead').toggle();
     });
 
+    alert("It fucking works!");
+
 });
 
 

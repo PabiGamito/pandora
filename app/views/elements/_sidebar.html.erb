@@ -21,14 +21,7 @@
               </li>
               <%end%>
 
-              <%if Company.where(:user_id => current_user.id, :main => true).count==1%>
-              <li>
-                <a href="/companies">
-                  <i class="fa fa-building"></i>
-                    <span>Company</span>
-                </a>
-              </li>
-              <%elsif Company.where(:user_id => current_user.id, :main => true).count>1%>
+              <%if Company.where(:user_id => current_user.id).count>=1%>
               <li>
                 <a href="/companies">
                   <i class="fa fa-building"></i>
