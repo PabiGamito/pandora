@@ -132,12 +132,55 @@ class CompaniesController < ApplicationController
 
   end
 
-  def build
-    if params[:production]=="true"
-      Building.create(company_id: params[:company_id].to_i, name: params[:building_name], level: 1, production: true)
-    else
-      Building.create(company_id: params[:company_id].to_i, name: params[:building_name], level: 1, production: false)
+  def update_employee_building
+    @buildings=Building.where(company_id: params[:company_id], name: params[:building_name])
+    @buildings.each do |building|
+      n=0
+      building_employees=0
+      level=0
+      while level<building.level
+        if n<(building.level/10).to_i
+          n+=1
+          building_employees+=10*n
+          level+=10
+        elsif n==(building.level/10).to_i
+          building_employees+=n+1
+          level+=1
+        end
+      end
+
+      if Employee.where(building_id: building.id).count < building_employees
+      @building_id
+      # if @building_id!=nil
+      #   break
+      # end
+      end
     end
+  end
+
+# Build
+  def build
+    @company=Company.find(params[:company_id])
+
+    if @company.balance >= 10000
+
+      if params[:production]=="true"
+        Building.create(company_id: params[:company_id].to_i, name: params[:building_name], level: 1, production: true)
+      else
+        Building.create(company_id: params[:company_id].to_i, name: params[:building_name], level: 1, production: false)
+      end
+
+      @company.update(balance: @company.balance-10000)
+
+    else
+      # NOTIFICAITON: You do not have enough money.
+      flash[:notice] = "You do not have enough money to build a params[:building_name]."
+
+    end
+
+    @render="Build"
+    render 'load_dropdown.js.erb'
+
   end
 
 end
