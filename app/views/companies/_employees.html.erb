@@ -1,4 +1,4 @@
-<%= javascript_include_tag('employees.js') %>
+<%=render(:partial => 'employees_js.js', :handlers => [:erb], :formats => [:js]) %>
 
 <%= stylesheet_link_tag('jquery-ui.css')%>
 <%= stylesheet_link_tag('jquery-ui.structure.css') %>
@@ -28,17 +28,12 @@ th,td {
 </style>
 
 - One employee wants a raise <br>
-    <table>
-      <tbody>
-        <tr>
-          <td class="center cd-popup-trigger popup6 btn btn-primary">Place Employement Ad</td>
-          <td class="center js-company-id" style="display:none;"><%=@company.id%></td>
-          <td class="center cd-popup-trigger popup6 btn btn-primary">Appoint Employees</td>
-          <td class="center cd-popup-trigger popup6 btn btn-primary">Employee Training</td>
-          <td class="center cd-popup-trigger popup6 btn btn-primary">Employee Finder - Cat. 4 & 5</td>
-        </tr>
-      </tbody>
-    </table><br>
+
+          <button class="center cd-popup-trigger popup6 btn btn-primary">Place Employement Ad</button>
+          <button class="center cd-popup-trigger popup6 btn btn-primary">Employee Training</button>
+          <button class="center cd-popup-trigger popup6 btn btn-primary">Employee Finder - Cat. 4 & 5</button>
+          See buildings "Campus" Live With Employees in them Working
+        <br><br>
 
   <!-- Employement Request -->
 <%if Employe.where(company_id: @company.id, request: true).count!=0%>
@@ -115,7 +110,7 @@ end
   <table class="table table-bordered table-responsive table-hover js-togglable_panel sortable">
       
       <thead>
-        <caption>Not Working <i class="fa fa-angle-down"></i></caption>
+        <caption><b>Not Working</b> <span class="badge">3/10</span> <i class="fa fa-angle-down"></i></caption>
         <tr>
           <th class="center" data-defaultsort="asc">Name</th>
           <th class="center">IQ</th>
@@ -129,6 +124,14 @@ end
         </tr>
       </thead>
       <tbody class="connectedSortable">
+      <tr style="display:none;" class='js-building-name'>
+        <td class='js-building-name'>none</td>
+      </tr>
+      <%if Employe.where(company_id: @company.id, request: false, building_id: nil).count==0%>
+      <tr class='js-employee-none'>
+        <td stlye='display:none;' class="center">No employees are not working.</td>
+      </tr>
+      <%end%>
       <%Employe.where(company_id: @company.id, request: false, building_id: nil).each do |employe|%>
         <tr>
           <td class="center js-employee-name"><%=employe.name%></td>
@@ -149,7 +152,7 @@ end
   
   <%@buildings.each do |building, employees|%>
     <table class="table table-bordered table-responsive table-hover js-togglable_panel sortable">
-      <caption>Working in <%=building.capitalize%> <i class="fa fa-angle-down"></i></caption>
+      <caption><b>Working in <%=building.capitalize%></b> <i class="fa fa-angle-down"></i></caption>
       <thead>
         <tr>
           <th class="center" data-defaultsort="asc">Name</th>
@@ -164,6 +167,14 @@ end
         </tr>
       </thead>
       <tbody class="connectedSortable">
+      <tr style="display:none;" class='js-building-name'>
+        <td class='js-building-name'><%=building%></td>
+      </tr>
+      <%if employees.count==0%>
+      <tr class='js-employee-none'>
+        <td stlye='display:none;' class="center">No employees works here.</td>
+      </tr>
+      <%end%>
       <%employees.each do |employe|%>
         <tr>
           <td class="center js-employee-name"><%=employe.name%></td>

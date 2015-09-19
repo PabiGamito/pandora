@@ -1,3 +1,6 @@
+# Sets log output for whenever
+set :output, 'log/whenever.log'
+
 #Example
 
 # every 3.hours do
