@@ -98,6 +98,7 @@ Rails.application.routes.draw do
 
   # Shop
   get "payment" => "shop#payment"
+  get "pricing" => "shop#pricing"
 
   # Global Market
   get "market" => "market#index"

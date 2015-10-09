@@ -1,0 +1,260 @@
+<style type="text/css">
+.container {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.container .column {
+  width: 33%;
+  padding: 0 15px;
+  -webkti-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+}
+.container .column:nth-child(2) .pricing-table {
+  -webkit-animation-duration: 1.5s;
+  -moz-animation-duration: 1.5s;
+  animation-duration: 1.5s;
+}
+.container .column:nth-child(3) .pricing-table {
+  -webkit-animation-duration: 2s;
+  -moz-animation-duration: 2s;
+  animation-duration: 2s;
+}
+.container:before,
+.container:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+.pricing-table {
+  position: relative;
+  background: #666666;
+  margin: 0 auto;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-transition: all 0.3s linear 0s;
+  -moz-transition: all 0.3s linear 0s;
+  -ms-transition: all 0.3s linear 0s;
+  -o-transition: all 0.3s linear 0s;
+  transition: all 0.3s linear 0s;
+  -webkit-animation: 1s slideDown ease;
+  overflow: hidden;
+}
+.pricing-table .title {
+  margin: 0;
+  padding: 15px 5px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.pricing-table .price {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 30px 10px;
+  color: #ffffff;
+}
+.pricing-table .price span {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+}
+.pricing-table .price span:nth-child(2) {
+  font-size: 48px;
+}
+.pricing-table ul {
+  background: #ffffff;
+  margin: 0;
+  padding: 0;
+  color: #666666;
+  font-size: 14px;
+  text-align: left;
+}
+.pricing-table ul li {
+  padding: 15px 30px;
+}
+.pricing-table ul li .fa {
+  margin: 0 11px 0 0;
+}
+.pricing-table ul li:nth-child(2n) {
+  background: rgba(0, 0, 0, 0.05);
+}
+.pricing-table .button {
+  display: block;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 15px;
+  padding: 15px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.pricing-table.best {
+  background: #2ecc71;
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.info {
+  width: 300px;
+  margin: 25px auto 60px;
+  text-align: center;
+}
+.info h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+  font-weight: 400;
+  color: #333333;
+}
+.info span {
+  color: #666666;
+  font-size: 12px;
+}
+.info span a {
+  color: #000000;
+  text-decoration: none;
+}
+.info span .fa {
+  color: #2ecc71;
+}
+.info span .spoilers {
+  color: #999999;
+  margin-top: 5px;
+  font-size: 10px;
+}
+@-webkit-keyframes slideDown {
+  0% {
+    opacity: 0;
+    top: -60px;
+  }
+  50% {
+    top: 10px;
+  }
+  100% {
+    opacity: 1;
+    top: 0;
+  }
+}
+</style>
+
+<div class='info'>
+  <h1>Pricing Table</h1>
+  <span>
+    Made with
+    <i class='fa fa-heart animated infinite pulse'></i>
+    by
+    <a href='http://andytran.me'>Andy Tran</a>
+    <div class='spoilers'>
+      (3 Tables!) | (Active Class!) | (Very Swag!)
+    </div>
+  </span>
+</div>
+<div class='container'>
+  <div class='column'>
+    <div class='pricing-table'>
+      <h2 class='title'>Hatchling Plan</h2>
+      <div class='price'>
+        <span>$</span>
+        <span>3.96</span>
+        <span>/ month</span>
+      </div>
+      <ul>
+        <li>
+          <div class='fa fa-check'></div>
+          Single Domain
+        </li>
+        <li>
+          <div class='fa fa-check'></div>
+          Unlimited Disk Space
+        </li>
+        <li>
+          <div class='fa fa-check'></div>
+          Unlimited Bandwidth
+        </li>
+        <li>
+          <div class='fa fa-check'></div>
+          Shared SSL Certificate
+        </li>
+        <li>
+          <div class='fa fa-times'></div>
+          FREE Toll Free Number
+        </li>
+      </ul>
+      <a class='button' href='#'>Sign Up Now</a>
+    </div>
+  </div>
+  <div class='column'>
+    <div class='pricing-table best'>
+      <h2 class='title'>Baby Plan</h2>
+      <div class='price'>
+        <span>$</span>
+        <span>6.36</span>
+        <span>/ month</span>
+      </div>
+      <ul>
+        <li>
+          <div class='fa fa-check'></div>
+          Unlimited Domain
+        </li>
+        <li>
+          <div class='fa fa-check'></div>
+          Unlimited Disk Space
+        </li>
+        <li>
+          <div class='fa fa-check'></div>
+          Unlimited Bandwidth
+        </li>
+        <li>
+          <div class='fa fa-check'></div>
+          Shared SSL Certificate
+        </li>
+        <li>
+          <div class='fa fa-times'></div>
+          FREE Toll Free Number
+        </li>
+      </ul>
+      <a class='button' href='#'>Sign Up Now</a>
+    </div>
+  </div>
+  <div class='column'>
+    <div class='pricing-table'>
+      <h2 class='title'>Business Plan</h2>
+      <div class='price'>
+        <span>$</span>
+        <span>10.36</span>
+        <span>/ month</span>
+      </div>
+      <ul>
+        <li>
+          <div class='fa fa-check'></div>
+          Unlimited Domain
+        </li>
+        <li>
+          <div class='fa fa-check'></div>
+          Unlimited Disk Space
+        </li>
+        <li>
+          <div class='fa fa-check'></div>
+          Unlimited Bandwidth
+        </li>
+        <li>
+          <div class='fa fa-check'></div>
+          FREE Priate SSL &amp; IP
+        </li>
+        <li>
+          <div class='fa fa-check'></div>
+          FREE Toll Free Number
+        </li>
+      </ul>
+      <a class='button' href='#'>Sign Up Now</a>
+    </div>
+  </div>
+</div>

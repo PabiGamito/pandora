@@ -36,8 +36,8 @@ Message: <br>
 <b>Share Price:</b> ?? /\ or \/<br>
 <b>Request Loan</b> <br>
 Stock: stock where company.id Buy & Sell, Click to access market
-Buy and Sell Stock
-Buildings:<br> 
+Buy and Sell Stock <br>
+<b>Buildings:</b><br> 
 <%Building.where(company_id: @company.id).order(:name).each do |building|
     if defined?(@previous_name)==nil
       @amount=1

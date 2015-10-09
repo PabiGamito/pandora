@@ -11,7 +11,7 @@ class CompaniesController < ApplicationController
     if cookies[:company]==nil
       cookies[:company]=Company.find_by(user_id: current_user.id).id
     end
-    if Company.find(cookies[:company]).user_id=current_user.id
+    if Company.find(cookies[:company]).user_id==current_user.id
       @company=Company.find(cookies[:company])
     else
       cookie[:company]=Company.find_by(user_id: current_user.id).id

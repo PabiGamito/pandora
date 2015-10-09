@@ -2,10 +2,21 @@
   <%@companies=Company.where(:user_id => current_user.id, :main=> true)%>
   <!-- TODO: add this back -->
   <%if @companies.count > 0 && current_user.premium==false%>
-  <h1 style="position: relative; top: 20px;">You already own a company.</h1><br><h3>As a non-premium user <br>you may not own more than one company.</h3>
+  <h1>You already own a company.</h1><br>
+  <h3>As a non-premium user <br>you may not own more than one company.</h3><br>
+  You must sell your company or close it inorder to create a new one.
 
   <a href="/premium"><button>Go Premium</button></a><br><br>
+</div>
   <%else%>
+
+
+  <h1>You already own a company.</h1>
+  <h3>As a non-premium user <br>you may not own more than one company.</h3>
+  <p><i>You must sell your company or close it inorder to create a new one.</i></p>
+
+  <a href="/premium"><button>Go Premium Now</button></a><br><br>
+
 
   <h1>Create a New Company</h1>
   
@@ -41,9 +52,9 @@
     </div> -->
     <button class="form-control" type="submit">Create</button>     
   </form>
+</div>
+</div>
+</div>
   <%end%>
-</div>
-</div>
-</div>
 
 <%= javascript_include_tag('company_new.js') %>
