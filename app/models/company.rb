@@ -25,17 +25,17 @@ class Company < ActiveRecord::Base
     end
   end
 
-  def production_speed
-    production_speed=0
-    Building.where(company_id: self.id).each do |building|
-      if Upgrade.find(building.upgrade_id).category==self.specialize
-        if Upgrade_production.find_by(upgrade_id: building.upgrade_id)!=nil
-          production_speed=Upgrade_production.speed_per_employee*Employe.where(building_id: building.id).count
-        end
-      end
-    end
-    return production_speed
-  end
+  # def production_speed
+  #   production_speed=0
+  #   Building.where(company_id: self.id).each do |building|
+  #     if Upgrade.find(building.upgrade_id).category==self.specialize
+  #       if Upgrade_production.find_by(upgrade_id: building.upgrade_id)!=nil
+  #         production_speed=Upgrade_production.speed_per_employee*Employe.where(building_id: building.id).count
+  #       end
+  #     end
+  #   end
+  #   return production_speed
+  # end
 
  #Runs automatically by server every so often.
   def self.calculations
@@ -66,6 +66,28 @@ class Company < ActiveRecord::Base
 
   def weekly_reset
 
+  end
+
+  def specialize_name
+    if self.specialize==100
+      return "krypotonium"
+    elsif self.specialize==101
+      return "granor"
+    elsif self.specialize==102
+      return "stradian"
+    elsif self.specialize==200
+      return "conductive bion"
+    elsif self.specialize==201
+      return "crystalized astronite"
+    elsif self.specialize==202
+      return "morphic xenomite"
+    elsif self.specialize==300
+      return "transportation"
+    elsif self.specialize==301
+      return "distribution"
+    elsif self.specialize=302
+      return "construction"
+    end
   end
 
 end

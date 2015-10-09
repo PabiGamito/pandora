@@ -1,5 +1,8 @@
 <%= stylesheet_link_tag 'bootstrap-sortable' %>
 
+<script src="http://code.highcharts.com/stock/highstock.js"></script>
+<script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+
 
 <form action="/update-buy-sell-orders" method="post" id="js-update-arrays">
 
@@ -66,5 +69,23 @@
 
 </div>
 
+My Open Orders: Oder Amount Name Price ...
+
 
 <%= javascript_include_tag('market-index.js') %>
+
+<%= javascript_tag do %>
+$( document ).ready(function(){
+	$('#notificationbar').html("<h3>MARKETS</h3>"+
+     <%Item.all.each do |item|%>
+      "<div class='desc'>" +
+      "<a href='#<%=item.name%>' style='text-decoration: none;" +
+      "<div class='details' style='height: 10px !important;'>" +
+        "<p>" +
+         "<b><%=item.name.upcase%> - <%=item.price%>$ - Volume - Change</b><br/>" +
+       "</p>" +
+     "</div>" +
+     "</a>" +
+   "</div>"<%end%>);
+});
+<%end%>

@@ -1,3 +1,12 @@
+Test
+
+<%Building.where(company_id: @company.id).each do |building|%>
+	Test<%=building.name%>
+<%end%>
+
+
+<!-- DO NOT RUN THIS CODE FOR NOW -->
+<%if 1==23%>
 <!-- If user does not have a headquaters -->
 <%if Building.find_by(company_id: @company.id, name: "headquarters")==nil%>
 	<b>You must build a headquaters before you can upgrade anything.</b>
@@ -110,5 +119,7 @@ end%>
     <%= javascript_include_tag('upgrade.js') %>
 
 
+
+<%end%>
 
 <%end%>
