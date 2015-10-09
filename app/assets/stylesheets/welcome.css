@@ -349,11 +349,6 @@ h1, h2, h3, h4, h5, h6 {
   Item counter section
 ==================================================================*/
 
-#counter {
-    background-image: url(../img/parallax/city.jpg);
-    padding: 70px 0;
-}
-
 .counters-item {
     border: 1px solid #4e595f;
     padding-bottom: 30px;

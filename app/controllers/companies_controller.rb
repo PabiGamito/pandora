@@ -8,12 +8,16 @@ class CompaniesController < ApplicationController
     @companies=Company.where(user_id: current_user.id, main: true)
     @page_name="Your Companies"
     # cookies[:company]=Company.find_by(user_id: current_user.id).id
-    if cookies[:company]==nil
-      cookies[:company]=Company.find_by(user_id: current_user.id).id
-    end
-    if Company.find(cookies[:company]).user_id==current_user.id
-      @company=Company.find(cookies[:company])
-    else
+    begin
+      if cookies[:company]==nil
+        cookies[:company]=Company.find_by(user_id: current_user.id).id
+      end
+      if Company.find(cookies[:company]).user_id==current_user.id
+        @company=Company.find(cookies[:company])
+      else
+        cookie[:company]=Company.find_by(user_id: current_user.id).id
+      end
+    rescue
       cookie[:company]=Company.find_by(user_id: current_user.id).id
     end
   end

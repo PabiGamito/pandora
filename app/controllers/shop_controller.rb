@@ -4,10 +4,11 @@ class ShopController < ApplicationController
   layout "application"
 
   def payment
+  	@page_name="Payment"
   end
 
   def pricing
-  	
+  	@page_name="Pricing"
   end
 
 end
