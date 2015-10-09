@@ -105,6 +105,7 @@ Rails.application.routes.draw do
   post "market-sell" => "market#sell"
   post "market-buy" => "market#buy"
   get "update-orders" => "market#update_orders"
+  get "market-json/:id" => "market#json"
 
   # Comapny
   resources :companies

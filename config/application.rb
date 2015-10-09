@@ -39,6 +39,16 @@ module Pandora
     config.assets.precompile += ['jquery-ui.theme.css']
     config.assets.precompile += ['jquery-ui.css']
     config.assets.precompile += ['upgrade.js']
+    config.assets.precompile += ['amcharts/style.css']
+    config.assets.precompile += ['amcharts/amstock.js']
+    config.assets.precompile += ['amcharts/serial.js']
+    config.assets.precompile += ['main_tab.js']
+    config.assets.precompile += ['main_tab.css']
+
+    config.assets.precompile += ['highcharts/highstock.js']
+    config.assets.precompile += ['highcharts/highcharts.js']
+    config.assets.precompile += ['highcharts/highcharts-more.js']
+    config.assets.precompile += ['highcharts/modules/exporting.js']
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

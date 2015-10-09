@@ -54,8 +54,9 @@ end%>
 
 <%@buildings.each do |building, production|%>
 	<div class="build_box">
-		<img src="assets/<%=building%>.png">
+<!-- 		<img src="assets/<%=building%>.png"> -->
 		<p class="<%=building.downcase%>">Build <%=building%></p>
+		<p>Price calculated by price of construction companies</p>
 		<p class="production" style="display: none;"><%=production%></p>
 	</div>
 <%end%>
@@ -74,10 +75,6 @@ end%>
 
 <%end%>
 </div>
-
-What you have:<br> <%Building.where(company_id: @company.id).each do |building|%> 
-	<%=building.name.capitalize%> <br> 
-<%end%>
 
 <%end%>
 

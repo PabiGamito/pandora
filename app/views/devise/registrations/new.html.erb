@@ -22,7 +22,7 @@
 
       <!-- #USER CREATION FORM -->
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "form-horizontal form-user form1"}) do |f| %>
-       <%=flash[:notice]!%>
+       <!-- Add flash notice -->
 
         <div class="form-group">
           <%= f.label :username, class: "control-label mr" %><br>

@@ -41,6 +41,8 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+gem 'lazy_high_charts'
+
 gem 'bundler'
 
 gem "font-awesome-rails"

@@ -190,7 +190,7 @@ $(".panel_dropdown").click(function(){
                 type: 'POST',
                 url: '/update-employee-building',
                 dataType: 'script',
-                data: { 'building_name' : $(this).children('.js-building-name').children('.js-building-name').text(), 'company_id' : '<%=@company.id%>' }, //'employee_id' :
+                data: { 'building_name' : $(this).children('.js-building-name').children('.js-building-name').text(), 'company_id' : '<%=@company.id%>', 'employee_id' : }, //'employee_id' :
                 beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
             });
             alert($(this).children('.js-building-name').children('.js-building-name').text());

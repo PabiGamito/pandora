@@ -179,6 +179,7 @@ GEM
     has_scope (0.6.0)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
+    hash-deep-merge (0.1.1)
     hashie (3.4.2)
     hike (1.2.3)
     http_parser.rb (0.6.0)
@@ -201,6 +202,9 @@ GEM
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+    lazy_high_charts (1.5.4)
+      bundler (>= 1.0)
+      hash-deep-merge
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -382,6 +386,7 @@ DEPENDENCIES
   haml
   jbuilder (~> 2.0)
   jquery-rails
+  lazy_high_charts
   omniauth
   omniauth-facebook
   private_pub

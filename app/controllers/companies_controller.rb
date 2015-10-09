@@ -7,6 +7,15 @@ class CompaniesController < ApplicationController
   def index
     @companies=Company.where(user_id: current_user.id, main: true)
     @page_name="Your Companies"
+    # cookies[:company]=Company.find_by(user_id: current_user.id).id
+    if cookies[:company]==nil
+      cookies[:company]=Company.find_by(user_id: current_user.id).id
+    end
+    if Company.find(cookies[:company]).user_id=current_user.id
+      @company=Company.find(cookies[:company])
+    else
+      cookie[:company]=Company.find_by(user_id: current_user.id).id
+    end
   end
 
   def load_dropdown
@@ -136,8 +145,8 @@ class CompaniesController < ApplicationController
     @buildings=Building.where(company_id: params[:company_id], name: params[:building_name])
     @buildings.each do |building|
       n=0
-      building_employees=0
-      level=0
+      building_employees=0 #Max number of worker that can work in total of buildings of specific type
+      level=0 #Level of Building
       while level<building.level
         if n<(building.level/10).to_i
           n+=1
@@ -148,13 +157,12 @@ class CompaniesController < ApplicationController
           level+=1
         end
       end
+    end
 
-      if Employee.where(building_id: building.id).count < building_employees
-      @building_id
-      # if @building_id!=nil
-      #   break
-      # end
-      end
+    if Employee.where(company_id: params[:company_id], building_id: building.id).count < building_employees
+      #Employe.find(params[:employee_id]).update(building_id: building that is not full id)
+    else
+      # Building full please upgrade 
     end
   end
 

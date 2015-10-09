@@ -80,21 +80,30 @@ th,td {
 <%end%>
 
 <!-- Gets Employee Working List -->
+<%if Building.where(company_id: @company.id).count != 0%>
+
 <%Building.where(company_id: @company.id).order(:name).each do |building|
-    if defined?(@previous_name)==nil
-      @employees=Employe.where(building_id: building.id, request: false)
-      @buildings={}
-    elsif @previous_name==building.name
+    if defined?(@previous_building)==nil
+      @employees=[Employe.where(building_id: building.id, request: false)]
+      @work_buildings={}
+    elsif @previous_building==building.name
       @employees.push(*Employe.where(building_id: building.id, request: false))
     else
-      @buildings["#{@previous_name}"]=@employees
+      @work_buildings["#{@previous_building}"]=@employees
       @employees=Employe.where(building_id: building.id, request: false)
     end
-    @previous_name=building.name
+    @previous_building=building.name
 end
   # Last category
-  @buildings["#{@previous_name}"]=@employees
+  @work_buildings["#{@previous_building}"]=@employees
 %>
+
+<%else
+@work_buildings={}
+%>
+
+
+<%end%>
 
 <!-- Employes List -->
 <%if Employe.where(company_id: @company.id, request: false).count!=0%>
@@ -150,7 +159,7 @@ end
       </tbody>
     </table>
   
-  <%@buildings.each do |building, employees|%>
+  <%@work_buildings.each do |building, employees|%>
     <table class="table table-bordered table-responsive table-hover js-togglable_panel sortable">
       <caption><b>Working in <%=building.capitalize%></b> <i class="fa fa-angle-down"></i></caption>
       <thead>
@@ -170,11 +179,11 @@ end
       <tr style="display:none;" class='js-building-name'>
         <td class='js-building-name'><%=building%></td>
       </tr>
-      <%if employees.count==0%>
+      <%if employees.count==1%> <!-- TODO: Check this -->
       <tr class='js-employee-none'>
         <td stlye='display:none;' class="center">No employees works here.</td>
       </tr>
-      <%end%>
+      <%else%>
       <%employees.each do |employe|%>
         <tr>
           <td class="center js-employee-name"><%=employe.name%></td>
@@ -189,6 +198,7 @@ end
           <td class="center cd-popup-trigger popup5"><i style="color: red;" class="fa fa-close"></i></td>
           <td class="js-employee-id" style="display:none;"><%=employe.id%></td>
         </tr>
+      <%end%>
       <%end%>
       </tbody>
     </table>

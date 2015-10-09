@@ -22,6 +22,7 @@ $(document).ready(function(){
         };
     });
 
+
 // Companies Dropdown
     $(".js-company_dropdown").siblings(".togglable_panel").show();
     $(".js-company_dropdown").click(function(){

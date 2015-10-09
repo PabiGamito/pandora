@@ -1,13 +1,19 @@
 <%if @render=="Build"%>
 $('#Build<%=@company.id%>').html("<%= j render 'build' %>");
+$('.build').html("<%= j render 'build' %>");
 <%elsif @render=="Employees"%>
 $('#Employees<%=@company.id%>').html("<%= j render 'employees' %>");
+$('.employees').html("<%= j render 'employees' %>");
 <%elsif @render=="Upgrade"%>
 $('#Upgrade<%=@company.id%>').html("<%= j render 'upgrade' %>");
+$('.upgrade').html("<%= j render 'upgrade' %>");
 <%elsif @render=="Stock"%>
 $('#Stock<%=@company.id%>').html("<%= j render 'stock' %>");
+$('.stock').html("<%= j render 'stock' %>");
 <%elsif @render=="Production"%>
 $('#Production<%=@company.id%>').html("<%= j render 'production' %>");
+$('.production').html("<%= j render 'production' %>");
 <%elsif @render=="Profit & Loss"%>
 $('#Profit_and_Loss<%=@company.id%>').html("<%= j render 'profit_and_loss' %>");
+$('.build').html("<%= j render 'profit_and_loss' %>");
 <%end%>

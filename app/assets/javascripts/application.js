@@ -17,4 +17,4 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require bootstrap-select.min
-//= require bootstrap-sortable
+//= require bootstrap-sortable 
