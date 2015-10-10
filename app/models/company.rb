@@ -90,4 +90,114 @@ class Company < ActiveRecord::Base
     end
   end
 
+  def self.generate_production
+    # Varibale set at begining of Method
+    #Rare Material
+    total_hourly_kryptonium_production = 10
+    total_kryptonium_multiplicator = 0
+    #Common Material
+    total_hourly_granor_production = 20000
+    total_granor_multiplicator = 0
+    #Moderatly Common Meterial
+    total_hourly_stradian_production = 5000
+    total_stradian_multiplicator = 0
+
+    # Calculate total multiplicator for each mining production
+    self.all.each do |company|
+      if company.sector == 1
+        # Veriable reset for each company loop
+        employee_multiplicator = 0
+        begin
+          Building.where(company_id: company_id, production: true).each do |building|
+            Employe.where(building_id: build.id).each do |employee|
+              # Quality and IQ mostly matter in office and selling workspace.
+              # TODO: Make it so employees working in office & headquaters affect production or something else.
+              employee_multiplicator += (employee.efficiency/100 + employee.focus/100 + employee.iq/500)
+              if building.name=="granor mine"
+                total_granor_multiplicator += employee_multiplicator*Math.sqrt(building.level)
+              elsif building.name=="krypotonium mine"
+                total_kryptonium_multiplicator += employee_multiplicator*Math.sqrt(building.level)
+              elsif building.name=="stradian mine"
+                total_stradian_multiplicator += employee_multiplicator*Math.sqrt(building.level)
+              end
+            end
+          end
+        rescue
+          #If error run this
+        end
+      end
+    end
+
+    # Calculate + generate the recourses mined by the companies
+    self.all.each do |company|
+      if company.sector == 1
+        company_production_multiplicator = 0
+        
+        begin
+          Building.where(company_id: company_id, production: true).each do |building|
+            building_multiplicator = 0
+            Employe.where(building_id: build.id).each do |employee|
+              employee_multiplicator = (employee.efficiency/100 + employee.focus/100 + employee.iq/500)
+              building_multiplicator += employee_multiplicator*Math.sqrt(building.level)
+            end
+            #Update Building Production
+            if company.specialize==100
+              production=(building_multiplicator/total_kryptonium_multiplicator)*total_hourly_kryptonium_production
+            elsif company.specialize==101
+              production=(building_multiplicator/total_granor_multiplicator)*total_hourly_granor_production
+            elsif company.specialize==102
+              production=(building_multiplicator/total_stradian_multiplicator)*total_hourly_stradian_production
+            end
+            building.update(production_amount: production)
+            company_production_multiplicator += building_multiplicator
+          end
+
+          #Generate the items produced + Update Company Production
+          if company.specialize==100
+            production=(company_production_multiplicator/total_kryptonium_multiplicator)*total_hourly_kryptonium_production
+            #Generate the production
+            item_stock = Stock.find_by(company_id: company.id, item_id: Item.find_by(name: "kryptonium").id)
+            if item_stock!=nil
+              item_stock.update(amount: item_stock.amount+production)
+            else
+              Stock.new(company_id: company.id, amount: production, item_id: Item.find_by(name: "kryptonium").id)
+            end
+          elsif company.specialize==101
+            production=(company_production_multiplicator/total_granor_multiplicator)*total_hourly_granor_production
+            #Generate the production
+            item_stock = Stock.find_by(company_id: company.id, item_id: Item.find_by(name: "granor").id)
+            if item_stock!=nil
+              item_stock.update(amount: item_stock.amount+production)
+            else
+              Stock.new(company_id: company.id, amount: production, item_id: Item.find_by(name: "granor").id)
+            end
+          elsif company.specialize==102
+            production=(company_production_multiplicator/total_stradian_multiplicator)*total_hourly_stradian_production
+            #Generate the production
+            item_stock = Stock.find_by(company_id: company.id, item_id: Item.find_by(name: "stradian").id)
+            if item_stock!=nil
+              item_stock.update(amount: item_stock.amount+production)
+            else
+              Stock.new(company_id: company.id, amount: production, item_id: Item.find_by(name: "stradian").id)
+            end
+          end
+
+          # Update Company Production
+          company.update(production: production)
+
+        rescue
+          #If error run nothing
+        end
+
+      end
+    end    
+
+  end
+
+  def self.generate_sales
+    self.where(specialize: 301).each do |company|
+      # calculate sales based on total workers
+    end
+  end
+
 end
