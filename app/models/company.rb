@@ -13,6 +13,7 @@ class Company < ActiveRecord::Base
     self.income ||= 0
     self.market_capita ||= 0
     self.shares ||= 0
+    self.production ||= 0
   end
 
   def process_transaction(transaction)
@@ -128,6 +129,7 @@ class Company < ActiveRecord::Base
       end
     end
 
+    # TODO: Make it so production varies + or - to 0-5% total produciton or something like that.
     # Calculate + generate the recourses mined by the companies
     self.all.each do |company|
       if company.sector == 1

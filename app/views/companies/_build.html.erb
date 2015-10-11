@@ -17,16 +17,12 @@
 
 </style>
 
-<%if Building.find_by(company_id: @company.id, name: "headquarters")==nil%>
-<div class="build_box">
-	<img src="assets/headquarters.png">
-	<p class="headquarters">Build Headquaters</p>
-	<p class="produtcion" style="display: none;">false</p>
-</div>
-<%else%>
+
 <%@buildings = {}
 #For all
 @buildings["Office"] = false
+@buildings["Cafeteria"] = false
+@buildings["Storage Facility"] = false
 %>
 <%if @company.specialize<200
 	if @company.specialize==100
@@ -38,17 +34,19 @@
 	end
 elsif @company.specialize<300
 	if @company.specialize==200
-		@buildings["Conductive Bion"] = true
+		@buildings["Conductive Bion Factory"] = true
 	elsif @company.specialize==201
-		@buildings["Crystalized Astronite"] = true
+		@buildings["Crystalized Astronite Factory"] = true
 	elsif @company.specialize==202
-		@buildings["Morphic Xenomite"] = true
+		@buildings["Morphic Xenomite Factory"] = true
 	end
 elsif @company.specialize<400
 	if @company.specialize==300
+		@buildings["Truck"] = false
 	elsif @company.specialize==301
+		@buildings["Shop"] = false
 	elsif @company.specialize==302
-
+		#Construction
 	end
 end%>
 
@@ -75,8 +73,6 @@ end%>
 
 <%end%>
 </div>
-
-<%end%>
 
 <%= javascript_tag do %>
 $(document).ready(function(){

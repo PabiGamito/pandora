@@ -1,3 +1,26 @@
+<input type="hidden" value="<%=@company.id%>" name="company_id">
+
+<div class="form-group">
+  <label><h4>Select Company to Manage</h4></label>
+  <select class="form-control js-select" id="company_select">
+    <%Company.where(user_id: current_user.id).each do |company|%>
+      <%if @company==company%>
+        <option value="" disabled selected><%=company.name%></option>
+      <%else%>
+        <option value="<%=company.id%>"><%=company.name%></option>
+      <%end%>
+    <%end%>
+  </select>
+</div>
+
+<%if Building.find_by(company_id: @company.id, name: "headquarters")==nil%>
+<h4>You must build your headquarters in order to start working.</h4>
+<button>Build Headquarters for $<%=%></button>
+<%else%>
+
+<%= stylesheet_link_tag 'spinning_boxes' %>
+<%= javascript_include_tag('spinning_boxes.js') %>
+
 <%= stylesheet_link_tag 'popup' %>
 <%= stylesheet_link_tag 'bootstrap-sortable' %>
 <%= stylesheet_link_tag 'bootstrap-select.min' %>
@@ -9,87 +32,155 @@
 <%= javascript_include_tag('employees.js') %>
 <%= javascript_include_tag('main_tab.js') %>
 
-<%#if building.find_by(@company.id)==nil%>
-  YOU MUST BUILD A HEADQUARTERS BEFORE YOU CAN DO ANYTHING ELSE.
-<%#end%>
+<div class="full">
+  <section id="banner" class="topbanner">
+    <div id="boxes">
 
-<input type="hidden" value="<%=@company.id%>" name="company_id">
+      <div class="big-box">
+        <div>
+          <div class="content beaches-visible" style="background: #2E3341;">
+            <div style="margin: 8px; color: white;">
+            <span>Bora Bora</span>
+            <img src="http://www.savorypixel.com/678799/beaches/bora-bora.jpg" />
+            </div>
+          </div>
+          <div class="content forests-visible" style="background: #2E3341;">
+            <div style="margin: 8px; color: white;">
+              <%=render 'build'%>
+            </div>
+          </div>
+          <div class="content lakes-visible" style="background: #2E3341;">
+            <div style="margin: 8px; color: white;">
+            <span>Lake Lucerne</span>
+            <img src="http://www.savorypixel.com/678799/lakes/lake-lucerne.jpg" />
+            </div>
+          </div>
+          <div class="content mountains-visible" style="background: #2E3341;">
+            <div style="margin: 8px; color: white;">
+              <%=render 'employees'%>
+            </div>
+          </div>
+          <div class="content original" style="background: #2E3341;">
+            <div style="margin: 8px; color: white;">
+              <h3 class="center"><b>QUICK ACCESS PANEL</b></h3>
+              <hr>
+              <h4>
+              Alert: <br>
+              Message: <br>
+              <b>Balance:</b> $<%=@company.balance%> <br>
+              <b>Production:</b> ?? <%=@company.specialize_name.capitalize%>/day <br>
+              <b>Share Price:</b> ?? /\ or \/<br>
+              <b>Request Loan</b> <br>
+              Stock: stock where company.id Buy & Sell, Click to access market
+              Buy and Sell Stock <br>
+              <b>Buildings:</b><br> 
+              <%Building.where(company_id: @company.id).order(:name).each do |building|
+                  if defined?(@previous_name)==nil
+                    @amount=1
+                  elsif @previous_name==building.name
+                    @amount+=1
+                  else%>
+                    <%=@amount%> <%=@previous_name%> Image <br>
+                    <%@amount=1
+                  end
+                  @previous_name=building.name
+                end%>
+                    <!-- Shows the last buildings -->
+                  <%=@amount%> <%=@previous_name%> Image <br>
+              <%if @company.specialize<300%>
+              <b>Estimated Daily Production</b>: <%=@company.production%> <i>(Updated Every Hour)</i>
+              <%end%>
+              </h4>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <div class="form-group">
-    <label><h4>Select Company to Manage</h4></label>
-    <select class="form-control js-select" id="company_select">
-      <%Company.where(user_id: current_user.id).each do |company|%>
-        <%if @company==company%>
-          <option value="" disabled selected><%=company.name%></option>
-        <%else%>
-          <option value="<%=company.id%>"><%=company.name%></option>
-        <%end%>
-      <%end%>
-    </select>
-  </div>
+      <div class="small-box mountains" rel="mountains">
+        <div>
+         <div class="content lakes-visible">
+            <span>Derwentwater</span>
+            <img src="http://www.savorypixel.com/678799/lakes/derwentwater.jpg" />
+          </div>
+          <div class="content forests-visible">
+            <span>Black Forest</span>
+            <img src="http://www.savorypixel.com/678799/forests/black-forest.jpg" />
+          </div>
+          <div class="content beaches-visible">
+            <span>The Maldives</span>
+            <img src="http://www.savorypixel.com/678799/beaches/maldives.jpg" />
+          </div>
+          <div class="content mountains-visible original">
+            <span>Employees</span>
+          </div>
+        </div>
+      </div>
 
-<h4>QUICK ACCESS PANEL</h4>
-Alert: <br>
-Message: <br>
-<b>Balance:</b> $<%=@company.balance%> <br>
-<b>Production:</b> ?? <%=@company.specialize_name.capitalize%>/day <br>
-<b>Share Price:</b> ?? /\ or \/<br>
-<b>Request Loan</b> <br>
-Stock: stock where company.id Buy & Sell, Click to access market
-Buy and Sell Stock <br>
-<b>Buildings:</b><br> 
-<%Building.where(company_id: @company.id).order(:name).each do |building|
-    if defined?(@previous_name)==nil
-      @amount=1
-    elsif @previous_name==building.name
-      @amount+=1
-    else%>
-      <%=@amount%> <%=@previous_name%> Image <br>
-      <%@amount=1
-    end
-    @previous_name=building.name
-  end%>
-      <!-- Shows the last buildings -->
-    <%=@amount%> <%=@previous_name%> Image <br>
+      <div class="small-box lakes" rel="lakes">
+        <div>
+          <div class="content mountains-visible">
+            <span>Lhotse</span>
+            <img src="http://www.savorypixel.com/678799/mountains/lhotse.jpg" />
+          </div>
+          <div class="content forests-visible">
+            <span>Sagano Bamboo Forest</span>
+            <img src="http://www.savorypixel.com/678799/forests/sagano-bamboo-forest.jpg" />
+          </div>
+          <div class="content beaches-visible">
+            <span>Lanikai Beach</span>
+            <img src="http://www.savorypixel.com/678799/beaches/lanikai-beach.jpg" />
+          </div>
+          <div class="content lakes-visible original">
+            <span>Finance</span>
+          </div>
+        </div>
+      </div>
 
+      <div class="small-box forests" rel="forests">
+        <div>
+          <div class="content mountains-visible">
+            <span>Kanchenjunga</span>
+            <img src="http://www.savorypixel.com/678799/mountains/kanchenjunga.jpg" />
+          </div>
+          <div class="content lakes-visible">
+            <span>Lake Tahoe</span>
+            <img src="http://www.savorypixel.com/678799/lakes/lake-tahoe.jpg" />
+          </div>
+          <div class="content beaches-visible">
+            <span>Hampton Beach</span>
+            <img src="http://www.savorypixel.com/678799/beaches/hampton-beach.jpg" />
+          </div>
+          <div class="content forests-visible original">
+            <span>Construction</span>
+          </div>
+        </div>
+      </div>
 
-<div class="tab">
+      <div class="small-box beaches" rel="beaches">
+        <div>
+          <div class="content mountains-visible">
+            <span>Mount Everest</span>
+            <img src="http://www.savorypixel.com/678799/mountains/everest.jpg" />
+          </div>
+          <div class="content lakes-visible">
+            <span>Maligne Lake</span>
+            <img src="http://www.savorypixel.com/678799/lakes/maligne-lake.jpg" />
+          </div>
+          <div class="content forests-visible">
+            <span>Sequoia National Forest</span>
+            <img src="http://www.savorypixel.com/678799/forests/sequoia-forest.jpg" />
+          </div>
+          <div class="content beaches-visible original">
+            <span>Other</span>
+          </div>
+        </div>
+      </div>
 
-  <ul class="tabs">
-    <li class="js-dropdown"><a href="#"><b>Build</b></a></li>
-    <%if Building.find_by(company_id: @company.id, name: "headquarters")!=nil%>
-    <li class="js-dropdown"><a href="#"><b>Upgrade</b></a></li>
-    <%end%>
-    <li class="js-dropdown"><a href="#"><b>Employees</b>
-      <%if Employe.where(company_id: @company.id, request: true).count!=0%>
-        <span class="badge"><%=Employe.where(company_id: @company.id, request: true).count%> Pending Requests</span>
-      <%end%></a>
-    </li>
-    <%if Transaction.where(company_id: @company.id).count>0%>
-    <li class="js-dropdown"><a href="#"><b>Profit and Loss</b></a></li>
-    <%end%>
-    <li><a href="#">Tab05</a></li>
-  </ul> <!-- / tabs -->
+    </div>
+  </section>
+</div>
 
-  <div class="tab_content">
-    <div class="tabs_item build">
-    </div> <!-- / tabs_item -->
-    <div class="tabs_item upgrade">
-    </div> <!-- / tabs_item -->
-    <div class="tabs_item employees">
-    </div> <!-- / tabs_item -->
-    <div class="tabs_item profitandloss">
-    </div> <!-- / tabs_item -->
-    <div class="tabs_item profitandloss">
-    </div> <!-- / tabs_item -->
-  </div> <!-- /tab_content -->
-    
-</div> <!-- / tab -->
-
-
-
-
-
+<%end%>
 
 <!-- Get the needed js -->
 <%= javascript_include_tag('company_index.js') %>

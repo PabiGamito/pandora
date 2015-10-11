@@ -5,7 +5,7 @@
 </form><br>
 <div class="row">
 <!-- User Panel -->
-<%@users=User.all%>
+<%@users=User.all.shuffle%>
 	<%@users.each do |user|%>
 		<div class="col-md-4 col-sm-4 mb">
 			<a href="/user/<%=user.id%>">

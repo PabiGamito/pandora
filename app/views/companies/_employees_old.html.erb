@@ -1,0 +1,212 @@
+<%=render(:partial => 'employees_js.js', :handlers => [:erb], :formats => [:js]) %>
+
+<%= stylesheet_link_tag('jquery-ui.css')%>
+<%= stylesheet_link_tag('jquery-ui.structure.css') %>
+<%= stylesheet_link_tag('jquery-ui.theme.css') %>
+
+<style media="screen" type="text/css">
+
+.dragging li.ui-state-hover {
+    min-width: 240px;
+}
+.dragging .ui-state-hover a {
+    color:green !important;
+    font-weight: bold;
+}
+th,td {
+    text-align: right;
+    padding: 2px 4px;
+    border: 1px solid;
+}
+.connectedSortable tr, .ui-sortable-helper {
+    cursor: move;
+}
+.ui-sortable-placeholder {
+    background: yellow;
+}
+
+</style>
+
+- One employee wants a raise <br>
+You can look for employees that work for other companies, with a search tool or someone you pay<br>
+
+          <button class="center cd-popup-trigger popup6 btn btn-primary">Place Employement Ad</button>
+          <button class="center cd-popup-trigger popup6 btn btn-primary">Employee Training</button>
+          <button class="center cd-popup-trigger popup6 btn btn-primary">Employee Finder - Cat. 4 & 5</button>
+          See buildings "Campus" Live With Employees in them Working
+        <br><br>
+
+  <!-- Employement Request -->
+<%if Employe.where(company_id: @company.id, request: true).count!=0%>
+  <div class="panel panel-default" style="margin-top: -3px; margin-bottom: -3px;">
+  <div class="panel-heading panel_dropdown">
+    <h3 class="panel-title">Employement Request <span class="badge"><%=Employe.where(company_id: @company.id, request: true).count%></span>
+    <span style="float: right;"><i class="fa fa-angle-down"></i></span></h3>
+  </div>
+
+    <table class="table table-bordered table-responsive table-hover js-togglable_panel sortable">
+      <thead>
+        <tr>
+          <th class="center">Hire</th>
+          <th class="center">Decline</th>
+          <th class="center">Name</th>
+          <th class="center">IQ</th>
+          <th class="center">Efficiency</th>
+          <th class="center">Focus</th>
+          <th class="center">Happiness</th>
+          <th class="center">Quality</th>
+          <th class="center">Daily Wage</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <%Employe.where(company_id: @company.id, request: true).each do |employe|%>
+        <tr>
+          <td class="center cd-popup-trigger popup1"><i style="color: green;" class="fa fa-check"></i></td>
+          <td class="center cd-popup-trigger popup2"><i style="color: red;" class="fa fa-close"></i></td>
+          <td class="center js-employee-name"><%=employe.name%></td>
+          <td class="center"><%=employe.iq%></td>
+          <td class="center"><%=employe.efficiency%></td>
+          <td class="center"><%=employe.focus%></td>
+          <td class="center"><%=employe.happiness%></td>
+          <td class="center"><%=employe.quality.capitalize%></td>
+          <td class="center"><%=employe.salery%></td>
+          <td class="js-employee-id" style="display:none;"><%=employe.id%></td>
+        </tr>
+      <%end%>
+      </tbody>
+    </table>
+
+    </div>
+<%end%>
+
+<!-- Gets Employee Working List -->
+<%if Building.where(company_id: @company.id).count != 0%>
+
+<%Building.where(company_id: @company.id).order(:name).each do |building|
+    if defined?(@previous_building)==nil
+      @employees=[Employe.where(building_id: building.id, request: false)]
+      @work_buildings={}
+    elsif @previous_building==building.name
+      @employees.push(*Employe.where(building_id: building.id, request: false))
+    else
+      @work_buildings["#{@previous_building}"]=@employees
+      @employees=Employe.where(building_id: building.id, request: false)
+    end
+    @previous_building=building.name
+end
+  # Last category
+  @work_buildings["#{@previous_building}"]=@employees
+%>
+
+<%else
+@work_buildings={}
+%>
+
+
+<%end%>
+
+<!-- Employes List -->
+<%if Employe.where(company_id: @company.id, request: false).count!=0%>
+<div class="panel panel-default" style="margin-top: -3px; margin-bottom: -3px;">
+  <div class="panel-heading panel_dropdown">
+    <h3 class="panel-title">
+      List of Employees <span class="badge"><%=Employe.where(company_id: @company.id, request: false).count%></span>
+      <span style="float: right;"><i class="fa fa-angle-down"></i></span>
+    </h3>
+  </div>
+
+
+  <table class="table table-bordered table-responsive table-hover js-togglable_panel sortable">
+      
+      <thead>
+        <caption><b>Not Working</b> <span class="badge">3/10</span> <i class="fa fa-angle-down"></i></caption>
+        <tr>
+          <th class="center" data-defaultsort="asc">Name</th>
+          <th class="center">IQ</th>
+          <th class="center">Efficiency</th>
+          <th class="center">Focus</th>
+          <th class="center">Happiness</th>
+          <th class="center">Quality</th>
+          <th class="center">Daily Wage</th>
+          <th class="center" data-defaultsort='disabled'>Raise/Cut</th>
+          <th class="center" data-defaultsort='disabled'>Fire</th>
+        </tr>
+      </thead>
+      <tbody class="connectedSortable">
+      <tr style="display:none;" class='js-building-name'>
+        <td class='js-building-name'>none</td>
+      </tr>
+      <%if Employe.where(company_id: @company.id, request: false, building_id: nil).count==0%>
+      <tr class='js-employee-none'>
+        <td stlye='display:none;' class="center">No employees are not working.</td>
+      </tr>
+      <%end%>
+      <%Employe.where(company_id: @company.id, request: false, building_id: nil).each do |employe|%>
+        <tr>
+          <td class="center js-employee-name"><%=employe.name%></td>
+          <td class="center"><%=employe.iq%></td>
+          <td class="center"><%=employe.efficiency%></td>
+          <td class="center"><%=employe.focus%></td>
+          <td class="center"><%=employe.happiness%></td>
+          <td class="center"><%=employe.quality.capitalize%></td>
+          <td class="center"><%=employe.salery%></td>
+          <td class="center"><i style="color: green;" class="fa fa-arrow-up cd-popup-trigger popup3"> 
+          <i style="color: red;" class="fa fa-arrow-down cd-popup-trigger popup4"></i></td>
+          <td class="center cd-popup-trigger popup5"><i style="color: red;" class="fa fa-close"></i></td>
+          <td class="js-employee-id" style="display:none;"><%=employe.id%></td>
+        </tr>
+      <%end%>
+      </tbody>
+    </table>
+  
+  <%@work_buildings.each do |building, employees|%>
+    <table class="table table-bordered table-responsive table-hover js-togglable_panel sortable">
+      <caption><b>Working in <%=building.capitalize%></b> <i class="fa fa-angle-down"></i></caption>
+      <thead>
+        <tr>
+          <th class="center" data-defaultsort="asc">Name</th>
+          <th class="center">IQ</th>
+          <th class="center">Efficiency</th>
+          <th class="center">Focus</th>
+          <th class="center">Happiness</th>
+          <th class="center">Quality</th>
+          <th class="center">Daily Wage</th>
+          <th class="center" data-defaultsort='disabled'>Raise/Cut</th>
+          <th class="center" data-defaultsort='disabled'>Fire</th>
+        </tr>
+      </thead>
+      <tbody class="connectedSortable">
+      <tr style="display:none;" class='js-building-name'>
+        <td class='js-building-name'><%=building%></td>
+      </tr>
+      <%if employees.count==1%> <!-- TODO: Check this -->
+      <tr class='js-employee-none'>
+        <td stlye='display:none;' class="center">No employees works here.</td>
+      </tr>
+      <%else%>
+      <%employees.each do |employe|%>
+        <tr>
+          <td class="center js-employee-name"><%=employe.name%></td>
+          <td class="center"><%=employe.iq%></td>
+          <td class="center"><%=employe.efficiency%></td>
+          <td class="center"><%=employe.focus%></td>
+          <td class="center"><%=employe.happiness%></td>
+          <td class="center"><%=employe.quality.capitalize%></td>
+          <td class="center"><%=employe.salery%></td>
+          <td class="center"><i style="color: green;" class="fa fa-arrow-up cd-popup-trigger popup3"> 
+          <i style="color: red;" class="fa fa-arrow-down cd-popup-trigger popup4"></i></td>
+          <td class="center cd-popup-trigger popup5"><i style="color: red;" class="fa fa-close"></i></td>
+          <td class="js-employee-id" style="display:none;"><%=employe.id%></td>
+        </tr>
+      <%end%>
+      <%end%>
+      </tbody>
+    </table>
+  <%end%>
+
+
+  </div>
+
+<%end%>
+
