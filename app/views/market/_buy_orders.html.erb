@@ -1,0 +1,55 @@
+<!-- BUY TABLE -->
+<h4>Current Buy Offers</h4>
+	<table class="table table-bordered table-responsive table-hover togglable_panel sortable">
+    <thead>
+      <tr>
+        <th class="center">Amount</th>
+        <th class="center">Price per <%=@item.name.capitalize%></th>
+      </tr>
+    </thead>
+		<!-- <div style="height:100px;overflow:auto;"> -->
+    <tbody>
+      <%@buy_offers.each do |buy_offer|%>
+	    <%if defined?(@previous_price)==nil
+	      	@amount=buy_offer.amount
+	    elsif @previous_price==buy_offer.price
+	      	@amount+=buy_offer.amount
+		else%>
+			<tr>
+	          <td class="center js-buy-amount"><%=@amount%></td>
+	          <td class="center js-buy-price"><%=@previous_price%></td>
+	        </tr>
+	        <%@amount=buy_offer.amount
+	    end
+	    @previous_price=buy_offer.price%>
+      <%end%>
+      <!-- Shows the last offer -->
+      <tr>
+	     <td class="center js-buy-amount"><%=@amount%></td>
+	     <td class="center js-buy-price"><%=@previous_price%></td>
+	  </tr>
+    </tbody>
+    <!-- </div> -->
+  </table>
+
+  <hr>
+
+<h4>Your Buy Orders</h4>
+	<table class="table table-bordered table-responsive table-hover togglable_panel sortable">
+    <thead>
+      <tr>
+        <th class="center">Amount</th>
+        <th class="center">Price per <%=@item.name.capitalize%></th>
+        <th class="center">Cancel?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%Buy_request.where(company_id: @company.id, item_id: @item.id).each do |order|%>
+      <tr>
+	     <td class="center js-sell-amount"><%=order.amount%></td>
+	     <td class="center js-sell-price"><%=order.price%></td>
+	     <td class="center"><i class="fa fa-ban" style="color: red;"></i></td>
+	  </tr>
+	  <%end%>
+    </tbody>
+  </table>

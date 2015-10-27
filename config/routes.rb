@@ -86,6 +86,8 @@ Rails.application.routes.draw do
   # All post
   post "signup_username" => "signup#signup_username"
   post "create_company_post" => "signup#create_company_post"
+  post "destroy-employee" => "companies#destroy_employee"
+  post "hire-employee" => "companies#hire_employee"
 
   # Tutorail
   get "tutorial" => "tutorial#start"
@@ -107,6 +109,7 @@ Rails.application.routes.draw do
   post "market-buy" => "market#buy"
   get "update-orders" => "market#update_orders"
   get "market-json/:id" => "market#json"
+  get "refresh-orders" => "market#refresh_orders"
 
   # Comapny
   resources :companies
@@ -115,7 +118,6 @@ Rails.application.routes.draw do
   get "employes/find" => "companies#employe_find"
   get "trade" => "companies#trade"
   get "load-dropdown" => "companies#load_dropdown"
-  post "hire-employee" => "companies#hire_employee"
   post "decline-employee" => "companies#decline_employee"
   post "fire-employee" => "companies#fire_employee"
   post "employement-ad" => "companies#employement_ad"

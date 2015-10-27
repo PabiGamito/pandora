@@ -42,7 +42,7 @@
               </div>
             <% end %> <br>
               <!-- Renders everything in the page file -->
-              <div class="main-move-up">
+              <div class="main-move-up" id="yield-content">
                 <%= yield %>
               </div>
           </div><!-- /col-lg-9 END SECTION MIDDLE -->
@@ -59,7 +59,6 @@
 <!-- js placed at the end of the document so the pages load faster -->
 <%= javascript_include_tag('main.js') %>
 <%= javascript_include_tag('jquery.countTo.js') %>
-
 
 </body>
 </html>

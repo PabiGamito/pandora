@@ -1,0 +1,120 @@
+<style type="text/css">
+.nav-tabs {
+  float: left;
+  border-bottom: 0;
+  border-radius: 0px;
+}
+.nav-tabs li {
+  float: none;
+  margin: 0;
+  border-radius: 0px;
+}
+.nav-tabs li a {
+  margin-right: 0;
+  border: 0;
+  background-color: #333;
+  border-radius: 0px;
+}
+.nav-tabs li a:hover {
+  background-color: #444;
+  border-radius: 0px;
+}
+.nav-tabs .fa {
+  color: #fff;
+}
+.nav-tabs .active .fa {
+  color: #333;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+  border: 0;
+  border-radius: 0px;
+}
+
+.tab-content {
+  margin-left: 45px;
+}
+.tab-content .tab-pane {
+  display: none;
+  background-color: #fff;
+  padding: 1.6rem;
+  overflow-y: auto;
+}
+.tab-content .active {
+  display: block;
+}
+
+.list-group {
+  width: 100%;
+}
+/*.list-group .list-group-item {
+  height: 100%;
+}*/
+.list-group .list-group-item h4, .list-group .list-group-item span {
+  line-height: 11px;
+}
+
+@media screen and (min-width: 768px) {
+  .nav-tabs li {
+    width: auto;
+    height: auto;
+  }
+  .nav-tabs li a {
+    width: auto;
+    height: auto;
+    padding: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container{
+    margin-left:-21px;
+  }
+}
+
+</style>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-sm-5">
+      <div class="tabs-left">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#a" data-toggle="tab" class="center"><i class="fa fa-briefcase fa-3x"></i></a></li>
+          <li><a href="#b" data-toggle="tab" class="center"><i class="fa fa-users fa-3x"></i></a></li>
+          <li><a href="#c" data-toggle="tab" class="center"><i class="fa fa-user-plus fa-3x"></i></a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="a">
+            First thing
+          </div>
+          <div class="tab-pane" id="b">
+            Second Thing
+          </div>
+          <div class="tab-pane" id="c">
+            Third thing yepa
+          </div>
+        </div><!-- /tab-content -->
+      </div><!-- /tabbable -->
+    </div><!-- /col -->
+  </div><!-- /row -->
+</div><!-- /container -->
+
+<script type="text/javascript">
+  var tabsFn = (function() {
+  
+  function init() {
+    setHeight();
+  }
+  
+  function setHeight() {
+    var $tabPane = $('.tab-pane'),
+        tabsHeight = $('.nav-tabs').height();
+    
+    $tabPane.css({
+      height: tabsHeight
+    });
+  }
+    
+  $(init);
+})();
+</script>

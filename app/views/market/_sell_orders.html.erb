@@ -1,0 +1,55 @@
+<!-- SELL TABLE -->
+<h4>Current Sell Offers</h4>
+	<table class="table table-bordered table-responsive table-hover togglable_panel sortable">
+    <thead>
+      <tr>
+        <th class="center">Amount</th>
+        <th class="center">Price per <%=@item.name.capitalize%></th>
+      </tr>
+    </thead>
+
+		
+    <tbody>
+      <%@sell_offers.each do |sell_offer|%>
+	    <%if defined?(@sell_previous_price)==nil
+	      	@sell_amount=sell_offer.amount
+	    elsif @sell_previous_price==sell_offer.price
+	      	@sell_amount+=sell_offer.amount
+		else%>
+			<tr>
+	          <td class="center js-sell-amount"><%=@sell_amount%></td>
+	          <td class="center js-sell-price"><%=@sell_previous_price%></td>
+	        </tr>
+	        <%@sell_amount=sell_offer.amount
+	    end
+	    @sell_previous_price=sell_offer.price%>
+      <%end%>
+      <!-- Shows the last offer -->
+      <tr>
+	     <td class="center js-sell-amount"><%=@sell_amount%></td>
+	     <td class="center js-sell-price"><%=@sell_previous_price%></td>
+	  </tr>
+    </tbody>
+  </table>
+
+<hr>
+
+<h4>Your Sell Orders</h4>
+	<table class="table table-bordered table-responsive table-hover togglable_panel sortable">
+    <thead>
+      <tr>
+        <th class="center">Amount</th>
+        <th class="center">Price per <%=@item.name.capitalize%></th>
+        <th class="center">Cancel?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%Sell_request.where(company_id: @company.id, item_id: @item.id).each do |order|%>
+      <tr>
+	     <td class="center js-sell-amount"><%=order.amount%></td>
+	     <td class="center js-sell-price"><%=order.price%></td>
+	     <td class="center"><i class="fa fa-ban" style="color: red;"></i></td>
+	  </tr>
+	  <%end%>
+    </tbody>
+  </table>

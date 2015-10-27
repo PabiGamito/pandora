@@ -1,13 +1,10 @@
 class CompaniesController < ApplicationController
 
-  before_action :require_user_signed_in
+  before_action :require_user_signed_in, :onload_check
   # skip_before_action :verify_authenticity_token
   layout "application"
 
-  def index
-    @companies=Company.where(user_id: current_user.id, main: true)
-    @page_name="Your Companies"
-    # cookies[:company]=Company.find_by(user_id: current_user.id).id
+  def onload_check
     begin
       if cookies[:company]==nil
         cookies[:company]=Company.find_by(user_id: current_user.id).id
@@ -15,11 +12,18 @@ class CompaniesController < ApplicationController
       if Company.find(cookies[:company]).user_id==current_user.id
         @company=Company.find(cookies[:company])
       else
-        cookie[:company]=Company.find_by(user_id: current_user.id).id
+        cookies[:company]=Company.find_by(user_id: current_user.id).id
       end
     rescue
-      cookie[:company]=Company.find_by(user_id: current_user.id).id
+      cookies[:company]=Company.find_by(user_id: current_user.id).id
     end
+    @company=Company.find(cookies[:company])
+  end
+
+  def index
+    @companies=Company.where(user_id: current_user.id, main: true)
+    @page_name="Your Companies"
+    # cookies[:company]=Company.find_by(user_id: current_user.id).id
   end
 
   def load_dropdown
@@ -34,6 +38,24 @@ class CompaniesController < ApplicationController
     Employe.new_employe(1, company)
     Employe.new_employe(2, company)
     Employe.new_employe(2, company)
+
+    Building.create(company_id: company.id, name: "offices", level: 1)
+    Building.create(company_id: company.id, name: "headquarter", level: 1)
+
+    if params[:specialize].to_i < 200
+      Building.create(company_id: company.id, name: "mine", level: 1)
+    elsif params[:specialize].to_i < 300
+      Building.create(company_id: company.id, name: "factories", level: 1)
+    elsif params[:specialize].to_i < 400
+      if params[:specialize].to_i == 300 #Transportation
+        Building.create(company_id: company.id, name: "trucks", level: 1)
+      elsif params[:specialize].to_i == 301 #Distribution
+        Building.create(company_id: company.id, name: "shops", level: 1)
+      elsif params[:specialize].to_i == 302 #Construction
+        Building.create(company_id: company.id, name: "shops", level: 1)
+      end
+    end
+    cookies[:company]=company.id
     redirect_to "/companies"
   end
 
@@ -103,18 +125,30 @@ class CompaniesController < ApplicationController
 # EMPLOYEES
   def hire_employee
     employee=Employe.find(params[:employee_id])
-    employee.update(request: false)
-    flash[:notice] = "#{employee.name} has been hired."
+    if Company.find(employee.company_id).user_id==current_user.id
+      employee.update(request: false)
+      flash[:notice] = "#{employee.name} has been hired."
+    else
+      flash[:notice] = "An error has occurred."
+    end
+    render :nothing => true
   end
 
   def decline_employee
-    Employe.find(params[:employee_id]).destroy
+    employee=Employe.find(params[:employee_id])
+    if Company.find(employee.company_id).user_id==current_user.id
+      employee.destroy
+      flash[:notice] = "#{employee.name} has been declined a job position."
+    else
+      flash[:notice] = "An error has occurred."
+    end
+    render :nothing => true
   end
 
   def fire_employee
     employee=Employe.find(params[:employee_id])
     company=Company.find(employee.company_id)
-    amount=employee.salery*7
+    amount=employee.salery*3
 
     new_transaction=Transaction.create(:company_id => @company_id, :amount => amount, :description => "#{amount}$ to fire #{employee.name}.", :category => "Employee Salery",:income => false)
     company.process_transaction(new_transaction)
@@ -176,13 +210,8 @@ class CompaniesController < ApplicationController
 
     if @company.balance >= 10000
 
-      if params[:production]=="true"
-        Building.create(company_id: params[:company_id].to_i, name: params[:building_name], level: 1, production: true)
-      else
-        Building.create(company_id: params[:company_id].to_i, name: params[:building_name], level: 1, production: false)
-      end
 
-      @company.update(balance: @company.balance-10000)
+      @company.update(balance: @company.balance-10000) #TODO REPLACE 1000 with construction company price
 
     else
       # NOTIFICAITON: You do not have enough money.
@@ -193,6 +222,14 @@ class CompaniesController < ApplicationController
     @render="Build"
     render 'load_dropdown.js.erb'
 
+  end
+
+  def change_fee
+    if Company_fee.find_by(company_id: @company.id) == nil
+      Company_fee.create(company_id: @company.id, fee: params[:fee], sector: @company.specialize)
+    else
+      Company_fee.find_by(company_id: @company.id).update(fee: params[:fee])
+    end
   end
 
 end

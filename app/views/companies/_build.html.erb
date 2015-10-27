@@ -1,78 +1,17 @@
-<%= javascript_include_tag('employees.js') %>
+<%@buildings=Building.where(company_id: @company.id)%>
 
-<style type="text/css">
-	.build_box{
-		height: 150px;
-		width: 150px;
-		border: 1px solid black;
-	}
-	.build_box img{
-		margin-left: 15px;
-		height: 120px;
-		width: 120px;
-	}
-	.build_box p{
-		text-align: center;
-	}
-
-</style>
-
-
-<%@buildings = {}
-#For all
-@buildings["Office"] = false
-@buildings["Cafeteria"] = false
-@buildings["Storage Facility"] = false
-%>
-<%if @company.specialize<200
-	if @company.specialize==100
-		@buildings["Kryptonium Mine"] = true
-	elsif @company.specialize==101
-		@buildings["Granor Mine"] = true
-	elsif @company.specialize==102
-		@buildings["Stradian Mine"] = true
-	end
-elsif @company.specialize<300
-	if @company.specialize==200
-		@buildings["Conductive Bion Factory"] = true
-	elsif @company.specialize==201
-		@buildings["Crystalized Astronite Factory"] = true
-	elsif @company.specialize==202
-		@buildings["Morphic Xenomite Factory"] = true
-	end
-elsif @company.specialize<400
-	if @company.specialize==300
-		@buildings["Truck"] = false
-	elsif @company.specialize==301
-		@buildings["Shop"] = false
-	elsif @company.specialize==302
-		#Construction
-	end
-end%>
-
-<%@buildings.each do |building, production|%>
-	<div class="build_box">
-<!-- 		<img src="assets/<%=building%>.png"> -->
-		<p class="<%=building.downcase%>">Build <%=building%></p>
-		<p>Price calculated by price of construction companies</p>
-		<p class="production" style="display: none;"><%=production%></p>
-	</div>
+<div class="container">
+  <div class="row">
+<%@buildings.each do |building|%>
+    <div class="col-md-4" style="background-color: #000; border: solid 1px #F2F2F2; border-radius: 5px;">
+    	<%=building.name%>
+    	<%if @company.balance>1000%>
+    	<button>Build</button>
+    	<%end%>
+    </div>
 <%end%>
-
-<div class="construction">
-<%@construction=false%>
-<p>Currently under Construction</p>
-<%Building.where(company_id: @company.id).each do |building|%>
-	<!-- if in construction construction started less than 5 mins ago.-->
-	<%if Time.at(building.created_at)+300 > Time.now%>
-		<%@construction=true%>
-		<%@time_left=(Time.at(building.created_at)+300)-Time.now%>
-	    	The construction for your <%=building.name.capitalize%> will be done in <span class="center" id="timeleft"><%=@time_left.to_i%></span>s <a href="#">Cancel Upgrade?</a> <a href="#">Speed Up</a>
-
-	<%end%>
-
-<%end%>
-</div>
+  </div> <!-- row -->
+</div> <!-- container -->
 
 <%= javascript_tag do %>
 $(document).ready(function(){
@@ -84,7 +23,7 @@ $(document).ready(function(){
             type: 'POST',
             url: '/build',
             dataType: 'script',
-            data: { 'building_name' : buildingName, 'company_id' : '<%=@company.id%>', 'production' : production},
+            data: {'company_id' : '<%=@company.id%>'},
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
         });
 	});

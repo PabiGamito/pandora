@@ -1,3 +1,45 @@
+<!-- CHART -->
+<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['corechart']}]}"></script>
+       <div id="chart_div" style="width: 900px; height: 500px;"></div>
+
+<script type="text/javascript">
+	google.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Mon', 20, 28, 38, 45],
+      ['Tue', 31, 38, 55, 66],
+      ['Wed', 50, 55, 77, 80],
+      ['Thu', 77, 77, 66, 50],
+      ['Fri', 68, 66, 22, 15],
+      ['Thursday', 50, 35, 25, 0],
+      // Treat first row as data as well.
+    ], true);
+
+    var options = {
+  	  legend: 'none',
+      bar: { groupWidth: '100%' }, // Remove space between bars.
+      candlestick: {
+        fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red
+        risingColor: { strokeWidth: 0, fill: '#0f9d58' }   // green
+      }
+    };
+
+    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+    chart.draw(data, options);
+  }
+</script>
+
+
+
+
+
+
+
+
+
+<container class="refresh">
+
 <% if flash[:notice]%>
     <div class="Message Message--green" id="js-timer">
     	<div class="Message-icon">
@@ -13,6 +55,7 @@
 <!-- BUY -->
 <div class="col-md-6">
   <h4><b>BUY</b></h4>
+  <h5>You have: <a class="js-balance">$<%=@company.balance%></a></h5>
 	<form action="/market-buy" method="post">
 	<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
 		<div class="row">
@@ -43,40 +86,10 @@
 	</form>
 
 <hr>
-<!-- BUY TABLE -->
-<h4>Current Buy Offers</h4>
-	<table class="table table-bordered table-responsive table-hover togglable_panel sortable">
-    <thead>
-      <tr>
-        <th class="center">Amount</th>
-        <th class="center">Price per <%=@item.name.capitalize%></th>
-      </tr>
-    </thead>
-		<!-- <div style="height:100px;overflow:auto;"> -->
-    <tbody>
-      <%@buy_offers.each do |buy_offer|%>
-	    <%if defined?(@previous_price)==nil
-	      	@amount=buy_offer.amount
-	    elsif @previous_price==buy_offer.price
-	      	@amount+=buy_offer.amount
-		else%>
-			<tr>
-	          <td class="center js-buy-amount"><%=@amount%></td>
-	          <td class="center js-buy-price"><%=@previous_price%></td>
-	        </tr>
-	        <%@amount=buy_offer.amount
-	    end
-	    @previous_price=buy_offer.price%>
-      <%end%>
-      <!-- Shows the last offer -->
-      <tr>
-	     <td class="center js-buy-amount"><%=@amount%></td>
-	     <td class="center js-buy-price"><%=@previous_price%></td>
-	  </tr>
-    </tbody>
-    <!-- </div> -->
-  </table>
 
+<container id="js-buy-refresh">
+	<%=render 'buy_orders.html.erb'%>
+</container>
 
 
   </div>
@@ -90,8 +103,9 @@
   <h4><b>SELL</b></h4>
 
 <%if @stock_amount==0%>
-	<br><h5><b>You do not have anything to sell in this Market<b></h5><br>
+	<br><h5><b>You do not have anything to sell in this Market</b></h5><br>
 <%else%>	
+	<h5>You have: <u class="js-stock_amount"><a><%=@stock_amount.to_i%></a></u> <%=@item.name%></h5>
 	<form action="/market-sell" method="post">
 		<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
 		<div class="row">
@@ -121,41 +135,10 @@
 	</form>
 <%end%>
 <hr>
-<!-- SELL TABLE -->
-<h4>Current Sell Offers</h4>
-	<table class="table table-bordered table-responsive table-hover togglable_panel sortable">
-    <thead>
-      <tr>
-        <th class="center">Amount</th>
-        <th class="center">Price per <%=@item.name.capitalize%></th>
-      </tr>
-    </thead>
 
-		
-    <tbody>
-      <%@sell_offers.each do |sell_offer|%>
-	    <%if defined?(@sell_previous_price)==nil
-	      	@sell_amount=sell_offer.amount
-	    elsif @sell_previous_price==sell_offer.price
-	      	@sell_amount+=sell_offer.amount
-		else%>
-			<tr>
-	          <td class="center js-sell-amount"><%=@sell_amount%></td>
-	          <td class="center js-sell-price"><%=@sell_previous_price%></td>
-	        </tr>
-	        <%@sell_amount=sell_offer.amount
-	    end
-	    @sell_previous_price=sell_offer.price%>
-      <%end%>
-      <!-- Shows the last offer -->
-      <tr>
-	     <td class="center js-sell-amount"><%=@sell_amount%></td>
-	     <td class="center js-sell-price"><%=@sell_previous_price%></td>
-	  </tr>
-    </tbody>
-  </table>
-
-
+<container id="js-sell-refresh">
+	<%=render 'sell_orders.html.erb'%>
+</container> <!-- Sell refresh container -->
 
   </div>
 </div>
@@ -164,10 +147,11 @@
 <%= javascript_include_tag('bootstrap-select.min.js') %>
 
 <!-- Makes so that when you click the price or amount in table it updates the input value -->
-<script>
+<%= javascript_tag do %>
 	$(".js-buy-price").on("click", function(){
     	var buy_price = $(this).text();
     	$("#js-sell-price-input").val(buy_price);
+    	$("#js-buy-price-input").val(buy_price);
 	});
 
 	$(".js-buy-amount").on("click", function(){
@@ -178,11 +162,22 @@
 	$(".js-sell-price").on("click", function(){
     	var sell_price = $(this).text();
     	$("#js-buy-price-input").val(sell_price);
+    	$("#js-sell-price-input").val(sell_price);
 	});
 
 	$(".js-sell-amount").on("click", function(){
     	var sell_amount = $(this).text();
     	$("#js-buy-amount-input").val(sell_amount);
+	});
+
+	//BALANCE Set price and amount so that price*amount=balance
+	$(".js-balance").on("click", function(){
+    	var balance = <%=@company.balance%>
+    	$("#js-buy-amount-input").val(sell_amount);
+	});
+
+	$(".js-stock_amount").on("click", function(){
+    	$("#js-sell-amount-input").val(<%=@stock_amount.to_i%>);
 	});
 
 	// Submit Orders Via Ajax
@@ -202,6 +197,22 @@
 			dataType: 'script',
 		});
 	});
+
+	//Auto-Refresh
+	setTimeout(refresh, 3000)
+	function refresh(){
+		var item_id=$('#market_select').val()
+	    var company_id=$("#company_select").val()
+	    // Update the buy and Sell Requests.
+	    $.ajax({
+			type: 'GET',
+			url: '/refresh-orders',
+			dataType: 'script',
+			data: { 'item_id' : item_id, 'company_id' : company_id}
+			// beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
+		});
+	}
+
 	//Checks if buy amount and price are not too high for user
 	// $('.js-buy-input').change(function() {
 	// 	var amount = parseInt($(this).find("[name='amount']").val()
@@ -219,262 +230,4 @@
 	// $('.js-update-buy-value').click(function(){
 
 	// });
-</script>
-
-<!-- CHART -->
-<script type="text/javascript">
-// 	$(function () {
-// 		/**
-//  * Sand-Signika theme for Highcharts JS
-//  * @author Torstein Honsi
-//  */
-
-// // Load the fonts
-// Highcharts.createElement('link', {
-//    href: '//fonts.googleapis.com/css?family=Signika:400,700',
-//    rel: 'stylesheet',
-//    type: 'text/css'
-// }, null, document.getElementsByTagName('head')[0]);
-
-// // Add the background image to the container
-// Highcharts.wrap(Highcharts.Chart.prototype, 'getContainer', function (proceed) {
-//    proceed.call(this);
-//    this.container.style.background = 'url(http://www.highcharts.com/samples/graphics/sand.png)';
-// });
-
-
-// Highcharts.theme = {
-//    colors: ["#f45b5b", "#8085e9", "#8d4654", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
-//       "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
-//    chart: {
-//       backgroundColor: null,
-//       style: {
-//          fontFamily: "Signika, serif"
-//       }
-//    },
-//    title: {
-//       style: {
-//          color: 'black',
-//          fontSize: '16px',
-//          fontWeight: 'bold'
-//       }
-//    },
-//    subtitle: {
-//       style: {
-//          color: 'black'
-//       }
-//    },
-//    tooltip: {
-//       borderWidth: 0
-//    },
-//    legend: {
-//       itemStyle: {
-//          fontWeight: 'bold',
-//          fontSize: '13px'
-//       }
-//    },
-//    xAxis: {
-//       labels: {
-//          style: {
-//             color: '#6e6e70'
-//          }
-//       }
-//    },
-//    yAxis: {
-//       labels: {
-//          style: {
-//             color: '#6e6e70'
-//          }
-//       }
-//    },
-//    plotOptions: {
-//       series: {
-//          shadow: true
-//       },
-//       candlestick: {
-//          lineColor: '#404048'
-//       },
-//       map: {
-//          shadow: false
-//       }
-//    },
-
-//    // Highstock specific
-//    navigator: {
-//       xAxis: {
-//          gridLineColor: '#D0D0D8'
-//       }
-//    },
-//    rangeSelector: {
-//       buttonTheme: {
-//          fill: 'white',
-//          stroke: '#C0C0C8',
-//          'stroke-width': 1,
-//          states: {
-//             select: {
-//                fill: '#D0D0D8'
-//             }
-//          }
-//       }
-//    },
-//    scrollbar: {
-//       trackBorderColor: '#C0C0C8'
-//    },
-
-//    // General
-//    background2: '#E0E0E8'
-   
-// };
-
-// // Apply the theme
-// Highcharts.setOptions(Highcharts.theme);
-
-
-//     $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=new-intraday.json&callback=?', function (data) {
-
-//         // create the chart
-//         $('#container').highcharts('StockChart', {
-
-
-//             title: {
-//                 text: 'AAPL stock price by minute'
-//             },
-
-//             rangeSelector : {
-//                 buttons : [{
-//                     type : 'hour',
-//                     count : 1,
-//                     text : '1h'
-//                 }, {
-//                     type : 'day',
-//                     count : 1,
-//                     text : '1D'
-//                 }, {
-//                     type : 'all',
-//                     count : 1,
-//                     text : 'All'
-//                 }],
-//                 selected : 1,
-//                 inputEnabled : false
-//             },
-
-//             series : [{
-//                 name : 'AAPL',
-//                 type: 'candlestick',
-//                 data : data,
-//                 tooltip: {
-//                     valueDecimals: 2
-//                 }
-//             }]
-//         });
-//     });
-// });
-</script>
-
-
-
-<script type="text/javascript">
-// 	$(function () {
-//     $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.json&callback=?', function (data) {
-
-//         // split the data set into ohlc and volume
-//         var ohlc = [],
-//             volume = [],
-//             dataLength = data.length,
-//             // set the allowed units for data grouping
-//             groupingUnits = [[
-//                 'week',                         // unit name
-//                 [1]                             // allowed multiples
-//             ], [
-//                 'month',
-//                 [1, 2, 3, 4, 6]
-//             ]],
-
-//             i = 0;
-
-//         for (i; i < dataLength; i += 1) {
-//             ohlc.push([
-//                 data[i][0], // the date
-//                 data[i][1], // open
-//                 data[i][2], // high
-//                 data[i][3], // low
-//                 data[i][4] // close
-//             ]);
-
-//             volume.push([
-//                 data[i][0], // the date
-//                 data[i][5] // the volume
-//             ]);
-//         }
-
-
-//         // create the chart
-//         $('#container').highcharts('StockChart', {
-
-//             plotOptions: {
-//             candlestick: {
-//                 color: 'red',
-//                 upColor: 'green'
-//                 }
-//             },
-
-//             rangeSelector: {
-//                 selected: 1
-//             },
-
-//             title: {
-//                 text: 'AAPL Historical'
-//             },
-
-//             yAxis: [{
-//                 labels: {
-//                     align: 'right',
-//                     x: -3
-//                 },
-//                 title: {
-//                     text: 'OHLC'
-//                 },
-//                 height: '60%',
-//                 lineWidth: 2
-//             }, {
-//                 labels: {
-//                     align: 'right',
-//                     x: -3
-//                 },
-//                 title: {
-//                     text: 'Volume'
-//                 },
-//                 top: '65%',
-//                 height: '35%',
-//                 offset: 0,
-//                 lineWidth: 2
-//             }],
-
-//             series: [{
-//                 type: 'candlestick',
-//                 name: 'AAPL',
-//                 data: ohlc,
-//                 dataGrouping: {
-//                     units: groupingUnits
-//                 }
-//             }, {
-//                 type: 'column',
-//                 name: 'Volume',
-//                 data: volume,
-//                 yAxis: 1,
-//                 dataGrouping: {
-//                     units: groupingUnits
-//                 }
-//             }]
-//         });
-//     });
-// });
-</script>
-
-
-<%= javascript_include_tag "highcharts/highstock" %>
-<%= javascript_include_tag "highcharts/highcharts" %>
-<%= javascript_include_tag "highcharts/highcharts-more" %>
-<%= javascript_include_tag "highcharts/modules/exporting" %>
-
-<%= high_chart("my_id4", @chart)  %>
+<%end%>

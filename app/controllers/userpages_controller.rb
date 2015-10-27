@@ -10,4 +10,5 @@ class UserpagesController < ApplicationController
   	@user=User.find(params[:id])
   	@company=Company.where(user_id: params[:id])
   end
+
 end

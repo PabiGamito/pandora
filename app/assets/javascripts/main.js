@@ -10,6 +10,9 @@ $(document).ready(function(){
 // Count Timer
 $('.timer').countTo();
 
+if (wSize <= 768) {
+  $('#sidebar').hide();
+}
 
 //    sidebars toggle
     $("#sidebar_toggle").click(function(){
@@ -40,9 +43,6 @@ $('.timer').countTo();
         }
       }
     });
-
-
-$('.show-sm').hide();
 
 // Toggle Items if using small screen
     $(function() {

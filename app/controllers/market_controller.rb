@@ -10,17 +10,33 @@ class MarketController < ApplicationController
   def index
     @page_name="Global Market"
     @items=Element.all
+    @direct_render=false
+    if cookies[:company]!=nil && cookies[:good_market] != nil
+      if Company.find(cookies[:company]).user_id == current_user.id
+        @direct_render=true
+        @company=Company.find(cookies[:company])
+        @item=Item.find(cookies[:good_market])
+      end
+    end
   end
 
   def search
 
   end
 
+  def refresh_orders
+    @company=Company.find(params[:company_id])
+    @item=Item.find(params[:item_id])
+    @buy_offers=Buy_request.where(item_id: params[:item_id]).sort_by { |req| req.price }.reverse
+    @sell_offers=Sell_request.where(item_id: params[:item_id]).sort_by { |req| req.price }
+    render 'refresh_orders.js.erb'
+  end
+
   def update_orders
     @company=Company.find(params[:company_id])
     @item=Item.find(params[:item_id])
-    @buy_offers=Buy_request.where(item_id: params[:item_id]).sort_by { |req| req.price }
-    @sell_offers=Sell_request.where(item_id: params[:item_id]).sort_by { |req| req.price }.reverse
+    @buy_offers=Buy_request.where(item_id: params[:item_id]).sort_by { |req| req.price }.reverse
+    @sell_offers=Sell_request.where(item_id: params[:item_id]).sort_by { |req| req.price }
     stock=Stock.find_by(company_id: @company.id, item_id: @item.id)
     if stock==nil || stock.amount==0
       @stock_amount=0
@@ -28,21 +44,23 @@ class MarketController < ApplicationController
       @stock_amount=stock.amount
     end
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
-      f.title({ :text=>"Combination chart"})
-      f.options[:xAxis][:categories] = ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
-      f.labels(:items=>[:html=>"Total fruit consumption", :style=>{:left=>"40px", :top=>"8px", :color=>"black"} ])      
-      f.series(:type=> 'column',:name=> 'Jane',:data=> [3, 2, 1, 3, 4])
-      f.series(:type=> 'column',:name=> 'John',:data=> [2, 3, 5, 7, 6])
-      f.series(:type=> 'column', :name=> 'Joe',:data=> [4, 3, 3, 9, 0])
-      f.series(:type=> 'spline',:name=> 'Average', :data=> [3, 2.67, 3, 6.33, 3.33])
-      f.series(:type=> 'pie',:name=> 'Total consumption', 
-        :data=> [
-          {:name=> 'Jane', :y=> 13, :color=> 'red'}, 
-          {:name=> 'John', :y=> 23,:color=> 'green'},
-          {:name=> 'Joe', :y=> 19,:color=> 'blue'}
-        ],
-        :center=> [100, 80], :size=> 100, :showInLegend=> false)
+      f.title(:text => "Population vs GDP For 5 Big Countries [2009]")
+      f.xAxis(:categories => ["United States", "Japan", "China", "Germany", "France"])
+      f.series(:name => "GDP in Billions", :yAxis => 0, :data => [14119, 5068, 4985, 3339, 2656])
+      f.series(:name => "Population in Millions", :yAxis => 1, :data => [310, 127, 1340, 81, 65])
+
+      f.yAxis [
+        {:title => {:text => "GDP in Billions", :margin => 70} },
+        {:title => {:text => "Population in Millions"}, :opposite => true},
+      ]
+
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
+      f.chart({:defaultSeriesType=>"column"})
     end
+
+    cookies[:good_market]=@item.id
+    cookies[:company]=@company.id
+
     render 'update_orders.js.erb'
   end
 
@@ -51,6 +69,7 @@ class MarketController < ApplicationController
     company_id=params[:company_id].to_i
     price=params[:price].to_f
     amount=params[:amount].to_i
+    initial_amount=params[:amount].to_i
 
     # removes from stock
     seller_stock=Stock.find_by(company_id: company_id, item_id: item_id)
@@ -98,12 +117,20 @@ class MarketController < ApplicationController
       item_name=Item.find(item_id).name
 
       # Buyer Transaction
-      new_transaction=Transaction.create(:company_id => oldest_buy_request.company_id, :amount => amount, :description => "#{sold_amount} #{item_name}s bought from #{Company.find(company_id).name}'s stock for #{price}$ per unit.", :income => false, :category => "buy stock")
-      Company.find(oldest_buy_request.company_id).process_transaction(new_transaction)
+      begin
+        new_transaction=Transaction.create(:company_id => oldest_buy_request.company_id, :amount => (initial_amount-amount)*price, :description => "#{sold_amount} #{item_name}s bought from #{Company.find(company_id).name}'s stock for #{price}$ per unit.", :income => false, :category => "global market exchange")
+        Company.find(oldest_buy_request.company_id).process_transaction(new_transaction)
+      rescue 
+         puts "Error company might no longer exist"
+      end
 
       # Seller Transaction
-      new_transaction=Transaction.create(:company_id => company_id, :amount => amount, :description => "#{sold_amount} #{item_name} sold to #{Company.find(oldest_buy_request.company_id).name} for #{price}$ per unit.", :income => true, :category => "sell stock")
-      Company.find(company_id).process_transaction(new_transaction)
+      begin
+        new_transaction=Transaction.create(:company_id => company_id, :amount => (initial_amount-amount)*price, :description => "#{sold_amount} #{item_name} sold to #{Company.find(oldest_buy_request.company_id).name} for #{price}$ per unit.", :income => true, :category => "global market exchange")
+        Company.find(company_id).process_transaction(new_transaction)
+      rescue 
+        puts "Error company might no longer exist"
+      end
 
     end
 
@@ -132,6 +159,7 @@ class MarketController < ApplicationController
       company_id=params[:company_id].to_i
       price=params[:price].to_f
       amount=params[:amount].to_i
+      initial_amount=params[:amount].to_i
     if Company.find(company_id).balance > amount*price
       # If a buy offer at this price already exists
       sell_requests=Sell_request.where(price: price, item_id: item_id)
@@ -171,12 +199,20 @@ class MarketController < ApplicationController
         item_name=Item.find(item_id).name
 
         # Buyer Transaction
-        new_transaction=Transaction.create(:company_id => company_id, :amount => amount, :description => "#{sold_amount} #{item_name}s bought from #{Company.find(oldest_sell_request.company_id).name}'s stock for #{price}$ per unit.", :income => false, :category => "buy stock")
-        Company.find(company_id).process_transaction(new_transaction)
+        begin
+          new_transaction=Transaction.create(:company_id => company_id, :amount => (initial_amount-amount)*price, :description => "#{sold_amount} #{item_name}s bought from #{Company.find(oldest_sell_request.company_id).name}'s stock for #{price}$ per unit.", :income => false, :category => "global market exchange")
+          Company.find(company_id).process_transaction(new_transaction)
+        rescue 
+          puts "Error company might no longer exist"
+        end
 
         # Seller Transaction
-        new_transaction=Transaction.create(:company_id => oldest_sell_request.company_id, :amount => amount, :description => "#{sold_amount} #{item_name} sold to #{Company.find(company_id).name} for #{price}$ per unit.", :income => true, :category => "sell stock")
-        Company.find(oldest_sell_request.company_id).process_transaction(new_transaction)
+        begin
+          new_transaction=Transaction.create(:company_id => oldest_sell_request.company_id, :amount => (initial_amount-amount)*price, :description => "#{sold_amount} #{item_name} sold to #{Company.find(company_id).name} for #{price}$ per unit.", :income => true, :category => "global market exchange")
+          Company.find(oldest_sell_request.company_id).process_transaction(new_transaction)
+        rescue 
+          puts "Error company might no longer exist"
+        end
 
       end #end of while
 

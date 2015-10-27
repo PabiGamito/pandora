@@ -1,0 +1,336 @@
+<%= stylesheet_link_tag('jquery-ui.css')%>
+<%= stylesheet_link_tag('jquery-ui.structure.css') %>
+<%= stylesheet_link_tag('jquery-ui.theme.css') %>
+
+<style type="text/css">
+
+.tabs {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin: 1em 0 2em;
+  font-weight: 300;
+}
+
+/* Nav */
+.tabs nav {
+  text-align: center;
+}
+
+.tabs nav ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: inline-block;
+}
+
+.tabs nav ul li {
+  border: 1px solid #becbd2;
+  border-bottom: none;
+  margin: 0 0.25em;
+  display: block;
+  float: left;
+  position: relative;
+}
+
+.tabs nav li.tab-current {
+  border: 1px solid #47a3da;
+  box-shadow: inset 0 2px #47a3da;
+  border-bottom: none;
+  z-index: 100;
+}
+
+.tabs nav li.tab-current:before,
+.tabs nav li.tab-current:after {
+  content: '';
+  position: absolute;
+  height: 1px;
+  right: 100%;
+  bottom: 0;
+  width: 1000px;
+  background: #47a3da;
+}
+
+.tabs nav li.tab-current:after {
+  right: auto;
+  left: 100%;
+  width: 4000px;
+}
+
+.tabs nav a {
+  color: #becbd2;
+  display: block;
+  font-size: 1.45em;
+  line-height: 2.5;
+  padding: 0 1.25em;
+  white-space: nowrap;
+}
+
+.tabs nav a:hover {
+  color: #768e9d;
+}
+
+.tabs nav li.tab-current a {
+  color: #47a3da;
+}
+
+/* Content */
+.content section {
+  padding: 3em 1em;
+  display: none;
+  max-width: 1230px;
+  margin: 0 auto;
+}
+
+.content section:before,
+.content section:after {
+  content: '';
+  display: table;
+}
+
+.content section:after {
+  clear: both;
+}
+
+/* Fallback example */
+.no-js .content section {
+  display: block;
+  padding-bottom: 2em;
+  border-bottom: 1px solid #47a3da;
+}
+
+.content section.content-current {
+  display: block;
+}
+
+.mediabox {
+  float: left;
+  width: 33%;
+  padding: 0 25px;
+}
+
+.mediabox img {
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.mediabox h3 {
+  margin: 0.75em 0 0.5em;
+}
+
+.mediabox p {
+  padding: 0 0 1em 0;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/*
+http://jsfiddle.net/divy3993/cy33jjo1/2/*/
+
+</style>
+
+</style>
+
+<input type="hidden" value="<%=@company.id%>" name="company_id">
+
+<div class="form-group">
+  <label><h4>Select Company to Manage</h4></label>
+  <select class="form-control js-select" id="company_select">
+    <%Company.where(user_id: current_user.id).each do |company|%>
+      <%if @company==company%>
+        <option value="" disabled selected><%=company.name%></option>
+      <%else%>
+        <option value="<%=company.id%>"><%=company.name%></option>
+      <%end%>
+    <%end%>
+  </select>
+</div>
+
+
+    <div class="container" style="width: 100%;">
+      <div id="tabs" class="tabs">
+        <nav>
+          <ul>
+            <li><a href="#section-1" class="icon-shop"><span>Quick Access</span></a></li>
+            <li><a href="#section-2" class="icon-cup"><span>Employees</span></a></li>
+            <li><a href="#section-3" class="icon-food"><span>Construction</span></a></li>
+            <li><a href="#section-4" class="icon-lab"><span>Finance</span></a></li>
+          </ul>
+        </nav>
+        <div class="content">
+          <section id="section-1">
+            <h2>Quick Info</h2>
+        Alert: <br>
+        Message: <br>
+        <b>Balance:</b> $<%=@company.balance%> <br>
+        <b>Production:</b> ?? <%=@company.specialize_name.capitalize%>/day <br>
+        <b>Share Price:</b> ?? /\ or \/<br>
+        <b>Request Loan</b> <br>
+        Stock: stock where company.id Buy & Sell, Click to access market
+        Buy and Sell Stock <br>
+        <b>Buildings:</b><br> 
+        <%Building.where(company_id: @company.id).order(:name).each do |building|
+          if defined?(@previous_name)==nil
+            @amount=1
+          elsif @previous_name==building.name
+            @amount+=1
+          else%>
+            <%=@amount%> <%=@previous_name%> Image <br>
+            <%@amount=1
+          end
+            @previous_name=building.name
+          end%>
+          <!-- Shows the last buildings -->
+            <%=@amount%> <%=@previous_name%> Image <br>
+          <%if @company.specialize<300%>
+            <b>Estimated Daily Production</b>: <%=@company.production%> <i>(Updated Every Hour)</i><br>
+          <%end%>
+
+        <%if @company.specialize < 300%>
+          Sell your Stock
+        <%else%>
+          Set your Company Fee: <input type="number" name="fname"><br>
+        <%end%>
+          </section>
+          <section id="employees">
+            
+          </section>
+          <section id="construction">
+            
+          </section>
+          <section id="finance">
+            
+          </section>
+        </div><!-- /content -->
+      </div><!-- /tabs -->
+    </div>
+
+
+<!-- <section class="wrapper" style="margin-top: 10px;">
+  <ul class="tabs">
+    <li class="active">"Quick Info"</li>
+    <li>Employees</li>
+    <li>Construction</li>
+    <li>Finance</li>
+  </ul>
+
+  <ul class="tab__content">
+    <li class="active">
+      <div class="content__wrapper">
+        
+      </div>
+    </li>
+    <li>
+      <div class="content__wrapper" id="employees">
+        <h2>Employees</h2>
+        
+      </div>
+    </li>
+    <li>
+      <div class="content__wrapper" id="construction">
+        <h2>Construction</h2>
+
+      </div>
+    </li>
+    <li>
+      <div class="content__wrapper" id="finance">
+        <h2>Finance</h2>
+
+      </div>
+    </li>
+  </ul>
+</section> -->
+
+
+
+<!-- Adds Needed Javascript for Company Index -->
+<%=render(:partial => 'index_js.erb') %>
+
+<script type="text/javascript">
+// jQuery(document).ready(function() {
+//     jQuery('.tabs .tab-links a').on('click', function(e)  {
+//         var currentAttrValue = jQuery(this).attr('href');
+ 
+//         // Show/Hide Tabs
+//         jQuery('.tabs ' + currentAttrValue).show().siblings().hide();
+ 
+//         // Change/remove current tab to active
+//         jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
+ 
+//         e.preventDefault();
+//     });
+  
+//     //Calculating width of tab-links 
+//     // var wTabLinks = $(".tab-links").outerWidth();
+//   // $(".tab-content").css("width", "calc(100% - " + wTabLinks + "px - 30px)");
+    
+// }); 
+
+
+;( function( window ) {
+  
+  'use strict';
+
+  function extend( a, b ) {
+    for( var key in b ) { 
+      if( b.hasOwnProperty( key ) ) {
+        a[key] = b[key];
+      }
+    }
+    return a;
+  }
+
+  function CBPFWTabs( el, options ) {
+    this.el = el;
+    this.options = extend( {}, this.options );
+      extend( this.options, options );
+      this._init();
+  }
+
+  CBPFWTabs.prototype.options = {
+    start : 0
+  };
+
+  CBPFWTabs.prototype._init = function() {
+    // tabs elemes
+    this.tabs = [].slice.call( this.el.querySelectorAll( 'nav > ul > li' ) );
+    // content items
+    this.items = [].slice.call( this.el.querySelectorAll( '.content > section' ) );
+    // current index
+    this.current = -1;
+    // show current content item
+    this._show();
+    // init events
+    this._initEvents();
+  };
+
+  CBPFWTabs.prototype._initEvents = function() {
+    var self = this;
+    this.tabs.forEach( function( tab, idx ) {
+      tab.addEventListener( 'click', function( ev ) {
+        ev.preventDefault();
+        self._show( idx );
+      } );
+    } );
+  };
+
+  CBPFWTabs.prototype._show = function( idx ) {
+    if( this.current >= 0 ) {
+      this.tabs[ this.current ].className = '';
+      this.items[ this.current ].className = '';
+    }
+    // change current
+    this.current = idx != undefined ? idx : this.options.start >= 0 && this.options.start < this.items.length ? this.options.start : 0;
+    this.tabs[ this.current ].className = 'tab-current';
+    this.items[ this.current ].className = 'content-current';
+  };
+
+  // add to global namespace
+  window.CBPFWTabs = CBPFWTabs;
+
+})( window );
+
+
+new CBPFWTabs( document.getElementById( 'tabs' ) );
+</script>

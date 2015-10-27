@@ -1,0 +1,17 @@
+$('#js-sell-refresh').html("<%= j render 'sell_orders' %>");
+$('#js-buy-refresh').html("<%= j render 'buy_orders' %>");
+
+//Auto-Refresh
+	setTimeout(refresh, 3000)
+	function refresh(){
+		var item_id=$('#market_select').val()
+	    var company_id=$("#company_select").val()
+	    // Update the buy and Sell Requests.
+	    $.ajax({
+			type: 'GET',
+			url: '/refresh-orders',
+			dataType: 'script',
+			data: { 'item_id' : item_id, 'company_id' : company_id}
+			// beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
+			});
+	}

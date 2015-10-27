@@ -1,3 +1,10 @@
+require 'Employe.rb'
+require 'Company.rb'
+
+#!/usr/bin/env ruby 
+
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'config', 'environment'))
+
 # Sets log output for whenever
 set :output, 'log/whenever.log'
 
@@ -45,6 +52,7 @@ end
 
 every :hour do
   runner "Employe.employment_request"
+  runner "Company.generate_production"
 end
 
 #Runs end of day transaction calculations

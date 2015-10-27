@@ -1,0 +1,364 @@
+<style type="text/css">
+  @import url(http://fonts.googleapis.com/css?family=Lato:400,700);
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Lato';
+}
+
+.accordion-title:hover{
+  color: white;
+  text-decoration:none; 
+}
+
+.accordion-title{
+  color: white;
+  text-decoration:none; 
+}
+
+.heading-primary {
+  font-size: 2em;
+  padding: 2em;
+  text-align: center;
+}
+
+.accordion{
+  margin: -20px;
+}
+
+.accordion dl,
+.accordion-list {
+  border: 1px solid #ddd;
+}
+.accordion dl:after,
+.accordion-list:after {
+  content: "";
+  display: block;
+  height: 1em;
+  width: 100%;
+  background-color: #47A3DA;
+}
+
+.accordion dd,
+.accordion__panel {
+  background-color: #eee;
+  font-size: 1em;
+  line-height: 1.5em;
+}
+
+.accordion p {
+  padding: 1em 2em 1em 2em;
+}
+
+.accordion {
+  position: relative;
+  background-color: #eee;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2em 0 2em 0;
+}
+
+.accordionTitle,
+.accordion__Heading {
+  background-color: #47A3DA;
+  text-align: center;
+  font-weight: 700;
+  padding: 2em;
+  display: block;
+  text-decoration: none;
+  color: #fff;
+  -webkit-transition: background-color 0.5s ease-in-out;
+          transition: background-color 0.5s ease-in-out;
+  border-bottom: 1px solid #337AB7;
+}
+.accordionTitle:before,
+.accordion__Heading:before {
+  content: "+";
+  font-size: 1.5em;
+  line-height: 0.5em;
+  float: left;
+  -webkit-transition: -webkit-transform 0.3s ease-in-out;
+          transition: transform 0.3s ease-in-out;
+}
+.accordionTitle:hover,
+.accordion__Heading:hover {
+  background-color: #337AB7;
+}
+
+.accordionTitleActive,
+.accordionTitle.is-expanded {
+  background-color: #337AB7;
+}
+.accordionTitleActive:before,
+.accordionTitle.is-expanded:before {
+  -webkit-transform: rotate(-225deg);
+      -ms-transform: rotate(-225deg);
+          transform: rotate(-225deg);
+}
+
+.accordionItem {
+  height: auto;
+  overflow: hidden;
+  max-height: 50em;
+  -webkit-transition: max-height 1s;
+          transition: max-height 1s;
+}
+@media screen and (min-width: 48em) {
+  .accordionItem {
+    max-height: 15em;
+    -webkit-transition: max-height 0.5s;
+            transition: max-height 0.5s;
+  }
+}
+
+.accordionItem.is-collapsed {
+  max-height: 0;
+}
+
+.no-js .accordionItem.is-collapsed {
+  max-height: auto;
+}
+
+.animateIn {
+  -webkit-animation: accordionIn 0.45s normal ease-in-out both 1;
+          animation: accordionIn 0.45s normal ease-in-out both 1;
+}
+
+.animateOut {
+  -webkit-animation: accordionOut 0.45s alternate ease-in-out both 1;
+          animation: accordionOut 0.45s alternate ease-in-out both 1;
+}
+
+@-webkit-keyframes accordionIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0.9) rotateX(-60deg);
+            transform: scale(0.9) rotateX(-60deg);
+    -webkit-transform-origin: 50% 0;
+            transform-origin: 50% 0;
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+@keyframes accordionIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0.9) rotateX(-60deg);
+            transform: scale(0.9) rotateX(-60deg);
+    -webkit-transform-origin: 50% 0;
+            transform-origin: 50% 0;
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@-webkit-keyframes accordionOut {
+  0% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: scale(0.9) rotateX(-60deg);
+            transform: scale(0.9) rotateX(-60deg);
+  }
+}
+@keyframes accordionOut {
+  0% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: scale(0.9) rotateX(-60deg);
+            transform: scale(0.9) rotateX(-60deg);
+  }
+}
+
+
+
+
+/*----- Tabs -----*/
+.tabs {
+    width:100%;
+    display:inline-block;
+    float: left;
+}
+ 
+    /*----- Tab Links -----*/
+    /* Clearfix */
+    .tab-links:after {
+        display:block;
+        clear:both;
+        content:'';
+    }
+ 
+    .tab-links li {
+        float:left;
+        list-style:none;
+    }
+ 
+        .tab-links a {
+            padding:9px 15px;
+            display:inline-block;
+            background:#7FB5DA;
+            font-size:16px;
+            font-weight:600;
+            color:#4c4c4c;
+            transition:all linear 0.15s;
+            text-decoration:none;
+        }
+ 
+        .tab-links a:hover {
+            background:#a7cce5;
+            text-decoration:none;
+        }
+ 
+    li.active a, li.active a:hover {
+        background:#fff;
+        color:#4c4c4c;
+    }
+ 
+    /*----- Content of Tabs -----*/
+    .tab-content {
+        padding:15px;
+        background:#fff;
+        width: auto;
+    }
+ 
+        .tab {
+            display:none;
+        }
+ 
+        .tab.active {
+            display:block;
+        }
+
+</style>
+
+<div class="form-group">
+  <label><h4>Select Company to Manage</h4></label>
+  <select class="form-control js-select" id="company_select">
+    <%Company.where(user_id: current_user.id).each do |company|%>
+      <%if @company==company%>
+        <option value="" disabled selected><%=company.name%></option>
+      <%else%>
+        <option value="<%=company.id%>"><%=company.name%></option>
+      <%end%>
+    <%end%>
+  </select><br>
+</div>
+
+  <div class="accordion">
+    <dl>
+      <dt>
+                <a href="#quick-access" aria-expanded="false" aria-controls="accordion1" class="accordion-title accordionTitle js-accordionTrigger">Quick Access</a>
+              </dt>
+      <dd class="accordion-content accordionItem is-collapsed" id="accordion1" aria-hidden="true">
+        <p>Main Info</p>
+      </dd>
+      <dt>
+                <a href="#employees" aria-expanded="false" aria-controls="accordion2" class="accordion-title accordionTitle js-accordionTrigger employees">
+                  Employees</a>
+              </dt>
+      <dd class="accordion-content accordionItem is-collapsed" id="accordion2" aria-hidden="true">
+        <p id="employees"></p>
+      </dd>
+      <dt>
+                <a href="#construction" aria-expanded="false" aria-controls="accordion3" class="accordion-title accordionTitle js-accordionTrigger">
+                  Construction
+                </a>
+              </dt>
+      <dd class="accordion-content accordionItem is-collapsed" id="accordion3 finance" aria-hidden="true">
+        <p id="construction"></p>
+      </dd>
+      <dt>
+                <a href="#finance" aria-expanded="false" aria-controls="accordion3" class="accordion-title accordionTitle js-accordionTrigger">
+                  Finance
+                </a>
+              </dt>
+      <dd class="accordion-content accordionItem is-collapsed" id="accordion3 finance" aria-hidden="true">
+        <p id="finance"></p>
+      </dd>
+    </dl>
+  </div>
+
+<script type="text/javascript">
+//uses classList, setAttribute, and querySelectorAll
+//if you want this to work in IE8/9 youll need to polyfill these
+(function(){
+  var d = document,
+  accordionToggles = d.querySelectorAll('.js-accordionTrigger'),
+  setAria,
+  setAccordionAria,
+  switchAccordion,
+  touchSupported = ('ontouchstart' in window),
+  pointerSupported = ('pointerdown' in window);
+  
+  skipClickDelay = function(e){
+    e.preventDefault();
+    e.target.click();
+  }
+
+    setAriaAttr = function(el, ariaType, newProperty){
+    el.setAttribute(ariaType, newProperty);
+  };
+  setAccordionAria = function(el1, el2, expanded){
+    switch(expanded) {
+      case "true":
+        setAriaAttr(el1, 'aria-expanded', 'true');
+        setAriaAttr(el2, 'aria-hidden', 'false');
+        break;
+      case "false":
+        setAriaAttr(el1, 'aria-expanded', 'false');
+        setAriaAttr(el2, 'aria-hidden', 'true');
+        break;
+      default:
+        break;
+    }
+  };
+//function
+switchAccordion = function(e) {
+  e.preventDefault();
+  var thisAnswer = e.target.parentNode.nextElementSibling;
+  var thisQuestion = e.target;
+  if(thisAnswer.classList.contains('is-collapsed')) {
+    setAccordionAria(thisQuestion, thisAnswer, 'true');
+  } else {
+    setAccordionAria(thisQuestion, thisAnswer, 'false');
+  }
+    thisQuestion.classList.toggle('is-collapsed');
+    thisQuestion.classList.toggle('is-expanded');
+    thisAnswer.classList.toggle('is-collapsed');
+    thisAnswer.classList.toggle('is-expanded');
+  
+    thisAnswer.classList.toggle('animateIn');
+  };
+  for (var i=0,len=accordionToggles.length; i<len; i++) {
+    if(touchSupported) {
+      accordionToggles[i].addEventListener('touchstart', skipClickDelay, false);
+    }
+    if(pointerSupported){
+      accordionToggles[i].addEventListener('pointerdown', skipClickDelay, false);
+    }
+    accordionToggles[i].addEventListener('click', switchAccordion, false);
+  }
+})();
+</script>
+
+<!-- Adds Needed Javascript for Company Index -->
+<%=render(:partial => 'index_js.erb') %>
+

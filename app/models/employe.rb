@@ -76,6 +76,11 @@ class Employe < ActiveRecord::Base
       end
     end
 
+
+    #TEST
+    Company.all.each do |company|
+      Employe.new_employe(1, company)
+    end
     # Company.each do |company|
     #   Employe.where(company_id: company.id).count>
     #   #TODO: The higher the employe count is the more likely a company is to get employement requests

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151010214156) do
+ActiveRecord::Schema.define(version: 20151024202820) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -57,12 +57,10 @@ ActiveRecord::Schema.define(version: 20151010214156) do
   create_table "buildings", force: true do |t|
     t.integer  "company_id"
     t.string   "name"
-    t.string   "location"
     t.integer  "level"
     t.datetime "created_at"
-    t.boolean  "production"
-    t.float    "production_amount"
     t.datetime "break_date"
+    t.datetime "updated_at"
   end
 
   create_table "buy_requests", force: true do |t|
@@ -94,6 +92,12 @@ ActiveRecord::Schema.define(version: 20151010214156) do
     t.boolean  "main"
     t.integer  "specialize"
     t.float    "production"
+  end
+
+  create_table "company_fees", force: true do |t|
+    t.float   "fee"
+    t.integer "company_id"
+    t.integer "sector"
   end
 
   create_table "company_sectors", force: true do |t|
@@ -256,6 +260,7 @@ ActiveRecord::Schema.define(version: 20151010214156) do
     t.datetime "updated_at"
     t.integer  "loan_id"
     t.float    "total_repayed"
+    t.integer  "user_id"
   end
 
   create_table "loans", force: true do |t|
